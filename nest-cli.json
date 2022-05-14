@@ -1,4 +1,15 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "product-microservice": {
+      "type": "application",
+      "root": "apps/product-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/product-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/product-microservice/tsconfig.app.json"
+      }
+    }
+  }
 }

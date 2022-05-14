@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  product-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/product-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:dev product-microservice
+    ports:
+      - 3001:3000
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+    env_file:
+      - ./apps/product-microservice/.env
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: user_microservice_db
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+
+volumes:
+  mysqldata:
+  node_modules:
