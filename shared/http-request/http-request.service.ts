@@ -1,5 +1,6 @@
+import { HttpService } from '@nestjs/axios';
 import { AppLogger } from './../logger/logger.service';
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { plainToClass } from 'class-transformer';
 import { catchError, lastValueFrom, map, Observable } from 'rxjs';
