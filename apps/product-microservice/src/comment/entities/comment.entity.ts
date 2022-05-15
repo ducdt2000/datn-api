@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +12,7 @@ import { Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity('comments')
-export class Comment {
+export class Comment implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

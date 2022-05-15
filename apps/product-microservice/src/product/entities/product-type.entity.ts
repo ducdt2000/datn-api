@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +11,7 @@ import {
 import { Product } from './product.entity';
 
 @Entity('product_types')
-export class ProductType {
+export class ProductType implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
