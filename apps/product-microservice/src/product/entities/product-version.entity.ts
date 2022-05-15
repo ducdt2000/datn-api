@@ -5,6 +5,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -87,6 +88,17 @@ export class ProductVersion {
   deletedAt?: Date;
 
   @ManyToMany(() => Property, (p) => p.productVersions)
+  @JoinTable({
+    name: 'product_version_properties',
+    joinColumn: {
+      name: 'product_version_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'property_id',
+      referencedColumnName: 'id',
+    },
+  })
   properties: Property[];
 
   @ManyToOne(() => Product, (p) => p.productVersions)
