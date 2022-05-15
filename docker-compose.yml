@@ -15,6 +15,7 @@ services:
       - node_modules:/usr/src/app/node_modules/
     environment:
       DB_HOST: mysqldb
+      MICROSERVICE: product-microservice
     env_file:
       - ./apps/product-microservice/.env
     depends_on:
