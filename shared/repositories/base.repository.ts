@@ -43,36 +43,36 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
     return entities;
   }
 
-  async getByConditions(
-    query: any,
-    withDeleted?: boolean,
-  ): Promise<[T[], number]> {
-    const queryBuilder = this.createQueryBuilder('entity');
-    const keys = Object.keys(query);
+  // async getByConditions(
+  //   query: any,
+  //   withDeleted?: boolean,
+  // ): Promise<[T[], number]> {
+  //   const queryBuilder = this.createQueryBuilder('entity');
+  //   const keys = Object.keys(query);
 
-    if (query.search) {
-    }
+  //   if (query.search) {
+  //   }
 
-    //query
-    const validKeys = keys.filter((key) => this.entityKeys.includes(key));
-    for (const key of validKeys) {
-      if (query[key] instanceof Array) {
-        queryBuilder.andWhere(`entity.${key} IN (:...value)`, {
-          value: query[key],
-        });
-      } else {
-        queryBuilder.andWhere(`entity.${key} = :value`, {
-          value: query[key],
-        });
-      }
-    }
+  //   //query
+  //   const validKeys = keys.filter((key) => this.entityKeys.includes(key));
+  //   for (const key of validKeys) {
+  //     if (query[key] instanceof Array) {
+  //       queryBuilder.andWhere(`entity.${key} IN (:...value)`, {
+  //         value: query[key],
+  //       });
+  //     } else {
+  //       queryBuilder.andWhere(`entity.${key} = :value`, {
+  //         value: query[key],
+  //       });
+  //     }
+  //   }
 
-    if (withDeleted) {
-      queryBuilder.withDeleted();
-    }
-    return await queryBuilder
-      .offset(query.offset)
-      .limit(query.limit)
-      .getManyAndCount();
-  }
+  //   if (withDeleted) {
+  //     queryBuilder.withDeleted();
+  //   }
+  //   return await queryBuilder
+  //     .offset(query.offset)
+  //     .limit(query.limit)
+  //     .getManyAndCount();
+  // }
 }
