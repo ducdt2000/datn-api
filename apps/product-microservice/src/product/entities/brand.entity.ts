@@ -1,4 +1,4 @@
-import { BaseEntity } from './../../../../../shared/entities/base.entity';
+import { BaseEntity } from '../../../../../shared/entities/base.entity';
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +28,14 @@ export class Brand implements BaseEntity {
     length: 50,
   })
   type: string;
+
+  @Column({
+    name: 'slug',
+    type: 'varchar',
+    length: 50,
+    unique: true,
+  })
+  slug: string;
 
   @CreateDateColumn({
     name: 'created_at',

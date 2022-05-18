@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigurationModule } from './config/configuration.module';
 import { ProductModule } from './product/product.module';
 import { Comment } from './comment/entities/comment.entity';
-import { Brand } from './product/entities/branch.entity';
+import { Brand } from './product/entities/brand.entity';
 import { Property } from './product/entities/property.entity';
 
 @Module({

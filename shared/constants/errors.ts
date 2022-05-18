@@ -24,7 +24,8 @@ export enum ErrMicroserviceCode {
 export enum ErrDetailCode {
   UNEXPECTED = '99',
   FORBIDDEN = '98',
-  NAME = '04',
+  NAME = '01',
+  TYPE = '02',
   OFFSET = '24',
   LIMIT = '25',
   ORDER_BY = '26',

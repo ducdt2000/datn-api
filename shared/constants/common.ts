@@ -6,6 +6,12 @@ export enum COMMENT_TYPE {
   FEEDBACK = 'feedback',
   REPLY = 'reply',
 }
+
+export enum BRAND_TYPE {
+  LOCAL = 'local',
+  FOREIGN = 'foreign',
+}
+
 export const MINUTES_IN_ONE_HOUR = 60;
 export const ONE_HOUR = 1;
 export const TWO_DIGITS = 10;

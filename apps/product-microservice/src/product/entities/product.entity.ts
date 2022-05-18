@@ -1,5 +1,5 @@
 import { BaseEntity } from './../../../../../shared/entities/base.entity';
-import { Brand } from './branch.entity';
+import { Brand } from './brand.entity';
 import { ProductVersion } from './product-version.entity';
 import {
   Column,
