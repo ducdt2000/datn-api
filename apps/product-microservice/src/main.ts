@@ -4,12 +4,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { exceptionFactory } from '../../../shared/filters/exception-factory.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('v1/api');
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({ transform: true, whitelist: true, exceptionFactory }),
+  );
   app.use(RequestIdMiddleware);
   app.enableCors();
 

@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import { ProductVersion } from './product-version.entity';
 import { PropertyValue } from './property-value.entity';
 import {
@@ -12,7 +13,7 @@ import {
 } from 'typeorm';
 
 @Entity('properties')
-export class Property {
+export class Property implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

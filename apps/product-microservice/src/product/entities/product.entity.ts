@@ -1,3 +1,4 @@
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import { Brand } from './branch.entity';
 import { ProductVersion } from './product-version.entity';
 import {
@@ -16,7 +17,7 @@ import { ProductType } from './product-type.entity';
 import { Comment } from '../../comment/entities/comment.entity';
 
 @Entity('products')
-export class Product {
+export class Product implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
