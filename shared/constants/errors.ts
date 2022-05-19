@@ -26,8 +26,12 @@ export enum ErrDetailCode {
   FORBIDDEN = '98',
   NAME = '01',
   TYPE = '02',
+  SLUG = '03',
+  ID = '04',
   OFFSET = '24',
   LIMIT = '25',
   ORDER_BY = '26',
   ORDER_TYPE = '27',
+  FROM = '90',
+  TO = '91',
 }

@@ -3,9 +3,9 @@ import {
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { BRAND_TYPE } from './../../../../../shared/constants/common';
 export class BrandInput {
   @ApiProperty()
@@ -20,7 +20,10 @@ export class BrandInput {
   })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    examples: BRAND_TYPE,
+    default: BRAND_TYPE.LOCAL,
+  })
   @IsNotEmpty({
     context: {
       detail: new DetailErrorCode(
@@ -30,5 +33,27 @@ export class BrandInput {
       ),
     },
   })
+  @IsEnum(BRAND_TYPE, {
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.INVALID_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.TYPE,
+      ),
+    },
+  })
   type: BRAND_TYPE;
+
+  @ApiPropertyOptional()
+  @IsString({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.INVALID_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.TYPE,
+      ),
+    },
+  })
+  @IsOptional()
+  slug?: string;
 }

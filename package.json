@@ -38,7 +38,7 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
     "joi": "^17.6.0",
-    "moment": "^2.29.3",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
