@@ -37,7 +37,7 @@ export class BrandService {
     if (dbBrand) {
       throw new BadRequestException(
         new DetailErrorCode(
-          ErrCategoryCode.INVALID_PARAM,
+          ErrCategoryCode.DUPLICATE_VALUE,
           ErrMicroserviceCode.PRODUCT,
           ErrDetailCode.SLUG,
           'This slug already exists',
@@ -85,7 +85,7 @@ export class BrandService {
     if (count > 0) {
       throw new BadRequestException(
         new DetailErrorCode(
-          ErrCategoryCode.INVALID_PARAM,
+          ErrCategoryCode.DUPLICATE_VALUE,
           ErrMicroserviceCode.PRODUCT,
           ErrDetailCode.SLUG,
           'This slug already exists',

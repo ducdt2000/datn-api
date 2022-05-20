@@ -42,7 +42,7 @@ export class Property implements BaseEntity {
   })
   deletedAt?: Date;
 
-  @OneToMany(() => PropertyValue, (v) => v.property)
+  @OneToMany(() => PropertyValue, (v) => v.property, { cascade: true })
   values: PropertyValue[];
 
   @ManyToMany(() => ProductVersion, (pv) => pv.properties)

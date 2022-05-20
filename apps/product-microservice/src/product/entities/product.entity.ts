@@ -72,8 +72,9 @@ export class Product implements BaseEntity {
     name: 'default_version_id',
     type: 'char',
     length: 36,
+    nullable: true,
   })
-  defaultVersionId: string;
+  defaultVersionId?: string;
 
   @Column({
     name: 'brand_id',
@@ -105,6 +106,9 @@ export class Product implements BaseEntity {
   productType: ProductType;
 
   @OneToOne(() => ProductVersion)
+  @JoinColumn({
+    name: 'default_version_id',
+  })
   defaultProductVersion: ProductVersion;
 
   @OneToMany(() => ProductVersion, (pv) => pv.product)

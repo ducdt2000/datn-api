@@ -1,4 +1,3 @@
-import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
 import {
   ErrCategoryCode,
   ErrDetailCode,
@@ -6,17 +5,22 @@ import {
 } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { PropertyInput } from './property-input.dto';
 import {
+  ArrayMinSize,
   IsArray,
+  IsInt,
   IsNotEmpty,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
+  IsUrl,
   ValidateNested,
 } from 'class-validator';
-import { ProductVersionInput } from './product-version-input.dto';
 import { Type } from 'class-transformer';
+import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
+import { TransformTrimSpaceArray } from 'shared/decorators/transform-trim-space-array.decorator';
 
 const errName = {
   context: {
@@ -48,12 +52,12 @@ const errCode = {
   },
 };
 
-const errStarPoint = {
+const errPrice = {
   context: {
     detail: new DetailErrorCode(
       ErrCategoryCode.INVALID_PARAM,
       ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.STAR_POINT,
+      ErrDetailCode.PRICE,
     ),
   },
 };
@@ -68,31 +72,46 @@ const errDescription = {
   },
 };
 
-const errSlug = {
+const errImageLink = {
   context: {
     detail: new DetailErrorCode(
       ErrCategoryCode.INVALID_PARAM,
       ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.SLUG,
+      ErrDetailCode.LINK,
     ),
   },
 };
 
-const errVersion = {
+const errCount = {
   context: {
     detail: new DetailErrorCode(
       ErrCategoryCode.INVALID_PARAM,
       ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.PRODUCT_VERSION,
+      ErrDetailCode.COUNT,
     ),
   },
 };
 
-export class ProductInput {
+const errValues = {
+  context: {
+    detail: new DetailErrorCode(
+      ErrCategoryCode.INVALID_PARAM,
+      ErrMicroserviceCode.PRODUCT,
+      ErrDetailCode.VALUES,
+    ),
+  },
+};
+
+export class ProductVersionInput {
   @ApiProperty()
   @IsNotEmpty(errName)
   @TransformTrimSpace()
   name: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @TransformTrimSpace()
+  productId?: string;
 
   @ApiProperty()
   @IsNotEmpty(errCode)
@@ -100,42 +119,40 @@ export class ProductInput {
   code: string;
 
   @ApiProperty()
-  @IsNotEmpty(errId)
-  @TransformTrimSpace()
-  productTypeId: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsNumber({}, errStarPoint)
-  @TransformTrimSpace()
-  starPoint: number;
+  @IsNotEmpty(errPrice)
+  @IsNumber({}, errPrice)
+  price: number;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsString(errDescription)
   description?: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @TransformTrimSpace()
-  @IsString(errSlug)
-  slug?: string;
+  @ApiProperty()
+  @IsNotEmpty(errImageLink)
+  @IsArray(errImageLink)
+  @Type(() => String)
+  @ArrayMinSize(1, errImageLink)
+  @TransformTrimSpaceArray()
+  @IsUrl({}, { ...errImageLink, each: true })
+  imageLinks: string[];
 
   @ApiPropertyOptional()
   @IsOptional()
+  @IsUrl({}, errImageLink)
   @TransformTrimSpace()
-  defaultVersionId?: string;
+  defaultImageLink?: string;
 
   @ApiProperty()
-  @IsNotEmpty(errId)
-  @TransformTrimSpace()
-  brandId: string;
+  @IsNotEmpty(errCount)
+  @IsInt(errCount)
+  countInStock: number;
 
-  @ApiProperty({ type: [ProductVersionInput] })
-  @IsArray(errVersion)
-  @IsNotEmpty(errVersion)
-  @IsObject({ ...errVersion, each: true })
-  @ValidateNested({ ...errVersion, each: true })
-  @Type(() => ProductVersionInput)
-  productVersions: ProductVersionInput[];
+  @ApiProperty({ type: [PropertyInput] })
+  @IsNotEmpty(errValues)
+  @IsArray(errValues)
+  @ValidateNested({ ...errValues, each: true })
+  @Type(() => PropertyInput)
+  @IsObject({ ...errValues, each: true })
+  properties: PropertyInput[];
 }

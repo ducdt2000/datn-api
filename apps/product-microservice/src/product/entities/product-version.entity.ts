@@ -53,7 +53,7 @@ export class ProductVersion implements BaseEntity {
     type: 'text',
     nullable: true,
     charset: 'utf8',
-    collation: 'utf8_general_ci'
+    collation: 'utf8_general_ci',
   })
   description?: string;
 
@@ -92,7 +92,7 @@ export class ProductVersion implements BaseEntity {
   })
   deletedAt?: Date;
 
-  @ManyToMany(() => Property, (p) => p.productVersions)
+  @ManyToMany(() => Property, (p) => p.productVersions, { cascade: true })
   @JoinTable({
     name: 'product_version_properties',
     joinColumn: {

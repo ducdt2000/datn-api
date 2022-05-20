@@ -35,7 +35,7 @@ export class ProductTypeService {
     if (dbType) {
       throw new BadRequestException(
         new DetailErrorCode(
-          ErrCategoryCode.INVALID_PARAM,
+          ErrCategoryCode.DUPLICATE_VALUE,
           ErrMicroserviceCode.PRODUCT,
           ErrDetailCode.CODE,
           'This code already exists',

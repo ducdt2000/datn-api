@@ -1,3 +1,4 @@
+import { BadRequestException, ConflictException } from '@nestjs/common';
 export function slugify(input: string): string {
   const a =
     'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;';
@@ -21,4 +22,23 @@ export function slugify(input: string): string {
     .replace(/\-\-+/g, '-')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
+}
+
+export function checkDuplicateArrayString(
+  strings: string[],
+  isThrowException = true,
+): boolean {
+  const setStrings = new Set(strings);
+  if (setStrings.size === strings.length) {
+    return true;
+  }
+
+  if (!isThrowException) {
+    return false;
+  }
+
+  const duplicateStrings = new Set(
+    strings.filter((string) => setStrings.has(string)),
+  );
+  throw new ConflictException(duplicateStrings);
 }
