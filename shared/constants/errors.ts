@@ -28,6 +28,7 @@ export enum ErrDetailCode {
   TYPE = '02',
   SLUG = '03',
   ID = '04',
+  CODE = '05',
   OFFSET = '24',
   LIMIT = '25',
   ORDER_BY = '26',

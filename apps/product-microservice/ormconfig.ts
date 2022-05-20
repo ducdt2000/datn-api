@@ -10,6 +10,9 @@ export default [
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
+    extra: {
+      charset: process.env.DB_CHARSET,
+    },
     entities: [__dirname + '/src/**/**.entity{.ts,.js}'],
     migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
     migrationsRun: false,

@@ -29,6 +29,9 @@ import { Property } from './product/entities/property.entity';
         database: configService.get<string>('database.name'),
         username: configService.get<string>('database.user'),
         password: configService.get<string>('database.pass'),
+        extra: {
+          charset: configService.get<string>('database.charset'),
+        },
         entities: [
           //commentModule
           Comment,

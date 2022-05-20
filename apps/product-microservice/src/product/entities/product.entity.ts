@@ -25,6 +25,8 @@ export class Product implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 
@@ -53,6 +55,8 @@ export class Product implements BaseEntity {
     name: 'description',
     type: 'text',
     nullable: true,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   description?: string;
 
