@@ -3,4 +3,20 @@ import { EntityRepository } from 'typeorm';
 import { Product } from '../entities/product.entity';
 
 @EntityRepository(Product)
-export class ProductRepository extends BaseRepository<Product> {}
+export class ProductRepository extends BaseRepository<Product> {
+  async getDetail(id: string): Promise<Product> {
+    const qb = this.createQueryBuilder('product')
+      .leftJoinAndSelect(
+        'product.defaultProductVersion',
+        'defaultProductVersion',
+      )
+      .leftJoinAndSelect('product.productVersions', 'productVersions')
+      .leftJoinAndSelect('product.brand', 'brand')
+      .leftJoinAndSelect('product.productType', 'productType')
+      .leftJoinAndSelect('productVersions.properties', 'properties')
+      .leftJoinAndSelect('properties.values', 'propertyValues')
+      .where('product.id = :id', { id });
+
+    return qb.getOne();
+  }
+}

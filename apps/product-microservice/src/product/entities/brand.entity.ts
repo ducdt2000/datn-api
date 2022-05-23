@@ -1,4 +1,4 @@
-import { BaseEntity } from './../../../../../shared/entities/base.entity';
+import { BaseEntity } from '../../../../../shared/entities/base.entity';
 import {
   Column,
   CreateDateColumn,
@@ -19,6 +19,8 @@ export class Brand implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 
@@ -28,6 +30,14 @@ export class Brand implements BaseEntity {
     length: 50,
   })
   type: string;
+
+  @Column({
+    name: 'slug',
+    type: 'varchar',
+    length: 50,
+    unique: true,
+  })
+  slug: string;
 
   @CreateDateColumn({
     name: 'created_at',

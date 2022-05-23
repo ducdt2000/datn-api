@@ -21,6 +21,8 @@ export class Property implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 
@@ -40,7 +42,7 @@ export class Property implements BaseEntity {
   })
   deletedAt?: Date;
 
-  @OneToMany(() => PropertyValue, (v) => v.property)
+  @OneToMany(() => PropertyValue, (v) => v.property, { cascade: true })
   values: PropertyValue[];
 
   @ManyToMany(() => ProductVersion, (pv) => pv.properties)

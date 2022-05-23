@@ -54,6 +54,8 @@ export class Comment implements BaseEntity {
     name: 'content',
     type: 'text',
     nullable: true,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   content?: string;
 

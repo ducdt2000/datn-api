@@ -16,5 +16,6 @@ export const configModuleOptions: ConfigModuleOptions = {
     DB_NAME: Joi.string().required(),
     DB_USER: Joi.string().required(),
     DB_PASS: Joi.string().required(),
+    DB_CHARSET: Joi.string().required(),
   }),
 };

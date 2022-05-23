@@ -1,5 +1,5 @@
 import { BaseEntity } from './../../../../../shared/entities/base.entity';
-import { Brand } from './branch.entity';
+import { Brand } from './brand.entity';
 import { ProductVersion } from './product-version.entity';
 import {
   Column,
@@ -25,6 +25,8 @@ export class Product implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 
@@ -53,6 +55,8 @@ export class Product implements BaseEntity {
     name: 'description',
     type: 'text',
     nullable: true,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   description?: string;
 
@@ -68,8 +72,9 @@ export class Product implements BaseEntity {
     name: 'default_version_id',
     type: 'char',
     length: 36,
+    nullable: true,
   })
-  defaultVersionId: string;
+  defaultVersionId?: string;
 
   @Column({
     name: 'brand_id',
@@ -101,6 +106,9 @@ export class Product implements BaseEntity {
   productType: ProductType;
 
   @OneToOne(() => ProductVersion)
+  @JoinColumn({
+    name: 'default_version_id',
+  })
   defaultProductVersion: ProductVersion;
 
   @OneToMany(() => ProductVersion, (pv) => pv.product)

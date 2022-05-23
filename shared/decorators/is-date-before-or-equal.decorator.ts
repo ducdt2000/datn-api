@@ -3,7 +3,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import moment from 'moment';
+import * as moment from 'moment';
 
 @ValidatorConstraint({ name: 'IsDateBeforeOrEqual', async: false })
 export class IsDateBeforeOrEqual implements ValidatorConstraintInterface {

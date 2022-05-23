@@ -1,5 +1,4 @@
 import { BaseEntity } from './../entities/base.entity';
-import { AppLogger } from './../logger/logger.service';
 import { NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
@@ -7,14 +6,10 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
   private entityName: string;
   private entityKeys: string[];
 
-  constructor(
-    private readonly entityClass: T & Function,
-    private readonly logger: AppLogger,
-  ) {
+  constructor(private readonly entityClass: T & Function) {
     super();
     this.entityName = entityClass.name;
     this.entityKeys = Object.keys(entityClass);
-    this.logger.setContext(`${this.entityName}Repository`);
   }
 
   async getById(id: string, withDeleted?: boolean): Promise<T> {
