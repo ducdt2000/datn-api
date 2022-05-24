@@ -24,6 +24,12 @@ export enum BRAND_ORDER_BY {
   TYPE = 'type',
 }
 
+export enum GENDER {
+  MALE = 0,
+  FEMALE = 1,
+  OTHER = 2,
+}
+
 export const MINUTES_IN_ONE_HOUR = 60;
 export const ONE_HOUR = 1;
 export const TWO_DIGITS = 10;
