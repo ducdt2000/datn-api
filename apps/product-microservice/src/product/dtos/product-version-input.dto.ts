@@ -22,36 +22,6 @@ import { Type } from 'class-transformer';
 import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
 import { TransformTrimSpaceArray } from 'shared/decorators/transform-trim-space-array.decorator';
 
-const errName = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.NAME,
-    ),
-  },
-};
-
-const errId = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.ID,
-    ),
-  },
-};
-
-const errCode = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.CODE,
-    ),
-  },
-};
-
 const errPrice = {
   context: {
     detail: new DetailErrorCode(
@@ -104,7 +74,15 @@ const errValues = {
 
 export class ProductVersionInput {
   @ApiProperty()
-  @IsNotEmpty(errName)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.NAME,
+      ),
+    },
+  })
   @TransformTrimSpace()
   name: string;
 
@@ -114,12 +92,28 @@ export class ProductVersionInput {
   productId?: string;
 
   @ApiProperty()
-  @IsNotEmpty(errCode)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.CODE,
+      ),
+    },
+  })
   @TransformTrimSpace()
   code: string;
 
   @ApiProperty()
-  @IsNotEmpty(errPrice)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.PRICE,
+      ),
+    },
+  })
   @IsNumber({}, errPrice)
   price: number;
 
@@ -129,7 +123,15 @@ export class ProductVersionInput {
   description?: string;
 
   @ApiProperty()
-  @IsNotEmpty(errImageLink)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.LINK,
+      ),
+    },
+  })
   @IsArray(errImageLink)
   @Type(() => String)
   @ArrayMinSize(1, errImageLink)
@@ -144,12 +146,28 @@ export class ProductVersionInput {
   defaultImageLink?: string;
 
   @ApiProperty()
-  @IsNotEmpty(errCount)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.COUNT,
+      ),
+    },
+  })
   @IsInt(errCount)
   countInStock: number;
 
   @ApiProperty({ type: [PropertyInput] })
-  @IsNotEmpty(errValues)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.VALUES,
+      ),
+    },
+  })
   @IsArray(errValues)
   @ValidateNested({ ...errValues, each: true })
   @Type(() => PropertyInput)

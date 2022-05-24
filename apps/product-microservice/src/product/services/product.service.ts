@@ -17,6 +17,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductOutput } from '../dtos/product-output.dto';
 import { checkDuplicateArrayString, slugify } from 'shared/util/string.utils';
 import { getConnection, In } from 'typeorm';
+import { ProductQuery } from '../dtos/product-query.dto';
 
 @Injectable()
 export class ProductService {
@@ -116,5 +117,21 @@ export class ProductService {
     savedProduct = await this.productRepository.getDetail(savedProduct.id);
 
     return plainToInstance(ProductOutput, savedProduct);
+  }
+
+  async getProduct(ctx: RequestContext, id: string): Promise<ProductOutput> {
+    this.logger.log(ctx, `${this.getProduct.name} was called`);
+
+    return this.productRepository.getById(id);
+  }
+
+  async getProducts(
+    ctx: RequestContext,
+    query: ProductQuery,
+  ): Promise<ProductOutput[]> {
+    this.logger.log(ctx, `${this.getProducts.name} was called`);
+
+    const data = await this.productRepository.getByConditions(query);
+    return null;
   }
 }

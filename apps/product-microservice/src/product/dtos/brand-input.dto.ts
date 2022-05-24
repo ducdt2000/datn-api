@@ -12,7 +12,7 @@ export class BrandInput {
   @IsNotEmpty({
     context: {
       detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
+        ErrCategoryCode.REQUIRED_PARAM,
         ErrMicroserviceCode.PRODUCT,
         ErrDetailCode.NAME,
       ),
@@ -27,7 +27,7 @@ export class BrandInput {
   @IsNotEmpty({
     context: {
       detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
+        ErrCategoryCode.REQUIRED_PARAM,
         ErrMicroserviceCode.PRODUCT,
         ErrDetailCode.TYPE,
       ),

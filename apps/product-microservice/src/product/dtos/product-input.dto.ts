@@ -18,36 +18,6 @@ import {
 import { ProductVersionInput } from './product-version-input.dto';
 import { Type } from 'class-transformer';
 
-const errName = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.NAME,
-    ),
-  },
-};
-
-const errId = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.ID,
-    ),
-  },
-};
-
-const errCode = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.CODE,
-    ),
-  },
-};
-
 const errStarPoint = {
   context: {
     detail: new DetailErrorCode(
@@ -90,17 +60,41 @@ const errVersion = {
 
 export class ProductInput {
   @ApiProperty()
-  @IsNotEmpty(errName)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.NAME,
+      ),
+    },
+  })
   @TransformTrimSpace()
   name: string;
 
   @ApiProperty()
-  @IsNotEmpty(errCode)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.CODE,
+      ),
+    },
+  })
   @TransformTrimSpace()
   code: string;
 
   @ApiProperty()
-  @IsNotEmpty(errId)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.ID,
+      ),
+    },
+  })
   @TransformTrimSpace()
   productTypeId: string;
 
@@ -127,13 +121,29 @@ export class ProductInput {
   defaultVersionId?: string;
 
   @ApiProperty()
-  @IsNotEmpty(errId)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.ID,
+      ),
+    },
+  })
   @TransformTrimSpace()
   brandId: string;
 
   @ApiProperty({ type: [ProductVersionInput] })
   @IsArray(errVersion)
-  @IsNotEmpty(errVersion)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.PRODUCT_VERSION,
+      ),
+    },
+  })
   @IsObject({ ...errVersion, each: true })
   @ValidateNested({ ...errVersion, each: true })
   @Type(() => ProductVersionInput)

@@ -2,7 +2,15 @@ import { ProductOutput } from './../dtos/product-output.dto';
 import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '../services/product.service';
 import { ReqContext } from 'shared/request-context/req-context.decorator';
@@ -27,6 +35,17 @@ export class ProductController {
     this.logger.log(ctx, `${this.createProduct.name} was called`);
 
     const data = await this.productService.createProduct(ctx, input);
+    return { data, meta: { count: 1 } };
+  }
+
+  @Get(':id')
+  async getProduct(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+  ): Promise<BaseApiResponse<ProductOutput>> {
+    this.logger.log(ctx, `${this.getProduct.name} was called`);
+
+    const data = await this.productService.getProduct(ctx, id);
     return { data, meta: { count: 1 } };
   }
 }

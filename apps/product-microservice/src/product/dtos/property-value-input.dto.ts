@@ -8,16 +8,6 @@ import { DetailErrorCode } from './../../../../../shared/errors/detail-error-cod
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-const errName = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.NAME,
-    ),
-  },
-};
-
 // const errId = {
 //   context: {
 //     detail: new DetailErrorCode(
@@ -31,7 +21,15 @@ const errName = {
 export class PropertyValueInput {
   @ApiProperty()
   @TransformTrimSpace()
-  @IsNotEmpty(errName)
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.NAME,
+      ),
+    },
+  })
   name: string;
 
   // @ApiProperty()

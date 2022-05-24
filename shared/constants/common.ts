@@ -17,6 +17,13 @@ export enum ORDER_TYPE {
   DESCENDING = 'DESC',
 }
 
+export enum PRODUCT_ORDER_BY {
+  NAME = 'name',
+  PRICE = 'price',
+  CREATED_AT = 'createdAt',
+  STAR = 'starPoint',
+}
+
 export enum BRAND_ORDER_BY {
   NAME = 'name',
   CREATED_AT = 'createdAt',
