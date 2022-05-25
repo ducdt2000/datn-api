@@ -48,4 +48,11 @@ export class ProductController {
     const data = await this.productService.getProduct(ctx, id);
     return { data, meta: { count: 1 } };
   }
+
+  @Get()
+  async getProducts(@ReqContext() ctx: RequestContext) {
+    this.logger.log(ctx, `${this.getProducts.name} was called`);
+
+    return this.productService.getProducts(ctx);
+  }
 }

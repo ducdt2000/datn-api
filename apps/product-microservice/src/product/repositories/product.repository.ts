@@ -22,6 +22,7 @@ export class ProductRepository extends BaseRepository<Product> {
   }
 
   async getByConditions(query: ProductQuery): Promise<[Product[], number]> {
+    console.log('start=======');
     const qb = this.createQueryBuilder('product')
       .leftJoinAndSelect(
         'product.defaultProductVersion',
@@ -32,7 +33,8 @@ export class ProductRepository extends BaseRepository<Product> {
       .leftJoinAndSelect('product.productType', 'productType')
       .leftJoinAndSelect('productVersions.properties', 'properties')
       .leftJoinAndSelect('properties.values', 'propertyValues');
-
-    return await qb.getManyAndCount();
+    const data = await qb.getManyAndCount();
+    console.log('end=======');
+    return data;
   }
 }

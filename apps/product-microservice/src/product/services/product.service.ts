@@ -127,11 +127,12 @@ export class ProductService {
 
   async getProducts(
     ctx: RequestContext,
-    query: ProductQuery,
+    //query: ProductQuery,
   ): Promise<ProductOutput[]> {
     this.logger.log(ctx, `${this.getProducts.name} was called`);
+    const query = new ProductQuery();
 
-    const data = await this.productRepository.getByConditions(query);
+    const data = this.productRepository.getByConditions(query);
     return null;
   }
 }
