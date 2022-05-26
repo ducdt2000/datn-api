@@ -31,6 +31,8 @@ export enum BRAND_ORDER_BY {
   TYPE = 'type',
 }
 
+export const MIN_DATE = new Date(-8640000000000000);
+export const MAX_DATE = new Date(8640000000000000);
 export const MINUTES_IN_ONE_HOUR = 60;
 export const ONE_HOUR = 1;
 export const TWO_DIGITS = 10;

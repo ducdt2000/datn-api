@@ -1,3 +1,4 @@
+import { ProductQuery } from './../dtos/product-query.dto';
 import { ProductOutput } from './../dtos/product-output.dto';
 import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
@@ -10,6 +11,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '../services/product.service';
@@ -50,9 +52,13 @@ export class ProductController {
   }
 
   @Get()
-  async getProducts(@ReqContext() ctx: RequestContext) {
+  async getProducts(
+    @ReqContext() ctx: RequestContext,
+    @Query() query: ProductQuery,
+  ) {
     this.logger.log(ctx, `${this.getProducts.name} was called`);
 
-    return this.productService.getProducts(ctx);
+    const [data, count] = await this.productService.getProducts(ctx, query);
+    return { data, meta: { count } };
   }
 }
