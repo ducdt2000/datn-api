@@ -10,7 +10,9 @@ import {
 } from 'typeorm';
 import { Product } from './product.entity';
 
-@Entity('product_types')
+@Entity('product_types', {
+  engine: 'InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci',
+})
 export class ProductType implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -19,6 +21,8 @@ export class ProductType implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 

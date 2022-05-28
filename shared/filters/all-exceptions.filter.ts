@@ -1,3 +1,4 @@
+import { REQUEST_ID_TOKEN_HEADER } from '../../shared/constants/common';
 import { AppLogger } from './../logger/logger.service';
 import {
   ArgumentsHost,
@@ -7,7 +8,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { REQUEST_ID_TOKEN_HEADER } from 'shared/constants/common';
 
 import { BaseApiError } from '../errors/base-api-error';
 import { createRequestContext } from '../request-context/util';

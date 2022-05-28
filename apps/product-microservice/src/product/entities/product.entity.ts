@@ -1,20 +1,21 @@
 import { BaseEntity } from './../../../../../shared/entities/base.entity';
-import { Brand } from './branch.entity';
-import { ProductVersion } from './product-version.entity';
+import { Brand } from './brand.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductType } from './product-type.entity';
 import { Comment } from '../../comment/entities/comment.entity';
+import { Property } from './property.entity';
 
 @Entity('products')
 export class Product implements BaseEntity {
@@ -25,6 +26,8 @@ export class Product implements BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 100,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   name: string;
 
@@ -53,6 +56,8 @@ export class Product implements BaseEntity {
     name: 'description',
     type: 'text',
     nullable: true,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   description?: string;
 
@@ -60,16 +65,8 @@ export class Product implements BaseEntity {
     name: 'slug',
     type: 'varchar',
     length: 50,
-    unique: true,
   })
   slug: string;
-
-  @Column({
-    name: 'default_version_id',
-    type: 'char',
-    length: 36,
-  })
-  defaultVersionId: string;
 
   @Column({
     name: 'brand_id',
@@ -77,6 +74,31 @@ export class Product implements BaseEntity {
     length: 36,
   })
   brandId: string;
+
+  @Column({
+    name: 'price',
+    type: 'decimal',
+  })
+  price: number;
+
+  @Column({
+    name: 'image_links',
+    type: 'json',
+  })
+  imageLinks: string[];
+
+  @Column({
+    name: 'default_image',
+    type: 'varchar',
+    length: 200,
+  })
+  defaultImageLink: string;
+
+  @Column({
+    name: 'count_in_stock',
+    type: 'int',
+  })
+  countInStock: number;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -100,12 +122,6 @@ export class Product implements BaseEntity {
   })
   productType: ProductType;
 
-  @OneToOne(() => ProductVersion)
-  defaultProductVersion: ProductVersion;
-
-  @OneToMany(() => ProductVersion, (pv) => pv.product)
-  productVersions: ProductVersion[];
-
   @ManyToOne(() => Brand, (b) => b.products)
   @JoinColumn({
     name: 'brand_id',
@@ -114,4 +130,18 @@ export class Product implements BaseEntity {
 
   @OneToMany(() => Comment, (c) => c.product)
   comments: Comment[];
+
+  @ManyToMany(() => Property, (p) => p, { cascade: true })
+  @JoinTable({
+    name: 'product_properties',
+    joinColumn: {
+      name: 'product_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'property_id',
+      referencedColumnName: 'id',
+    },
+  })
+  properties: Property[];
 }

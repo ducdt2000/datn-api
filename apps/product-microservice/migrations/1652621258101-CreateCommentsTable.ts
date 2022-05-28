@@ -5,7 +5,7 @@ export class CreateCommentsTable1652621258101 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      'CREATE TABLE `comments` (`id` char(36) NOT NULL, `star` int NULL, `product_id` char(36) NOT NULL, `type` varchar(30) NOT NULL, `ref_user_ids` json NOT NULL, `user_id` char(36) NOT NULL, `content` text NULL, `level` int NOT NULL, `comment_parent_id` char(36) NULL, `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `deleted_at` datetime(6) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB',
+      'CREATE TABLE `comments` (`id` char(36) NOT NULL, `star` int NULL, `product_id` char(36) NOT NULL, `type` varchar(30) NOT NULL, `ref_user_ids` json NOT NULL, `user_id` char(36) NOT NULL, `content` text CHARACTER SET "utf8" COLLATE "utf8_general_ci" NULL, `level` int NOT NULL, `comment_parent_id` char(36) NULL, `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `deleted_at` datetime(6) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB',
     );
     await queryRunner.query(
       'ALTER TABLE `comments` ADD CONSTRAINT `FK_0ed3ef9c8a46cf978c2067e778c` FOREIGN KEY (`comment_parent_id`) REFERENCES `comments`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',

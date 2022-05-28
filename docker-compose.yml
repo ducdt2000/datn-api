@@ -7,9 +7,10 @@ services:
       dockerfile: ./apps/product-microservice/Dockerfile
       args:
         - APP_ENV
-    command: npm run start:dev product-microservice
+    command: npm run start:debug product-microservice
     ports:
       - 3001:3000
+      - 9201:9229
     volumes:
       - ./:/usr/src/app
       - node_modules:/usr/src/app/node_modules/
@@ -20,6 +21,55 @@ services:
       - ./apps/product-microservice/.env
     depends_on:
       - mysqldb
+
+  # elasticsearch:
+  #   image: elasticsearch:7.9.3
+  #   ports:
+  #     - 9200:9200
+  #   environment:
+  #     - discovery.type=single-node
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - elasticsearch:/usr/share/elasticsearch/data
+  #   logging:
+  #       driver: "json-file"
+  #       options:
+  #           max-size: "10k"
+  #           max-file: "10"
+
+  # logstash:
+  #   build:
+  #     context: .
+  #     dockerfile: ./logstash/Dockerfile
+  #   depends_on:
+  #     - mysqldb
+  #     - elasticsearch
+  #     - kibana
+  #   volumes:
+  #     - ./logstash/pipeline/:/usr/share/logstash/pipeline/
+  #     - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+  #     - ./logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+  #     - ./logstash/config/queries/:/usr/share/logstash/config/queries/
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10k"
+  #       max-file: "10"
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.9.3
+  #   environment:
+  #     - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+  #     - "SERVER_NAME=127.0.0.1"
+  #   ports:
+  #     - 5601:5601
+  #   depends_on:
+  #     - elasticsearch
 
   mysqldb:
     image: mysql:5.7
@@ -42,3 +92,4 @@ services:
 volumes:
   mysqldata:
   node_modules:
+  elasticsearch:
