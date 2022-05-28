@@ -4,7 +4,7 @@ export class BaseApiResponse<T> {
   public data: T; // Swagger Decorator is added in the extended class below, since that will override this one.
 
   @ApiProperty({ type: Object })
-  public meta: any;
+  public meta?: any;
 }
 
 export function SwaggerBaseApiResponse<T>(type: T): typeof BaseApiResponse {

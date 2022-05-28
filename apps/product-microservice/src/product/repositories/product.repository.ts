@@ -103,6 +103,6 @@ export class ProductRepository extends BaseRepository<Product> {
       }
     }
 
-    return qb.limit(limit).skip(offset).getManyAndCount();
+    return qb.limit(limit).offset(offset).getManyAndCount();
   }
 }

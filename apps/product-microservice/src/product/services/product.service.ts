@@ -1,3 +1,4 @@
+import { ProductUpdateInput } from './../dtos/product-update-input.dto';
 import { ProductTypeRepository } from './../repositories/product-type.repository';
 import { BrandRepository } from './../repositories/brand.repository';
 import { Product } from './../entities/product.entity';
@@ -18,6 +19,7 @@ import { ProductOutput } from '../dtos/product-output.dto';
 import { checkDuplicateArrayString, slugify } from 'shared/util/string.utils';
 import { getConnection, In } from 'typeorm';
 import { ProductQuery } from '../dtos/product-query.dto';
+import { ProductVersion } from '../entities/product-version.entity';
 
 @Injectable()
 export class ProductService {
@@ -131,5 +133,71 @@ export class ProductService {
   ): Promise<[ProductOutput[], number]> {
     this.logger.log(ctx, `${this.getProducts.name} was called`);
     return this.productRepository.getByConditions(query);
+  }
+
+  async updateProduct(
+    ctx: RequestContext,
+    id: string,
+    input: ProductUpdateInput,
+  ): Promise<ProductOutput> {
+    this.logger.log(ctx, `${this.updateProduct.name} was called`);
+
+    const dbProduct = await this.productRepository.getById(id);
+
+    if (input.slug) {
+      const checkSlug = await this.productRepository.findOne({
+        slug: input.slug,
+      });
+      if (checkSlug) {
+        throw new BadRequestException(
+          new DetailErrorCode(
+            ErrCategoryCode.DUPLICATE_VALUE,
+            ErrMicroserviceCode.PRODUCT,
+            ErrDetailCode.SLUG,
+            `Slug ${input.slug} was existed`,
+          ),
+        );
+      }
+    }
+    if (input.code) {
+      const checkCode = await this.productRepository.findOne({
+        code: input.code,
+      });
+      if (checkCode) {
+        throw new BadRequestException(
+          new DetailErrorCode(
+            ErrCategoryCode.DUPLICATE_VALUE,
+            ErrMicroserviceCode.PRODUCT,
+            ErrDetailCode.CODE,
+            `Code ${input.code} was existed`,
+          ),
+        );
+      }
+    }
+
+    const product = this.productRepository.merge(dbProduct, input);
+    const savedProduct = await this.productRepository.save(product);
+    return plainToInstance(ProductOutput, savedProduct);
+  }
+
+  async deleteProduct(ctx: RequestContext, id: string): Promise<ProductOutput> {
+    this.logger.log(ctx, `${this.deleteProduct.name} was called`);
+    const product = await this.productRepository.getDetail(id);
+
+    const versions = product.productVersions;
+
+    let result: [Product, ProductVersion[]];
+
+    await getConnection().transaction(async (trans) => {
+      const productRepo = trans.getCustomRepository(ProductRepository);
+      const versionRepo = trans.getCustomRepository(ProductVersionRepository);
+
+      result = await Promise.all([
+        productRepo.softRemove(product),
+        versionRepo.softRemove(versions),
+      ]);
+    });
+
+    return plainToInstance(ProductOutput, result[0]);
   }
 }
