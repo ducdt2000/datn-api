@@ -1,3 +1,4 @@
+import { PropertyInput } from './property-input.dto';
 import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
 import {
   ErrCategoryCode,
@@ -8,14 +9,15 @@ import { DetailErrorCode } from './../../../../../shared/errors/detail-error-cod
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
+  IsInt,
   IsNotEmpty,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
+  IsUrl,
   ValidateNested,
 } from 'class-validator';
-import { ProductVersionInput } from './product-version-input.dto';
 import { Type } from 'class-transformer';
 
 const errStarPoint = {
@@ -44,16 +46,6 @@ const errSlug = {
       ErrCategoryCode.INVALID_PARAM,
       ErrMicroserviceCode.PRODUCT,
       ErrDetailCode.SLUG,
-    ),
-  },
-};
-
-const errVersion = {
-  context: {
-    detail: new DetailErrorCode(
-      ErrCategoryCode.INVALID_PARAM,
-      ErrMicroserviceCode.PRODUCT,
-      ErrDetailCode.PRODUCT_VERSION,
     ),
   },
 };
@@ -115,11 +107,6 @@ export class ProductInput {
   @IsString(errSlug)
   slug?: string;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @TransformTrimSpace()
-  defaultVersionId?: string;
-
   @ApiProperty()
   @IsNotEmpty({
     context: {
@@ -133,19 +120,88 @@ export class ProductInput {
   @TransformTrimSpace()
   brandId: string;
 
-  @ApiProperty({ type: [ProductVersionInput] })
-  @IsArray(errVersion)
+  @ApiProperty()
   @IsNotEmpty({
     context: {
       detail: new DetailErrorCode(
         ErrCategoryCode.REQUIRED_PARAM,
         ErrMicroserviceCode.PRODUCT,
-        ErrDetailCode.PRODUCT_VERSION,
+        ErrDetailCode.PRICE,
       ),
     },
   })
-  @IsObject({ ...errVersion, each: true })
-  @ValidateNested({ ...errVersion, each: true })
-  @Type(() => ProductVersionInput)
-  productVersions: ProductVersionInput[];
+  price: number;
+
+  @ApiProperty({
+    example: ['http://google.com', 'http://facebook.com'],
+  })
+  @IsArray()
+  @IsUrl(
+    {},
+    {
+      each: true,
+      context: {
+        detail: new DetailErrorCode(
+          ErrCategoryCode.REQUIRED_PARAM,
+          ErrMicroserviceCode.PRODUCT,
+          ErrDetailCode.LINK,
+        ),
+      },
+    },
+  )
+  @IsNotEmpty({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.ID,
+      ),
+    },
+  })
+  imageLinks: string[];
+
+  @ApiPropertyOptional({
+    example: 'http://google.com',
+  })
+  @IsOptional()
+  @IsUrl(
+    {},
+    {
+      each: true,
+      context: {
+        detail: new DetailErrorCode(
+          ErrCategoryCode.REQUIRED_PARAM,
+          ErrMicroserviceCode.PRODUCT,
+          ErrDetailCode.LINK,
+        ),
+      },
+    },
+  )
+  defaultImageLink?: string;
+
+  @ApiPropertyOptional({
+    example: 0,
+  })
+  @IsOptional()
+  @IsInt({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.COUNT,
+      ),
+    },
+  })
+  countInStock: number = 0;
+
+  @ApiProperty({
+    type: [PropertyInput],
+    example: [{ name: 'color', values: ['red', 'green', 'blue'] }],
+  })
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => PropertyInput)
+  @IsArray()
+  @IsObject({ each: true })
+  properties: PropertyInput[];
 }

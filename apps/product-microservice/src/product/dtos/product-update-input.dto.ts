@@ -1,5 +1,11 @@
+import {
+  ErrMicroserviceCode,
+  ErrDetailCode,
+} from './../../../../../shared/constants/errors';
+import { ErrCategoryCode } from 'shared/constants/errors';
+import { DetailErrorCode } from 'shared/errors/detail-error-code';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsArray, IsInt, IsNumber, IsOptional, IsUrl } from 'class-validator';
 
 export class ProductUpdateInput {
   @ApiPropertyOptional()
@@ -24,9 +30,62 @@ export class ProductUpdateInput {
 
   @ApiPropertyOptional()
   @IsOptional()
-  defaultVersionId?: string;
+  brandId?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
-  brandId?: string;
+  @IsNumber()
+  price?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsArray()
+  @IsUrl(
+    {},
+    {
+      each: true,
+      context: {
+        detail: new DetailErrorCode(
+          ErrCategoryCode.REQUIRED_PARAM,
+          ErrMicroserviceCode.PRODUCT,
+          ErrDetailCode.LINK,
+        ),
+      },
+    },
+  )
+  imageLinks: string[];
+
+  @ApiPropertyOptional({
+    example: 'http://google.com',
+  })
+  @IsOptional()
+  @IsUrl(
+    {},
+    {
+      each: true,
+      context: {
+        detail: new DetailErrorCode(
+          ErrCategoryCode.REQUIRED_PARAM,
+          ErrMicroserviceCode.PRODUCT,
+          ErrDetailCode.LINK,
+        ),
+      },
+    },
+  )
+  defaultImageLink?: string;
+
+  @ApiPropertyOptional({
+    example: 0,
+  })
+  @IsOptional()
+  @IsInt({
+    context: {
+      detail: new DetailErrorCode(
+        ErrCategoryCode.REQUIRED_PARAM,
+        ErrMicroserviceCode.PRODUCT,
+        ErrDetailCode.COUNT,
+      ),
+    },
+  })
+  countInStock?: number;
 }

@@ -6,6 +6,10 @@ import { BrandQuery } from '../dtos/brand-query.dto';
 
 @EntityRepository(Brand)
 export class BrandRepository extends BaseRepository<Brand> {
+  constructor() {
+    super(Brand);
+  }
+
   async getByConditions(query: BrandQuery): Promise<[Brand[], number]> {
     const {
       search,

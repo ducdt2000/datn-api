@@ -9,24 +9,21 @@ import {
   ErrMicroserviceCode,
 } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
-import { ProductVersionRepository } from './../repositories/product-version.repository';
 import { ProductInput } from './../dtos/product-input.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ProductRepository } from './../repositories/product.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductOutput } from '../dtos/product-output.dto';
-import { checkDuplicateArrayString, slugify } from 'shared/util/string.utils';
-import { getConnection, In } from 'typeorm';
+import { slugify } from 'shared/util/string.utils';
+import { Not } from 'typeorm';
 import { ProductQuery } from '../dtos/product-query.dto';
-import { ProductVersion } from '../entities/product-version.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly logger: AppLogger,
     private readonly productRepository: ProductRepository,
-    private readonly productVersionRepository: ProductVersionRepository,
     private readonly brandRepository: BrandRepository,
     private readonly productTypeRepository: ProductTypeRepository,
   ) {
@@ -48,46 +45,16 @@ export class ProductService {
       input.slug = slugify(input.name);
     }
 
-    let codes: string[] = input.productVersions.map((version) => version.code);
-
-    try {
-      checkDuplicateArrayString(codes);
-    } catch (ex) {
-      throw new BadRequestException(
-        new DetailErrorCode(
-          ErrCategoryCode.DUPLICATE_VALUE,
-          ErrMicroserviceCode.PRODUCT,
-          ErrDetailCode.CODE,
-          `Code ${ex.message.join(', ')} are duplicate`,
-        ),
-      );
-    }
-
-    const dbProduct = await this.productRepository.findOne({
-      slug: input.slug,
+    const dbProduct = await this.productRepository.find({
+      where: [{ slug: input.slug }, { code: input.code }],
     });
-    if (dbProduct) {
+    if (dbProduct.length) {
       throw new BadRequestException(
         new DetailErrorCode(
           ErrCategoryCode.DUPLICATE_VALUE,
           ErrMicroserviceCode.PRODUCT,
           ErrDetailCode.SLUG,
-          'This slug already exists',
-        ),
-      );
-    }
-
-    const dbCodes = await this.productVersionRepository.find({
-      code: In(codes),
-    });
-
-    if (dbCodes.length) {
-      throw new BadRequestException(
-        new DetailErrorCode(
-          ErrCategoryCode.DUPLICATE_VALUE,
-          ErrMicroserviceCode.PRODUCT,
-          ErrDetailCode.CODE,
-          `Code ${dbCodes.join(', ')} already exists`,
+          'This slug or code already exists',
         ),
       );
     }
@@ -98,25 +65,10 @@ export class ProductService {
       brand,
     });
 
-    let savedProduct: Product;
-    await getConnection().transaction(async (trans) => {
-      const productRepo = trans.getCustomRepository(ProductRepository);
-      const productVersionRepo = trans.getCustomRepository(
-        ProductVersionRepository,
-      );
-
-      savedProduct = await productRepo.save(product);
-
-      product.productVersions.forEach((version) => {
-        version.product = savedProduct;
-        if (!version.defaultImageLink) {
-          version.defaultImageLink = version.imageLinks[0];
-        }
-      });
-      await productVersionRepo.save(product.productVersions);
-    });
-
-    savedProduct = await this.productRepository.getDetail(savedProduct.id);
+    if (!product.defaultImageLink) {
+      product.defaultImageLink = product.imageLinks[0];
+    }
+    const savedProduct = await this.productRepository.save(product);
 
     return plainToInstance(ProductOutput, savedProduct);
   }
@@ -124,7 +76,7 @@ export class ProductService {
   async getProduct(ctx: RequestContext, id: string): Promise<ProductOutput> {
     this.logger.log(ctx, `${this.getProduct.name} was called`);
 
-    return this.productRepository.getById(id);
+    return this.productRepository.getDetail(id);
   }
 
   async getProducts(
@@ -146,6 +98,7 @@ export class ProductService {
 
     if (input.slug) {
       const checkSlug = await this.productRepository.findOne({
+        id: Not(id),
         slug: input.slug,
       });
       if (checkSlug) {
@@ -161,6 +114,7 @@ export class ProductService {
     }
     if (input.code) {
       const checkCode = await this.productRepository.findOne({
+        id: Not(id),
         code: input.code,
       });
       if (checkCode) {
@@ -184,20 +138,8 @@ export class ProductService {
     this.logger.log(ctx, `${this.deleteProduct.name} was called`);
     const product = await this.productRepository.getDetail(id);
 
-    const versions = product.productVersions;
+    const result = await this.productRepository.softRemove(product);
 
-    let result: [Product, ProductVersion[]];
-
-    await getConnection().transaction(async (trans) => {
-      const productRepo = trans.getCustomRepository(ProductRepository);
-      const versionRepo = trans.getCustomRepository(ProductVersionRepository);
-
-      result = await Promise.all([
-        productRepo.softRemove(product),
-        versionRepo.softRemove(versions),
-      ]);
-    });
-
-    return plainToInstance(ProductOutput, result[0]);
+    return plainToInstance(ProductOutput, result);
   }
 }

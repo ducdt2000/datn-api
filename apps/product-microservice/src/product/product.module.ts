@@ -1,4 +1,3 @@
-import { ProductVersionRepository } from './repositories/product-version.repository';
 import { ProductTypeController } from './controllers/product-type.controller';
 import { ProductTypeService } from './services/product-type.service';
 import { ProductTypeRepository } from './repositories/product-type.repository';
@@ -21,7 +20,6 @@ import { Module } from '@nestjs/common';
       ProductRepository,
       BrandRepository,
       ProductTypeRepository,
-      ProductVersionRepository,
     ]),
   ],
   providers: [BrandService, ProductService, ProductTypeService],

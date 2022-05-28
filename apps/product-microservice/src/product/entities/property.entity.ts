@@ -1,16 +1,14 @@
 import { BaseEntity } from './../../../../../shared/entities/base.entity';
-import { ProductVersion } from './product-version.entity';
-import { PropertyValue } from './property-value.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Product } from './product.entity';
 
 @Entity('properties')
 export class Property implements BaseEntity {
@@ -25,6 +23,12 @@ export class Property implements BaseEntity {
     collation: 'utf8_general_ci',
   })
   name: string;
+
+  @Column({
+    name: 'values',
+    type: 'json',
+  })
+  values: any[];
 
   @CreateDateColumn({
     name: 'created_at',
@@ -42,9 +46,6 @@ export class Property implements BaseEntity {
   })
   deletedAt?: Date;
 
-  @OneToMany(() => PropertyValue, (v) => v.property, { cascade: true })
-  values: PropertyValue[];
-
-  @ManyToMany(() => ProductVersion, (pv) => pv.properties)
-  productVersions: ProductVersion[];
+  @ManyToMany(() => Product, (p) => p.properties)
+  products: Product[];
 }

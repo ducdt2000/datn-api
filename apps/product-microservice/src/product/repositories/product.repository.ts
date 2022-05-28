@@ -1,6 +1,11 @@
 import {
-  MIN_DATE,
-  MAX_DATE,
+  ErrMicroserviceCode,
+  ErrDetailCode,
+} from './../../../../../shared/constants/errors';
+import { ErrCategoryCode } from 'shared/constants/errors';
+import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { NotFoundException } from '@nestjs/common';
+import {
   PRODUCT_ORDER_BY,
   ORDER_TYPE,
 } from './../../../../../shared/constants/common';
@@ -11,20 +16,29 @@ import { ProductQuery } from '../dtos/product-query.dto';
 
 @EntityRepository(Product)
 export class ProductRepository extends BaseRepository<Product> {
+  constructor() {
+    super(Product);
+  }
+
   async getDetail(id: string): Promise<Product> {
     const qb = this.createQueryBuilder('product')
-      .leftJoinAndSelect(
-        'product.defaultProductVersion',
-        'defaultProductVersion',
-      )
-      .leftJoinAndSelect('product.productVersions', 'productVersions')
       .leftJoinAndSelect('product.brand', 'brand')
       .leftJoinAndSelect('product.productType', 'productType')
-      .leftJoinAndSelect('productVersions.properties', 'properties')
-      .leftJoinAndSelect('properties.values', 'propertyValues')
+      .leftJoinAndSelect('product.properties', 'properties')
       .where('product.id = :id', { id });
 
-    return qb.getOne();
+    const product = await qb.getOne();
+    if (!product) {
+      throw new NotFoundException(
+        new DetailErrorCode(
+          ErrCategoryCode.INVALID_PARAM,
+          ErrMicroserviceCode.PRODUCT,
+          ErrDetailCode.PRODUCT,
+          'Product not found',
+        ),
+      );
+    }
+    return product;
   }
 
   async getByConditions(query: ProductQuery): Promise<[Product[], number]> {
@@ -42,15 +56,9 @@ export class ProductRepository extends BaseRepository<Product> {
     const orderType = query.orderType ?? ORDER_TYPE.DESCENDING;
 
     const qb = this.createQueryBuilder('product')
-      .leftJoinAndSelect(
-        'product.defaultProductVersion',
-        'defaultProductVersion',
-      )
-      .leftJoinAndSelect('product.productVersions', 'productVersions')
       .leftJoinAndSelect('product.brand', 'brand')
       .leftJoinAndSelect('product.productType', 'productType')
-      .leftJoinAndSelect('productVersions.properties', 'properties')
-      .leftJoinAndSelect('properties.values', 'propertyValues');
+      .leftJoinAndSelect('product.properties', 'properties');
 
     //search
     if (search) {
@@ -58,11 +66,7 @@ export class ProductRepository extends BaseRepository<Product> {
         new Brackets((qb) => {
           const likeSearch = `%${search}%`;
           qb.orWhere('product.name LIKE :likeSearch', { likeSearch });
-          qb.orWhere('productVersions.name LIKE :likeSearch', { likeSearch });
           qb.orWhere('product.description LIKE :likeSearch', { likeSearch });
-          qb.orWhere('productVersions.description LIKE :likeSearch', {
-            likeSearch,
-          });
         }),
       );
     }
@@ -91,7 +95,7 @@ export class ProductRepository extends BaseRepository<Product> {
         break;
       }
       case PRODUCT_ORDER_BY.PRICE: {
-        qb.orderBy('defaultProductVersion.price', orderType);
+        qb.orderBy('product.price', orderType);
         break;
       }
       case PRODUCT_ORDER_BY.NAME: {

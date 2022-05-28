@@ -1,6 +1,6 @@
-import { PropertyValueOutput } from './property-value-output.dto';
+import { IsArray } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Expose } from 'class-transformer';
 export class PropertyOutput {
   @ApiProperty()
   @Expose()
@@ -24,6 +24,6 @@ export class PropertyOutput {
 
   @ApiProperty()
   @Expose()
-  @Type(() => PropertyValueOutput)
-  values: PropertyValueOutput[];
+  @IsArray()
+  values: any[];
 }

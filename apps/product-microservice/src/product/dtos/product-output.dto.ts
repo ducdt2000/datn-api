@@ -1,5 +1,4 @@
 import { BrandOutput } from './brand-output.dto';
-import { ProductVersionOutput } from './product-version-output.dto';
 import { ProductTypeOutput } from './product-type-output.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
@@ -35,10 +34,6 @@ export class ProductOutput {
 
   @ApiProperty()
   @Expose()
-  defaultVersionId?: string;
-
-  @ApiProperty()
-  @Expose()
   brandId: string;
 
   @ApiProperty()
@@ -57,16 +52,6 @@ export class ProductOutput {
   @Expose()
   @Type(() => ProductTypeOutput)
   productType: ProductTypeOutput;
-
-  @ApiProperty()
-  @Expose()
-  @Type(() => ProductVersionOutput)
-  productVersions: ProductVersionOutput[];
-
-  @ApiPropertyOptional()
-  @Expose()
-  @Type(() => ProductVersionOutput)
-  defaultProductVersion?: ProductVersionOutput;
 
   @ApiProperty()
   @Expose()

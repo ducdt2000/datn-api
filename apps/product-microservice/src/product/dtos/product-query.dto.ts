@@ -11,29 +11,22 @@ import {
 import { ErrCategoryCode } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { IsOptional, Validate } from 'class-validator';
 import { TransformToDatetime } from './../../../../../shared/decorators/transform-to-date.decorator';
 import { PaginationParams } from './../../../../../shared/dtos/pagination-params.dto';
 export class ProductQuery extends PaginationParams {
-  @Expose()
   @ApiPropertyOptional()
   @IsOptional()
   search?: string;
 
-  // @ApiPropertyOptional()
-  // @IsOptional()
-  // @IsString()
-  // status?: string;
-
   @ApiPropertyOptional({
-    description: 'brand slug',
+    example: 'brand slug',
   })
   @IsOptional()
   brand?: string;
 
   @ApiPropertyOptional({
-    examples: BRAND_TYPE,
     example: 'local',
   })
   @IsOptional()

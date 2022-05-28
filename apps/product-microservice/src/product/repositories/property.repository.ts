@@ -3,4 +3,8 @@ import { Property } from '../entities/property.entity';
 import { EntityRepository } from 'typeorm';
 
 @EntityRepository(Property)
-export class PropertyRepository extends BaseRepository<Property> {}
+export class PropertyRepository extends BaseRepository<Property> {
+  constructor() {
+    super(Property);
+  }
+}

@@ -5,9 +5,7 @@ import {
 } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
-import { PropertyValueInput } from './property-value-input.dto';
-import { Type } from 'class-transformer';
+import { IsArray, IsNotEmpty } from 'class-validator';
 import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
 
 const errName = {
@@ -37,10 +35,8 @@ export class PropertyInput {
   name: string;
 
   @ApiProperty({
-    type: [PropertyValueInput],
+    type: [],
   })
   @IsArray(errValues)
-  @Type(() => PropertyValueInput)
-  @ValidateNested({ ...errValues, each: true })
-  values: PropertyValueInput[];
+  values: any[];
 }

@@ -1,6 +1,4 @@
-import { PropertyValue } from './product/entities/property-value.entity';
 import { Product } from './product/entities/product.entity';
-import { ProductVersion } from './product/entities/product-version.entity';
 import { ProductType } from './product/entities/product-type.entity';
 import { CommentModule } from './comment/comment.module';
 import { SharedModule } from './../../../shared/shared.module';
@@ -38,10 +36,8 @@ import { Property } from './product/entities/property.entity';
           //productModule
           Brand,
           ProductType,
-          ProductVersion,
           Product,
           Property,
-          PropertyValue,
         ],
         timezone: 'Z',
         synchronize: false,

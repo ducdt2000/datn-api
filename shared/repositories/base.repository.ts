@@ -6,7 +6,7 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
   private entityName: string;
   private entityKeys: string[];
 
-  constructor(private readonly entityClass: T & Function) {
+  constructor(private readonly entityClass: Function) {
     super();
     this.entityName = entityClass.name;
     this.entityKeys = Object.keys(entityClass);
