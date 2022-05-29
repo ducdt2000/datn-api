@@ -1,3 +1,4 @@
+import { ImagesInput } from './../dtos/images-input.dto';
 import { ProductUpdateInput } from './../dtos/product-update-input.dto';
 import { ProductTypeRepository } from './../repositories/product-type.repository';
 import { BrandRepository } from './../repositories/brand.repository';
@@ -18,6 +19,7 @@ import { ProductOutput } from '../dtos/product-output.dto';
 import { slugify } from 'shared/util/string.utils';
 import { Not } from 'typeorm';
 import { ProductQuery } from '../dtos/product-query.dto';
+import { ImageInput } from '../dtos/image-input.dto';
 
 @Injectable()
 export class ProductService {
@@ -141,5 +143,32 @@ export class ProductService {
     const result = await this.productRepository.softRemove(product);
 
     return plainToInstance(ProductOutput, result);
+  }
+
+  async addImages(
+    ctx: RequestContext,
+    id: string,
+    input: ImagesInput,
+  ): Promise<ProductOutput> {
+    this.logger.log(ctx, `${this.addImages.name} was called`);
+    const product = await this.productRepository.getById(id);
+
+    product.imageLinks.push(...input.links);
+    const savedProduct = this.productRepository.save(product);
+    return plainToInstance(ProductOutput, savedProduct);
+  }
+
+  async updateDefaultImage(
+    ctx: RequestContext,
+    id: string,
+    input: ImageInput,
+  ): Promise<ProductOutput> {
+    this.logger.log(ctx, `${this.updateDefaultImage.name} was called`);
+
+    const product = await this.productRepository.getById(id);
+    product.defaultImageLink = input.link;
+
+    const savedProduct = await this.productRepository.save(product);
+    return plainToInstance(ProductOutput, savedProduct);
   }
 }
