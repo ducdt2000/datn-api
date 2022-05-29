@@ -1,3 +1,4 @@
+import { ImagesInput } from './../dtos/images-input.dto';
 import { ProductUpdateInput } from './../dtos/product-update-input.dto';
 import { ProductQuery } from './../dtos/product-query.dto';
 import { ProductOutput } from './../dtos/product-output.dto';
@@ -20,6 +21,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '../services/product.service';
 import { ReqContext } from 'shared/request-context/req-context.decorator';
 import { ProductInput } from '../dtos/product-input.dto';
+import { ImageInput } from './../dtos/image-input.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -85,6 +87,30 @@ export class ProductController {
     this.logger.log(ctx, `${this.deleteProduct.name} was called`);
 
     const data = await this.productService.deleteProduct(ctx, id);
+    return { data };
+  }
+
+  @Post(':id/images')
+  async addBulkImages(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+    @Body() input: ImagesInput,
+  ) {
+    this.logger.log(ctx, `${this.addBulkImages.name} was called`);
+
+    const data = await this.productService.addImages(ctx, id, input);
+    return { data };
+  }
+
+  @Post(':id/images/default')
+  async updateDefaultImage(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+    @Body() input: ImageInput,
+  ) {
+    this.logger.log(ctx, `${this.updateDefaultImage.name} was called`);
+
+    const data = await this.productService.updateDefaultImage(ctx, id, input);
     return { data };
   }
 }
