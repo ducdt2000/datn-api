@@ -22,6 +22,27 @@ services:
     depends_on:
       - mysqldb
 
+  media-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/media-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:debug media-microservice
+    ports:
+      - 3100:3000
+      - 9300:9229
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+      MICROSERVICE: media-microservice
+    env_file:
+      - ./apps/media-microservice/.env
+    depends_on:
+      - mysqldb
+
   # elasticsearch:
   #   image: elasticsearch:7.9.3
   #   ports:

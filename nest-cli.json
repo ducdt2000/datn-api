@@ -1,6 +1,6 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/pamela-api/src",
   "projects": {
     "product-microservice": {
       "type": "application",
@@ -9,6 +9,15 @@
       "sourceRoot": "apps/product-microservice/src",
       "compilerOptions": {
         "tsConfigPath": "apps/product-microservice/tsconfig.app.json"
+      }
+    },
+    "media-microservice": {
+      "type": "application",
+      "root": "apps/media-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/media-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/media-microservice/tsconfig.app.json"
       }
     }
   }
