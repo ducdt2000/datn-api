@@ -43,6 +43,27 @@ services:
     depends_on:
       - mysqldb
 
+  user-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/user-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:debug user-microservice
+    ports:
+      - 3002:3000
+      - 9202:9229
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+      MICROSERVICE: user-microservice
+    env_file:
+      - ./apps/user-microservice/.env
+    depends_on:
+      - mysqldb
+
   # elasticsearch:
   #   image: elasticsearch:7.9.3
   #   ports:

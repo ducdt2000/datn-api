@@ -1,12 +1,24 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
       "name": "Debug product",
       "type": "node",
       "request": "attach",
       "restart": true,
       "port": 9201,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "protocol": "inspector",
+      "sourceMaps": true,
+    },
+    {
+      "name": "Debug user",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "port": 9202,
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "/usr/src/app",
       "protocol": "inspector",

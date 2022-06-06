@@ -31,6 +31,24 @@ export enum BRAND_ORDER_BY {
   TYPE = 'type',
 }
 
+export enum GENDER {
+  MALE = 1,
+  FEMALE = 2,
+  OTHER = 3,
+}
+
+export enum ROLE {
+  ADMIN = 'admin',
+  STAFF = 'staff',
+  USER = 'user',
+  GUEST = 'guest',
+}
+
+export enum USER_ACTIVE {
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+
 export const MIN_DATE = new Date(-8640000000000000);
 export const MAX_DATE = new Date(8640000000000000);
 export const MINUTES_IN_ONE_HOUR = 60;

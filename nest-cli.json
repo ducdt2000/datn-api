@@ -19,6 +19,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/media-microservice/tsconfig.app.json"
       }
+    },
+    "user-microservice": {
+      "type": "application",
+      "root": "apps/user-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/user-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user-microservice/tsconfig.app.json"
+      }
     }
   }
 }

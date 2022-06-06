@@ -1,15 +1,15 @@
-import { ConfigurationModule } from './../../media-microservice/src/config/configuration.module';
+import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SharedModule } from './../../../shared/shared.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileModule } from './file/file.module';
-import { PublicFile } from './file/entities/public-file.entity';
+import { ConfigurationModule } from './config/configuration.module';
+import { User } from './user/entities/user.entity';
 @Module({
   imports: [
     SharedModule,
     ConfigurationModule,
-    FileModule,
+    UserModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -23,7 +23,7 @@ import { PublicFile } from './file/entities/public-file.entity';
         extra: {
           charset: configService.get<string>('database.charset'),
         },
-        entities: [PublicFile],
+        entities: [User],
         timezone: 'Z',
         synchronize: false,
         debug: configService.get<string>('env') === 'development',
