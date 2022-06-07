@@ -16,5 +16,7 @@ export const configModuleOptions: ConfigModuleOptions = {
     DB_USER: Joi.string().required(),
     DB_PASS: Joi.string().required(),
     DB_CHARSET: Joi.string().required(),
+    JWT_SECRET: Joi.string().required(),
+    JWT_EXPIRATION_TIME: Joi.string().required(),
   }),
 };

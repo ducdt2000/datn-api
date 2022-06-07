@@ -55,3 +55,7 @@ export const MINUTES_IN_ONE_HOUR = 60;
 export const ONE_HOUR = 1;
 export const TWO_DIGITS = 10;
 export const DEFAULT_DOUBLE_ZERO = '00';
+
+export const PHONE_REGEX = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+export const EMAIL_REGEX =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

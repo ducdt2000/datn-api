@@ -1,6 +1,6 @@
 import { UserService } from './../services/user.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
@@ -12,4 +12,7 @@ export class UserController {
   ) {
     this.logger.setContext(UserController.name);
   }
+
+  @Get()
+  getById() {}
 }

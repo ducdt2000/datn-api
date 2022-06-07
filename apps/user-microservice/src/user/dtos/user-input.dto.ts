@@ -1,6 +1,7 @@
+import { ROLE, GENDER } from './../../../../../shared/constants/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UserInput {
   @ApiProperty()
@@ -46,6 +47,7 @@ export class UserInput {
   @IsNotEmpty()
   @ApiProperty()
   @Expose()
+  @IsEnum(GENDER)
   gender: number;
 
   @ApiPropertyOptional()
@@ -66,5 +68,6 @@ export class UserInput {
   @ApiProperty()
   @Expose()
   @IsNotEmpty()
+  @IsEnum(ROLE)
   role: string;
 }

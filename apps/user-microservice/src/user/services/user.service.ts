@@ -1,3 +1,6 @@
+import { User } from './../entities/user.entity';
+import { ROLE } from './../../../../../shared/constants/common';
+import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { plainToInstance } from 'class-transformer';
 import {
   ErrMicroserviceCode,
@@ -24,23 +27,49 @@ export class UserService {
     this.logger.setContext(UserService.name);
   }
 
-  async getByUsername(username: string): Promise<UserOutput> {
-    const user = await this.userRepository.findOne({ username });
+  async getByLogin(
+    ctx: RequestContext,
+    account: string,
+    loginType = 'USERNAME',
+  ): Promise<UserOutput> {
+    this.logger.log(ctx, `${this.getByLogin.name} was called`);
 
-    if (!user) {
-      throw new NotFoundException(
-        new DetailErrorCode(
-          ErrCategoryCode.INVALID_PARAM,
-          ErrMicroserviceCode.USER,
-          ErrDetailCode.USERNAME,
-          'User not found',
-        ),
-      );
+    let user: User;
+    if (loginType === 'EMAIL' || loginType === 'PHONE') {
+      user = await this.userRepository.findOne({ [loginType]: account });
+      if (!user) {
+        throw new NotFoundException(
+          new DetailErrorCode(
+            ErrCategoryCode.INVALID_PARAM,
+            ErrMicroserviceCode.USER,
+            ErrDetailCode['loginType'],
+            'User not found',
+          ),
+        );
+      }
+    } else {
+      user = await this.userRepository.findOne({ username: account });
+      if (!user) {
+        throw new NotFoundException(
+          new DetailErrorCode(
+            ErrCategoryCode.INVALID_PARAM,
+            ErrMicroserviceCode.USER,
+            ErrDetailCode.USERNAME,
+            'User not found',
+          ),
+        );
+      }
     }
+
     return plainToInstance(UserOutput, user, { excludeExtraneousValues: true });
   }
 
-  async createUser(userInput: UserInput): Promise<UserOutput> {
+  async createUser(
+    ctx: RequestContext,
+    userInput: UserInput,
+  ): Promise<UserOutput> {
+    this.logger.log(ctx, `${this.createUser.name} was called`);
+
     const { username, email, phone } = userInput;
     const dbUsers = await this.userRepository.find({
       where: [{ username }, { email }, { phone }],
@@ -84,6 +113,13 @@ export class UserService {
     }
 
     const newUser = this.userRepository.create(userInput);
+
+    if (newUser.role === ROLE.USER || newUser.role === ROLE.GUEST) {
+      newUser.isActive = 1;
+    } else {
+      newUser.isActive = 0;
+    }
+
     const savedUser = await this.userRepository.save(newUser);
 
     return plainToInstance(UserOutput, savedUser, {
