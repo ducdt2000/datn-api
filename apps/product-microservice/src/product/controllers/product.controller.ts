@@ -19,7 +19,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductService } from '../services/product.service';
-import { ReqContext } from 'shared/request-context/req-context.decorator';
+import { ReqContext } from '../../../../../shared/request-context/req-context.decorator';
 import { ProductInput } from '../dtos/product-input.dto';
 import { ImageInput } from './../dtos/image-input.dto';
 

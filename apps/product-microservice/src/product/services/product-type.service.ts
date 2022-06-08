@@ -5,7 +5,7 @@ import {
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductTypeOutput } from './../dtos/product-type-output.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';

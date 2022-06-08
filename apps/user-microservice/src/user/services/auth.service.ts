@@ -55,12 +55,9 @@ export class AuthService {
   }
 
   async getAuthenticatedUser(
-    ctx: RequestContext,
     account: string,
     password: string,
-  ) {
-    this.logger.log(ctx, `${this.getAuthenticatedUser.name} was called`);
-
+  ): Promise<UserOutput> {
     let user: User;
 
     if (account.match(PHONE_REGEX)) {
@@ -115,13 +112,11 @@ export class AuthService {
     return plainToInstance(UserOutput, user, { excludeExtraneousValues: true });
   }
 
-  async getCookieWithJwtToken(ctx: RequestContext, id: string) {
-    this.logger.log(ctx, `${this.getCookieWithJwtToken.name} was called`);
+  async getToken(ctx: RequestContext): Promise<[string, number]> {
+    this.logger.log(ctx, `${this.getToken.name} was called`);
 
-    const payload = { id };
+    const payload = { ...ctx.user };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get<string>(
-      'jwt.expirationTime',
-    )}`;
+    return [token, +this.configService.get<string>('jwt.expirationTime')];
   }
 }

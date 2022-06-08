@@ -2,8 +2,8 @@ import {
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
-import { ErrCategoryCode } from 'shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { ErrCategoryCode } from '../../../../../shared/constants/errors';
+import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { NotFoundException } from '@nestjs/common';
 import {
   PRODUCT_ORDER_BY,

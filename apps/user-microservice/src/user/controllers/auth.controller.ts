@@ -1,3 +1,6 @@
+import { plainToInstance } from 'class-transformer';
+import { JwtService } from '@nestjs/jwt';
+import { LocalAuthenticationGuard } from './../../../../../shared/guards/local-authentication.guard';
 import { LoginInput } from './../dtos/login-input.dto';
 import { BaseApiResponse } from '../../../../../shared/dtos/base-api-response.dto';
 import { ReqContext } from '../../../../../shared/request-context/req-context.decorator';
@@ -5,9 +8,17 @@ import { RequestContext } from '../../../../../shared/request-context/request-co
 import { RegisterInput } from '../dtos/register-input.dto';
 import { AuthService } from '../services/auth.service';
 import { AppLogger } from '../../../../../shared/logger/logger.service';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UserOutput } from '../dtos/user-output.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UserTokenOutput } from '../dtos/user-token-output.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -15,6 +26,7 @@ export class AuthController {
   constructor(
     private readonly logger: AppLogger,
     private readonly authService: AuthService,
+    private readonly jwtService: JwtService,
   ) {
     this.logger.setContext(AuthController.name);
   }
@@ -30,14 +42,22 @@ export class AuthController {
     return { data };
   }
 
+  @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@ReqContext() ctx: RequestContext, @Body() input: LoginInput) {
+  @UseGuards(LocalAuthenticationGuard)
+  async login(
+    @ReqContext() ctx: RequestContext,
+  ): Promise<BaseApiResponse<UserTokenOutput>> {
     this.logger.log(ctx, `${this.login.name} was called`);
 
-    const data = await this.authService.getAuthenticatedUser(
-      ctx,
-      input.account,
-      input.password,
+    const [token, exp] = await this.authService.getToken(ctx);
+
+    const data = plainToInstance(
+      UserTokenOutput,
+      { token, detail: { ...ctx.user, exp } },
+      { excludeExtraneousValues: true },
     );
+
+    return { data };
   }
 }

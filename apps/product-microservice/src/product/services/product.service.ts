@@ -16,7 +16,7 @@ import { ProductRepository } from './../repositories/product.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductOutput } from '../dtos/product-output.dto';
-import { slugify } from 'shared/util/string.utils';
+import { slugify } from '../../../../../shared/util/string.utils';
 import { Not } from 'typeorm';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ImageInput } from '../dtos/image-input.dto';

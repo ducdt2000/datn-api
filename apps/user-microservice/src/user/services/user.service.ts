@@ -6,8 +6,8 @@ import {
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
-import { ErrCategoryCode } from 'shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { ErrCategoryCode } from '../../../../../shared/constants/errors';
+import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { UserRepository } from './../repositories/user.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import {

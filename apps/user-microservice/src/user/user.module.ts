@@ -1,3 +1,5 @@
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { UserController } from './controllers/user.controller';
@@ -29,8 +31,8 @@ import { JwtModule } from '@nestjs/jwt';
       },
     }),
   ],
-  providers: [UserService, AuthService],
+  providers: [UserService, AuthService, LocalStrategy, JwtStrategy],
   controllers: [UserController, AuthController],
-  exports: [UserService],
+  exports: [UserService, AuthService],
 })
 export class UserModule {}
