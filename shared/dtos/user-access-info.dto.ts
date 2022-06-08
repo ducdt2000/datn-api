@@ -1,4 +1,4 @@
 export class UserAccessInfo {
-  firstName: string;
-  lastName: string;
+  fullname: string;
+  role: string;
 }

@@ -9,4 +9,8 @@ export default (): any => ({
     pass: process.env.DB_PASS,
     charset: process.env.DB_CHARSET,
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    expirationTime: process.env.JWT_EXPIRATION_TIME,
+  },
 });

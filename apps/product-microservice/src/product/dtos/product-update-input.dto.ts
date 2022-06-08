@@ -2,8 +2,8 @@ import {
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
-import { ErrCategoryCode } from 'shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { ErrCategoryCode } from '../../../../../shared/constants/errors';
+import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsInt, IsNumber, IsOptional, IsUrl } from 'class-validator';
 

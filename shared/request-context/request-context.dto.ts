@@ -1,3 +1,4 @@
+import { UserOutput } from './../../apps/user-microservice/src/user/dtos/user-output.dto';
 import { UserAccessInfo } from './../dtos/user-access-info.dto';
 
 export class RequestContext {
@@ -7,5 +8,5 @@ export class RequestContext {
 
   public ip: string;
 
-  public user: UserAccessInfo;
+  public user: UserAccessInfo | UserOutput | any;
 }

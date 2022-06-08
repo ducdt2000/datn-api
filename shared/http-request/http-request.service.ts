@@ -193,8 +193,7 @@ export class HttpRequestService {
         ...ctx.user,
       };
       // Remove unicode possible before add user info to header
-      delete userInfo.firstName;
-      delete userInfo.lastName;
+      delete userInfo.fullname;
       config.headers.user = JSON.stringify(userInfo);
     }
     if (!config) {

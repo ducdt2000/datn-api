@@ -1,5 +1,5 @@
 import { PropertyInput } from './property-input.dto';
-import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
+import { TransformTrimSpace } from '../../../../../shared/decorators/transform-trim-space.decorator';
 import {
   ErrCategoryCode,
   ErrDetailCode,

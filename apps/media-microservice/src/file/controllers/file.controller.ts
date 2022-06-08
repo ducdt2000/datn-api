@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { ReqContext } from 'shared/request-context/req-context.decorator';
+import { ReqContext } from '../../../../../shared/request-context/req-context.decorator';
 import { Express } from 'express';
 
 @Controller('files')

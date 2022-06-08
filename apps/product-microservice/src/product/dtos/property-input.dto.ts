@@ -6,7 +6,7 @@ import {
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNotEmpty } from 'class-validator';
-import { TransformTrimSpace } from 'shared/decorators/transform-trim-space.decorator';
+import { TransformTrimSpace } from '../../../../../shared/decorators/transform-trim-space.decorator';
 
 const errName = {
   context: {

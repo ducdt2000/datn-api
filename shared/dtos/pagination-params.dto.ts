@@ -2,8 +2,8 @@ import { ErrDetailCode, ErrMicroserviceCode } from './../constants/errors';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsNumber, IsOptional, Min } from 'class-validator';
-import { ErrCategoryCode } from 'shared/constants/errors';
-import { DetailErrorCode } from 'shared/errors/detail-error-code';
+import { ErrCategoryCode } from '../constants/errors';
+import { DetailErrorCode } from '../errors/detail-error-code';
 
 export class PaginationParams {
   @ApiPropertyOptional({
