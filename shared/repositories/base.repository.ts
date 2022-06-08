@@ -1,6 +1,7 @@
 import { BaseEntity } from './../entities/base.entity';
 import { NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { AnyRecord } from 'dns';
 
 export class BaseRepository<T extends BaseEntity> extends Repository<T> {
   private entityName: string;
@@ -12,7 +13,7 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
     this.entityKeys = Object.keys(entityClass);
   }
 
-  async getById(id: string, withDeleted?: boolean): Promise<T> {
+  async getById(id: string | number, withDeleted?: boolean): Promise<T> {
     const entity = await this.findOne(id, { withDeleted });
     if (!entity) {
       throw new NotFoundException(`${this.entityName} not found`);
@@ -21,16 +22,16 @@ export class BaseRepository<T extends BaseEntity> extends Repository<T> {
   }
 
   async getByIds(
-    ids: string[],
+    ids: AnyRecord[],
     isCheckLoss: boolean = true,
     withDeleted?: boolean,
   ): Promise<T[]> {
     const entities = await this.findByIds(ids, { withDeleted });
 
     if (isCheckLoss) {
-      const dbIds: string[] = entities.map((entity) => entity.id);
+      const dbIds: any[] = entities.map((entity) => entity.id);
 
-      const lossEntityIds = ids.filter((id: string) => !dbIds.includes(id));
+      const lossEntityIds = ids.filter((id: any) => !dbIds.includes(id));
       throw new NotFoundException(
         `${this.entityName} ${lossEntityIds.join(', ')} not found`,
       );

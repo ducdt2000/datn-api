@@ -86,6 +86,27 @@ services:
     depends_on:
       - mysqldb
 
+  order-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/order-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:debug order-microservice
+    ports:
+      - 3004:3000
+      - 9204:9229
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+      MICROSERVICE: order-microservice
+    env_file:
+      - ./apps/order-microservice/.env
+    depends_on:
+      - mysqldb
+
 
   # elasticsearch:
   #   image: elasticsearch:7.9.3
