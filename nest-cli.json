@@ -37,6 +37,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/cart-microservice/tsconfig.app.json"
       }
+    },
+    "order-microservice": {
+      "type": "application",
+      "root": "apps/order-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/order-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/order-microservice/tsconfig.app.json"
+      }
     }
   }
 }
