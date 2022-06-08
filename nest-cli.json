@@ -28,6 +28,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/user-microservice/tsconfig.app.json"
       }
+    },
+    "cart-microservice": {
+      "type": "application",
+      "root": "apps/cart-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/cart-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/cart-microservice/tsconfig.app.json"
+      }
     }
   }
 }

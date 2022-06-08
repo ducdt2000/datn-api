@@ -131,7 +131,7 @@ export class Product implements BaseEntity {
   @OneToMany(() => Comment, (c) => c.product)
   comments: Comment[];
 
-  @ManyToMany(() => Property, (p) => p, { cascade: true })
+  @ManyToMany(() => Property, (p) => p.products, { cascade: true })
   @JoinTable({
     name: 'product_properties',
     joinColumn: {
