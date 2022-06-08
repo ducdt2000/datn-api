@@ -43,6 +43,7 @@ services:
     depends_on:
       - mysqldb
 
+
   user-microservice:
     build:
       context: .
@@ -63,6 +64,28 @@ services:
       - ./apps/user-microservice/.env
     depends_on:
       - mysqldb
+
+  cart-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/cart-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:debug cart-microservice
+    ports:
+      - 3003:3000
+      - 9203:9229
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+      MICROSERVICE: cart-microservice
+    env_file:
+      - ./apps/cart-microservice/.env
+    depends_on:
+      - mysqldb
+
 
   # elasticsearch:
   #   image: elasticsearch:7.9.3
@@ -120,6 +143,8 @@ services:
       - 3306:3306
     volumes:
       - mysqldata:/var/lib/mysql
+      - ./docker/mysql/data:/docker-entrypoint-initdb.d
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: user_microservice_db
