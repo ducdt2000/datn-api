@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateOrderDb1654714141388 implements MigrationInterface {
-  name = 'CreateOrderDb1654714141388';
+export class CreateOrderDb1654763954211 implements MigrationInterface {
+  name = 'CreateOrderDb1654763954211';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -18,6 +18,9 @@ export class CreateOrderDb1654714141388 implements MigrationInterface {
     );
     await queryRunner.query(
       'CREATE TABLE `orders` (`id` char(36) NOT NULL, `user_id` char(36) NOT NULL, `warehouse_id` char(36) NOT NULL, `payment_method_id` int NOT NULL, `delivery_method_id` int NOT NULL, `delivery_time` datetime NOT NULL, `bill` decimal NOT NULL, `status` int NOT NULL, `address` varchar(100) CHARACTER SET "utf8" COLLATE "utf8_general_ci" NOT NULL, `city` varchar(20) CHARACTER SET "utf8" COLLATE "utf8_general_ci" NOT NULL, `district` varchar(20) CHARACTER SET "utf8" COLLATE "utf8_general_ci" NOT NULL, `message` text NULL, `phone` varchar(20) NOT NULL, `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `deleted_at` datetime(6) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB',
+    );
+    await queryRunner.query(
+      'CREATE TABLE `delivery_methods` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `organization` varchar(50) NOT NULL, `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), `deleted_at` datetime(6) NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB',
     );
     await queryRunner.query(
       'ALTER TABLE `order_logs` ADD CONSTRAINT `FK_03afb74d68d64c9d3271bcd7012` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
@@ -52,6 +55,7 @@ export class CreateOrderDb1654714141388 implements MigrationInterface {
     await queryRunner.query(
       'ALTER TABLE `order_logs` DROP FOREIGN KEY `FK_03afb74d68d64c9d3271bcd7012`',
     );
+    await queryRunner.query('DROP TABLE `delivery_methods`');
     await queryRunner.query('DROP TABLE `orders`');
     await queryRunner.query('DROP TABLE `items`');
     await queryRunner.query('DROP TABLE `properties`');

@@ -133,7 +133,7 @@ export class Order implements BaseEntity {
   })
   paymentMethod: PaymentMethod;
 
-  @ManyToOne(() => PaymentMethod, (method) => method.orders)
+  @ManyToOne(() => DeliveryMethod, (method) => method.orders)
   @JoinColumn({
     name: 'delivery_method_id',
   })

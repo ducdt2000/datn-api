@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('payment_methods')
+@Entity('delivery_methods')
 export class DeliveryMethod implements BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;

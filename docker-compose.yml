@@ -107,6 +107,27 @@ services:
     depends_on:
       - mysqldb
 
+  warehouse-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/warehouse-microservice/Dockerfile
+      args:
+        - APP_ENV
+    command: npm run start:debug warehouse-microservice
+    ports:
+      - 3005:3000
+      - 9205:9229
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/
+    environment:
+      DB_HOST: mysqldb
+      MICROSERVICE: warehouse-microservice
+    env_file:
+      - ./apps/warehouse-microservice/.env
+    depends_on:
+      - mysqldb
+
 
   # elasticsearch:
   #   image: elasticsearch:7.9.3

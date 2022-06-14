@@ -46,6 +46,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/order-microservice/tsconfig.app.json"
       }
+    },
+    "warehouse-microservice": {
+      "type": "application",
+      "root": "apps/warehouse-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/warehouse-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/warehouse-microservice/tsconfig.app.json"
+      }
     }
   }
 }
