@@ -26,6 +26,8 @@ export class User implements BaseEntity {
     name: 'username',
     type: 'varchar',
     length: 20,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   username: string;
 
@@ -40,6 +42,8 @@ export class User implements BaseEntity {
     name: 'phone',
     type: 'varchar',
     length: 20,
+    charset: 'utf8',
+    collation: 'utf8_general_ci',
   })
   phone: string;
 

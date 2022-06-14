@@ -1,3 +1,4 @@
+import { UserQuery } from './../dtos/user-query.dto';
 import { User } from './../entities/user.entity';
 import { ROLE } from './../../../../../shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
@@ -125,5 +126,26 @@ export class UserService {
     return plainToInstance(UserOutput, savedUser, {
       excludeExtraneousValues: true,
     });
+  }
+
+  async getUser(ctx: RequestContext, id: string): Promise<UserOutput> {
+    this.logger.log(ctx, `${this.getUser.name} was called`);
+
+    const user = await this.userRepository.getById(id);
+    return plainToInstance(UserOutput, user, { excludeExtraneousValues: true });
+  }
+
+  async getUsers(
+    ctx: RequestContext,
+    query: UserQuery,
+  ): Promise<[UserOutput[], number]> {
+    this.logger.log(ctx, `${this.getUsers.name} was called`);
+
+    const [users, count] = await this.userRepository.getByConditions(query);
+
+    return [
+      plainToInstance(UserOutput, users, { excludeExtraneousValues: true }),
+      count,
+    ];
   }
 }

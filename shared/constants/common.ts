@@ -31,6 +31,17 @@ export enum BRAND_ORDER_BY {
   TYPE = 'type',
 }
 
+export enum USER_ORDER_BY {
+  FULLNAME = 'fullname',
+  USERNAME = 'username',
+  EMAIL = 'email',
+  PHONE = 'phone',
+  AGE = 'age',
+  CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
+  DELETED_AT = 'deletedAt',
+}
+
 export enum GENDER {
   MALE = 1,
   FEMALE = 2,

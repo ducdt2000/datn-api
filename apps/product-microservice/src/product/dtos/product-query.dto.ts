@@ -2,7 +2,6 @@ import { IsDateBeforeOrEqual } from './../../../../../shared/decorators/is-date-
 import {
   PRODUCT_ORDER_BY,
   ORDER_TYPE,
-  BRAND_TYPE,
 } from './../../../../../shared/constants/common';
 import {
   ErrMicroserviceCode,

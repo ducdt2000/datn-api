@@ -104,6 +104,7 @@ export class ProductRepository extends BaseRepository<Product> {
       }
       default: {
         qb.orderBy('product.starPoint', orderType);
+        break;
       }
     }
 
