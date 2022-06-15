@@ -1,3 +1,10 @@
+import {
+  ErrCategoryCode,
+  ErrMicroserviceCode,
+  ErrDetailCode,
+} from './../../../../../shared/constants/errors';
+import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
+import { ArchiveAccount } from './../dtos/archive-account.dto';
 import { ROLE } from './../../../../../shared/constants/common';
 import { RoleGuard } from './../../../../../shared/guards/role.guard';
 import { plainToInstance } from 'class-transformer';
@@ -5,12 +12,22 @@ import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { UserService } from './../services/user.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ReqContext } from '../../../../../shared/request-context/req-context.decorator';
 import { BaseApiResponse } from '../../../../../shared/dtos/base-api-response.dto';
 import { UserOutput } from '../dtos/user-output.dto';
 import { UserQuery } from '../dtos/user-query.dto';
+import { ChangeUserInfo } from '../dtos/change-user-info.dto';
 
 @Controller('users')
 @ApiTags('users')
@@ -56,5 +73,64 @@ export class UserController {
 
     const [data, count] = await this.userService.getUsers(ctx, query);
     return { data, meta: { count } };
+  }
+
+  @Post('lock-account')
+  @UseGuards(JwtAuthGuard, RoleGuard(ROLE.ADMIN, ROLE.STAFF, ROLE.USER))
+  async lockAccount(
+    @ReqContext() ctx: RequestContext,
+    @Body() input: ArchiveAccount,
+  ): Promise<BaseApiResponse<UserOutput>> {
+    this.logger.log(ctx, `${this.lockAccount.name} was called`);
+
+    if (input.userId !== ctx.user.id && ctx.user.role !== ROLE.ADMIN) {
+      throw new ForbiddenException(
+        new DetailErrorCode(
+          ErrCategoryCode.FORBIDDEN,
+          ErrMicroserviceCode.USER,
+          ErrDetailCode.ID,
+          "You don't have permissions",
+        ),
+      );
+    }
+
+    const data = await this.userService.archiveUser(ctx, input.userId, false);
+    return { data };
+  }
+
+  @Post('unlock-account')
+  @UseGuards(JwtAuthGuard, RoleGuard(ROLE.ADMIN, ROLE.STAFF, ROLE.USER))
+  async unLockAccount(
+    @ReqContext() ctx: RequestContext,
+    @Body() input: ArchiveAccount,
+  ): Promise<BaseApiResponse<UserOutput>> {
+    this.logger.log(ctx, `${this.unLockAccount.name} was called`);
+
+    if (input.userId !== ctx.user.id && ctx.user.role !== ROLE.ADMIN) {
+      throw new ForbiddenException(
+        new DetailErrorCode(
+          ErrCategoryCode.FORBIDDEN,
+          ErrMicroserviceCode.USER,
+          ErrDetailCode.ID,
+          "You don't have permissions",
+        ),
+      );
+    }
+
+    const data = await this.userService.archiveUser(ctx, input.userId, true);
+    return { data };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('update-info')
+  async changeInfo(
+    @ReqContext() ctx: RequestContext,
+    @Body() input: ChangeUserInfo,
+  ): Promise<BaseApiResponse<UserOutput>> {
+    this.logger.log(ctx, `${this.changeInfo.name} was called`);
+
+    const data = await this.userService.updateUser(ctx, input);
+
+    return { data };
   }
 }

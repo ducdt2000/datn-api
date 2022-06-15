@@ -1,6 +1,8 @@
+import { ConfigService } from '@nestjs/config';
+import { ChangeUserInfo } from './../dtos/change-user-info.dto';
 import { UserQuery } from './../dtos/user-query.dto';
 import { User } from './../entities/user.entity';
-import { ROLE } from './../../../../../shared/constants/common';
+import { ROLE, USER_ACTIVE } from './../../../../../shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { plainToInstance } from 'class-transformer';
 import {
@@ -18,12 +20,15 @@ import {
 } from '@nestjs/common';
 import { UserOutput } from '../dtos/user-output.dto';
 import { UserInput } from '../dtos/user-input.dto';
+import { HttpRequestService } from 'shared/http-request/http-request.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly logger: AppLogger,
     private readonly userRepository: UserRepository,
+    private readonly httpService: HttpRequestService,
+    private readonly configService: ConfigService,
   ) {
     this.logger.setContext(UserService.name);
   }
@@ -123,6 +128,15 @@ export class UserService {
 
     const savedUser = await this.userRepository.save(newUser);
 
+    //create cart
+    let responseCart;
+    if (savedUser.role === ROLE.USER) {
+      const cartUrl = this.configService.get<string>('microservice.cart');
+      const apiUrl = `${cartUrl}/v1/api/carts`;
+
+      responseCart = await this.httpService.post(ctx, apiUrl);
+    }
+
     return plainToInstance(UserOutput, savedUser, {
       excludeExtraneousValues: true,
     });
@@ -147,5 +161,37 @@ export class UserService {
       plainToInstance(UserOutput, users, { excludeExtraneousValues: true }),
       count,
     ];
+  }
+
+  async archiveUser(
+    ctx: RequestContext,
+    id: string,
+    active: boolean,
+  ): Promise<UserOutput> {
+    this.logger.log(ctx, `${this.archiveUser.name} was called`);
+
+    const user = await this.userRepository.getById(id);
+    user.isActive = active ? USER_ACTIVE.ACTIVE : USER_ACTIVE.INACTIVE;
+
+    const savedUser = await this.userRepository.save(user);
+
+    return plainToInstance(UserOutput, savedUser, {
+      excludeExtraneousValues: true,
+    });
+  }
+
+  async updateUser(
+    ctx: RequestContext,
+    input: ChangeUserInfo,
+  ): Promise<UserOutput> {
+    this.logger.log(ctx, `${this.updateUser.name} was called`);
+
+    const user = await this.userRepository.getById(ctx.user.id);
+    this.userRepository.merge(user, input);
+
+    const savedUser = await this.userRepository.save(user);
+    return plainToInstance(UserOutput, savedUser, {
+      excludeExtraneousValues: true,
+    });
   }
 }

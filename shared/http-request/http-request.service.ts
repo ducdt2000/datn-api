@@ -151,7 +151,7 @@ export class HttpRequestService {
   private handleError<T>(
     ctx: RequestContext,
     e: any,
-  ): BaseMicroserviceResponse<T> {
+  ): BaseMicroserviceResponse<any> {
     if (e.response) {
       return plainToClass(BaseMicroserviceResponse, e.response.data, {
         excludeExtraneousValues: true,
@@ -167,7 +167,7 @@ export class HttpRequestService {
   private handleClientError<T>(
     ctx: RequestContext,
     e: any,
-  ): BaseApiClientResponse<T> {
+  ): BaseApiClientResponse<any> {
     if (e.response) {
       return plainToClass(BaseApiClientResponse, e.response.data, {
         excludeExtraneousValues: true,

@@ -13,4 +13,7 @@ export default (): any => ({
     secret: process.env.JWT_SECRET,
     expirationTime: process.env.JWT_EXPIRATION_TIME,
   },
+  microservice: {
+    cart: process.env.CART_MICROSERVICE_URL,
+  },
 });
