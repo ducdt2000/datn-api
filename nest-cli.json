@@ -55,6 +55,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/warehouse-microservice/tsconfig.app.json"
       }
+    },
+    "bff-microservice": {
+      "type": "application",
+      "root": "apps/bff-microservice",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff-microservice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff-microservice/tsconfig.app.json"
+      }
     }
   }
 }

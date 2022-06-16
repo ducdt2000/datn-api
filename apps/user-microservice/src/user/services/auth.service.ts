@@ -24,7 +24,6 @@ import {
 import { RegisterInput } from '../dtos/register-input.dto';
 import * as bcrypt from 'bcrypt';
 import { UserOutput } from '../dtos/user-output.dto';
-import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +31,6 @@ export class AuthService {
     private readonly logger: AppLogger,
     private readonly userService: UserService,
     private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {
     this.logger.setContext(AuthService.name);
@@ -112,11 +110,11 @@ export class AuthService {
     return plainToInstance(UserOutput, user, { excludeExtraneousValues: true });
   }
 
-  async getToken(ctx: RequestContext): Promise<[string, number]> {
-    this.logger.log(ctx, `${this.getToken.name} was called`);
+  // async getToken(ctx: RequestContext): Promise<[string, number]> {
+  //   this.logger.log(ctx, `${this.getToken.name} was called`);
 
-    const payload = { ...ctx.user };
-    const token = this.jwtService.sign(payload);
-    return [token, +this.configService.get<string>('jwt.expirationTime')];
-  }
+  //   const payload = { ...ctx.user };
+  //   const token = this.jwtService.sign(payload);
+  //   return [token, +this.configService.get<string>('jwt.expirationTime')];
+  // }
 }

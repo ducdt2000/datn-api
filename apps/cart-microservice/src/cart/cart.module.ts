@@ -7,11 +7,13 @@ import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './../../../../shared/shared.module';
 import { Module } from '@nestjs/common';
 import { PropertyRepository } from './repositories/property.repository';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     SharedModule,
     ConfigModule,
+    PassportModule,
     TypeOrmModule.forFeature([
       CartRepository,
       ItemRepository,

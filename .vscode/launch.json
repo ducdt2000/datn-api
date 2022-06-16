@@ -1,12 +1,22 @@
 {
   "version": "0.2.0",
   "configurations": [
-        {
+    {
       "name": "Debug cart",
       "type": "node",
       "request": "attach",
       "restart": true,
       "port": 9203,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "protocol": "inspector",
+      "sourceMaps": true,
+    },   {
+      "name": "Debug bff",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "port": 8005,
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "/usr/src/app",
       "protocol": "inspector",

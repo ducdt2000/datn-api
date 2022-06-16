@@ -129,13 +129,13 @@ export class UserService {
     const savedUser = await this.userRepository.save(newUser);
 
     //create cart
-    let responseCart;
-    if (savedUser.role === ROLE.USER) {
-      const cartUrl = this.configService.get<string>('microservice.cart');
-      const apiUrl = `${cartUrl}/v1/api/carts`;
+    // let responseCart;
+    // if (savedUser.role === ROLE.USER) {
+    //   const cartUrl = this.configService.get<string>('microservice.cart');
+    //   const apiUrl = `${cartUrl}/v1/api/carts`;
 
-      responseCart = await this.httpService.post(ctx, apiUrl);
-    }
+    //   responseCart = await this.httpService.post(ctx, apiUrl);
+    // }
 
     return plainToInstance(UserOutput, savedUser, {
       excludeExtraneousValues: true,
