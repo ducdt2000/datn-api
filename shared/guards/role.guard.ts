@@ -1,20 +1,34 @@
-import { JwtAuthGuard } from './jwt-auth.guard';
-import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { RequestContext } from '../request-context/request-context.dto';
-import { ROLE } from './../constants/common';
-export const RoleGuard = (...roles: ROLE[]): Type<CanActivate> => {
-  class RoleGuardMixin extends JwtAuthGuard {
-    canActivate(
-      context: ExecutionContext,
-    ): boolean | Promise<boolean> | Observable<boolean> {
-      super.canActivate(context);
-      const request = context.switchToHttp().getRequest<RequestContext>();
+import { ROLE } from 'shared/constants/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from 'shared/decorators/role.decorator';
+import { getUserAuthLevel } from 'shared/util/role.utils';
+@Injectable()
+export class RoleGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
 
-      const user = request.user;
-      return roles.includes(user?.role);
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRoleLevels = this.reflector.getAllAndOverride<ROLE[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+    if (!requiredRoleLevels) {
+      return true;
     }
-  }
+    const { user } = context.switchToHttp().getRequest();
 
-  return mixin(RoleGuardMixin);
-};
+    const authLevel = getUserAuthLevel(user);
+    if (requiredRoleLevels.includes(authLevel)) {
+      return true;
+    }
+
+    throw new ForbiddenException(
+      `User with role ${user.role} does not have access to this route`,
+    );
+  }
+}

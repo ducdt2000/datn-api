@@ -21,12 +21,13 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(req: any, payload: any): Promise<UserTokenOutput> {
-    const detail = await this.userService.getUserAccessInfo(
-      createRequestContext(req),
-      payload.id,
-    );
-    payload.user = detail;
+  async validate(payload: any): Promise<UserTokenOutput> {
     return payload;
+    // const detail = await this.userService.getUserAccessInfo(
+    //   createRequestContext(req),
+    //   req.id,
+    // );
+    // payload.user = detail;
+    // return payload;
   }
 }

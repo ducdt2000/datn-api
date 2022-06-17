@@ -1,14 +1,11 @@
-import { RoleGuard } from './../../../../../shared/guards/role.guard';
-import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { CartService } from './../services/cart.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ReqContext } from 'shared/request-context/req-context.decorator';
 import { BaseApiResponse } from 'shared/dtos/base-api-response.dto';
 import { CartOutput } from '../dtos/cart-output.dto';
-import { ROLE } from 'shared/constants/common';
 
 @ApiTags('carts')
 @Controller('carts')
@@ -20,7 +17,6 @@ export class CartController {
     this.logger.setContext(CartController.name);
   }
 
-  @UseGuards(JwtAuthGuard, RoleGuard(ROLE.USER))
   @Post()
   async createCart(
     @ReqContext() ctx: RequestContext,

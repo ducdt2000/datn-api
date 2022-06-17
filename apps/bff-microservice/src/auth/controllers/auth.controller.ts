@@ -1,3 +1,4 @@
+import { USER_ACTIVE } from './../../../../../shared/constants/common';
 import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { LoginInput } from './../../user/dtos/login-input.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
@@ -32,6 +33,9 @@ export class AuthController {
 
     ctx.user = data;
 
+    if (data.isActive !== USER_ACTIVE.ACTIVE) {
+      return { data };
+    }
     const [token, exp] = await this.authService.getUserWithToken(ctx);
 
     const dataReturn = plainToInstance(
