@@ -18,5 +18,6 @@ export const configModuleOptions: ConfigModuleOptions = {
     DB_CHARSET: Joi.string().required(),
     JWT_SECRET: Joi.string().required(),
     JWT_EXPIRATION_TIME: Joi.string().required(),
+    CART_MICROSERVICE_URL: Joi.string().required(),
   }),
 };

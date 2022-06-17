@@ -46,6 +46,9 @@ export enum ErrDetailCode {
   EMAIL = '29',
   PHONE = '30',
   PASSWORD = '31',
+  GENDER = '32',
+  ROLE = '33',
+  IS_ACTIVE = '34',
   FROM = '90',
   TO = '91',
 }
