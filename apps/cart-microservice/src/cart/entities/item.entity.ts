@@ -1,5 +1,5 @@
 import { Cart } from './cart.entity';
-import { BaseEntity } from 'shared/entities/base.entity';
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import {
   CreateDateColumn,
   UpdateDateColumn,

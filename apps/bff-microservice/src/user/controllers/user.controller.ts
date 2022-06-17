@@ -7,8 +7,8 @@ import { DetailErrorCode } from './../../../../../shared/errors/detail-error-cod
 import { Roles } from './../../../../../shared/decorators/role.decorator';
 import { RoleGuard } from './../../../../../shared/guards/role.guard';
 import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
-import { BaseApiResponse } from 'shared/dtos/base-api-response.dto';
-import { ReqContext } from 'shared/request-context/req-context.decorator';
+import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
+import { ReqContext } from './../../../../../shared/request-context/req-context.decorator';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import {
@@ -25,7 +25,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { UserService } from '../services/user.service';
 import { UserOutput } from '../dtos/user-output.dto';
 import { plainToInstance } from 'class-transformer';
-import { ROLE } from 'shared/constants/common';
+import { ROLE } from './../../../../../shared/constants/common';
 import { UserQuery } from '../dtos/user-query.dto';
 import { ArchiveAccount } from '../dtos/archive-account.dto';
 @ApiTags('users')

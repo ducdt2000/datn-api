@@ -1,5 +1,5 @@
 import { Order } from './../../order/entities/order.entity';
-import { BaseEntity } from 'shared/entities/base.entity';
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import {
   Column,
   CreateDateColumn,

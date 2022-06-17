@@ -7,7 +7,6 @@ import { DetailErrorCode } from './../../../../../shared/errors/detail-error-cod
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { BRAND_TYPE } from './../../../../../shared/constants/common';
-import { Expose } from 'class-transformer';
 export class BrandInput {
   @ApiProperty()
   @IsNotEmpty({
@@ -19,7 +18,6 @@ export class BrandInput {
       ),
     },
   })
-  @Expose()
   name: string;
 
   @ApiProperty({
@@ -44,7 +42,6 @@ export class BrandInput {
       ),
     },
   })
-  @Expose()
   type: BRAND_TYPE;
 
   @ApiPropertyOptional()
@@ -57,7 +54,6 @@ export class BrandInput {
       ),
     },
   })
-  @Expose()
   @IsOptional()
   slug?: string;
 }

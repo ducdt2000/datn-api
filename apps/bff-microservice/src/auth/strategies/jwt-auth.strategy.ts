@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { createRequestContext } from 'shared/request-context/util';
 import { AuthService } from './../auth.service';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';

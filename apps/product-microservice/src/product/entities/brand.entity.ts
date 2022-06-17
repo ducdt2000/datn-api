@@ -35,7 +35,6 @@ export class Brand implements BaseEntity {
     name: 'slug',
     type: 'varchar',
     length: 50,
-    unique: true,
   })
   slug: string;
 

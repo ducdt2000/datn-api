@@ -1,7 +1,7 @@
 import { DeliveryMethod } from './../../order-method/entities/delivery-method.entity';
 import { PaymentMethod } from './../../order-method/entities/payment-method.entity';
 import { OrderLog } from './order-log.entity';
-import { BaseEntity } from 'shared/entities/base.entity';
+import { BaseEntity } from './../../../../../shared/entities/base.entity';
 import {
   CreateDateColumn,
   UpdateDateColumn,
