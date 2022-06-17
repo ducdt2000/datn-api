@@ -20,7 +20,7 @@ import {
 } from '@nestjs/common';
 import { UserOutput } from '../dtos/user-output.dto';
 import { UserInput } from '../dtos/user-input.dto';
-import { HttpRequestService } from 'shared/http-request/http-request.service';
+import { HttpRequestService } from './../../../../../shared/http-request/http-request.service';
 
 @Injectable()
 export class UserService {

@@ -1,4 +1,7 @@
-import { ORDER_TYPE, USER_ORDER_BY } from 'shared/constants/common';
+import {
+  ORDER_TYPE,
+  USER_ORDER_BY,
+} from './../../../../../shared/constants/common';
 import { Brackets, EntityRepository } from 'typeorm';
 import { BaseRepository } from '../../../../../shared/repositories/base.repository';
 import { UserQuery } from '../dtos/user-query.dto';

@@ -1,4 +1,4 @@
-import { ROLE } from 'shared/constants/common';
+import { ROLE } from '../constants/common';
 import { CustomDecorator, SetMetadata } from '@nestjs/common';
 
 export const ROLES_KEY = 'roles';

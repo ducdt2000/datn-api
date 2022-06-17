@@ -1,4 +1,4 @@
-import { ROLE } from 'shared/constants/common';
+import { ROLE } from './../../../../shared/constants/common';
 import { JwtService } from '@nestjs/jwt';
 import { plainToInstance } from 'class-transformer';
 import { RequestContext } from './../../../../shared/request-context/request-context.dto';

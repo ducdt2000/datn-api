@@ -12,9 +12,15 @@ import { BrandInput } from './../dtos/brand-input.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { BrandRepository } from './../repositories/brand.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { slugify } from './../../../../../shared/util/string.utils';
 import { Not } from 'typeorm';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class BrandService {
@@ -28,12 +34,11 @@ export class BrandService {
   async createBrand(ctx: RequestContext, input: BrandInput) {
     this.logger.log(ctx, `${this.createBrand.name} was called`);
 
-    let slug: string;
     if (!input.slug) {
-      slug = slugify(input.name);
+      input.slug = slugify(input.name);
     }
 
-    const dbBrand = await this.brandRepository.findOne({ slug });
+    const dbBrand = await this.brandRepository.findOne({ slug: input.slug });
     if (dbBrand) {
       throw new BadRequestException(
         new DetailErrorCode(
@@ -67,16 +72,21 @@ export class BrandService {
 
   async updateBrand(
     ctx: RequestContext,
-    input: BrandInput,
+    rawInput: any,
     id: string,
   ): Promise<BrandOutput> {
     this.logger.log(ctx, `${this.updateBrand.name} was called`);
 
-    if (!input.slug) {
-      input.slug = slugify(input.name);
-    }
-
     const dbBrand = await this.brandRepository.getById(id);
+
+    const input = plainToInstance(BrandInput, rawInput, {
+      excludeExtraneousValues: true,
+    });
+
+    const error = await validate(input, { skipUndefinedProperties: true });
+    if (error.length) {
+      throw new BadRequestException(error);
+    }
 
     const [, count] = await this.brandRepository.findAndCount({
       slug: input.slug,
@@ -93,7 +103,7 @@ export class BrandService {
       );
     }
 
-    const brand = plainToInstance(Brand, { ...input, id });
+    const brand = this.brandRepository.merge(dbBrand, input);
     return this.brandRepository.save(brand);
   }
 

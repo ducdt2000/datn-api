@@ -1,11 +1,11 @@
-import { BrandQuery } from '../dtos/brand-query.dto';
-import { BrandOutput } from '../dtos/brand-output.dto';
-import { BaseApiResponse } from '../../../../../shared/dtos/base-api-response.dto';
-import { BrandInput } from '../dtos/brand-input.dto';
-import { RequestContext } from '../../../../../shared/request-context/request-context.dto';
-import { ReqContext } from '../../../../../shared/request-context/req-context.decorator';
-import { BrandService } from '../services/brand.service';
-import { AppLogger } from '../../../../../shared/logger/logger.service';
+import { RoleGuard } from './../../../../../shared/guards/role.guard';
+import { Roles } from './../../../../../shared/decorators/role.decorator';
+import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
+import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
+import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
+import { ReqContext } from './../../../../../shared/request-context/req-context.decorator';
+import { AppLogger } from './../../../../../shared/logger/logger.service';
+import { ApiTags } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -17,11 +17,15 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-
+import { BrandService } from '../services/brand.service';
+import { BrandInput } from '../dtos/brand-input.dto';
+import { BrandOutput } from '../dtos/brand-output.dto';
+import { BrandQuery } from '../dtos/brand-query.dto';
+import { ROLE } from './../../../../../shared/constants/common';
 @Controller('brands')
-@ApiTags('brands')
+@ApiTags('products')
 export class BrandController {
   constructor(
     private readonly logger: AppLogger,
@@ -31,6 +35,8 @@ export class BrandController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.STAFF, ROLE.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   async createBrand(
     @ReqContext() ctx: RequestContext,
@@ -42,7 +48,6 @@ export class BrandController {
 
     return {
       data,
-      meta: {},
     };
   }
 
@@ -62,6 +67,8 @@ export class BrandController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.STAFF, ROLE.ADMIN)
   @HttpCode(HttpStatus.OK)
   async updateBrand(
     @ReqContext() ctx: RequestContext,
@@ -75,6 +82,8 @@ export class BrandController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.ADMIN)
   @HttpCode(HttpStatus.OK)
   async deleteBrand(
     @ReqContext() ctx: RequestContext,
@@ -84,9 +93,6 @@ export class BrandController {
 
     const brand = await this.brandService.deleteBrand(ctx, id);
 
-    return {
-      data: brand,
-      meta: { count: 1 },
-    };
+    return { data: brand };
   }
 }

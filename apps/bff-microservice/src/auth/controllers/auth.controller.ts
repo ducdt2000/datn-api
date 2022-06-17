@@ -6,7 +6,7 @@ import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth.service';
-import { ReqContext } from 'shared/request-context/req-context.decorator';
+import { ReqContext } from './../../../../../shared/request-context/req-context.decorator';
 import { RegisterInput } from '../../user/dtos/register-input.dto';
 import { UserOutput } from '../../user/dtos/user-output.dto';
 import { plainToInstance } from 'class-transformer';
