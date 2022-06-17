@@ -1,3 +1,4 @@
+import { ROLE } from 'shared/constants/common';
 import { JwtService } from '@nestjs/jwt';
 import { plainToInstance } from 'class-transformer';
 import { RequestContext } from './../../../../shared/request-context/request-context.dto';
@@ -7,8 +8,10 @@ import { AppLogger } from './../../../../shared/logger/logger.service';
 import { Injectable, HttpException } from '@nestjs/common';
 import { UserOutput } from '../user/dtos/user-output.dto';
 import { RegisterInput } from '../user/dtos/register-input.dto';
+import { CartOutput } from '../user/dtos/cart-output.dto';
 
 const pathAuth = 'v1/api/auth';
+const pathCarts = 'v1/api/carts';
 
 @Injectable()
 export class AuthService {
@@ -37,16 +40,35 @@ export class AuthService {
     this.logger.log(ctx, `${this.register.name} was called`);
 
     const userApi = this.configService.get<string>('microservice.user');
-
     const apiUrl = `${userApi}/${pathAuth}/register`;
+    const resUser = await this.httpService.post<UserOutput>(
+      ctx,
+      apiUrl,
+      registerInput,
+    );
 
-    const res = await this.httpService.post(ctx, apiUrl, registerInput);
-
-    if (res.error) {
-      throw new HttpException(res.error.details, res.error.statusCode);
+    if (resUser.error) {
+      throw new HttpException(resUser.error.details, resUser.error.statusCode);
     }
 
-    return plainToInstance(UserOutput, res.data, {
+    if (resUser.data.role === ROLE.USER) {
+      const cartApi = this.configService.get<string>('microservice.cart');
+      const cartApiUrl = `${cartApi}/${pathCarts}`;
+      const resCart = await this.httpService.post<CartOutput>(ctx, cartApiUrl, {
+        userId: resUser.data.id,
+      });
+
+      if (resCart.error) {
+        throw new HttpException(
+          resCart.error.details,
+          resCart.error.statusCode,
+        );
+      }
+
+      resUser.data.cartId = resCart.data.id;
+    }
+
+    return plainToInstance(UserOutput, resUser.data, {
       excludeExtraneousValues: true,
     });
   }

@@ -31,7 +31,6 @@ export class AuthService {
     private readonly logger: AppLogger,
     private readonly userService: UserService,
     private readonly userRepository: UserRepository,
-    private readonly configService: ConfigService,
   ) {
     this.logger.setContext(AuthService.name);
   }

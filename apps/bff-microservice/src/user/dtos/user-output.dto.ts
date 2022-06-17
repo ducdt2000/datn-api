@@ -6,6 +6,10 @@ export class UserOutput {
   @Expose()
   id: string;
 
+  @ApiPropertyOptional()
+  @Expose()
+  cartId?: string;
+
   @ApiProperty()
   @Expose()
   fullname: string;

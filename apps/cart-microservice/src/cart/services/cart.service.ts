@@ -7,6 +7,7 @@ import { CartRepository } from './../repositories/cart.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { Injectable } from '@nestjs/common';
 import { PropertyRepository } from '../repositories/property.repository';
+import { CartInput } from '../dtos/cart-input.dto';
 
 @Injectable()
 export class CartService {
@@ -19,9 +20,11 @@ export class CartService {
     this.logger.setContext(CartService.name);
   }
 
-  async createCart(ctx: RequestContext): Promise<CartOutput> {
+  async createCart(ctx: RequestContext, input: CartInput): Promise<CartOutput> {
+    this.logger.log(ctx, `${this.createCart.name} was called`);
+
     const cart = new Cart();
-    cart.userId = ctx.user.id;
+    cart.userId = input.userId;
 
     const savedCart = await this.cartRepository.save(cart);
 
