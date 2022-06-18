@@ -17,9 +17,12 @@ import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductOutput } from '../dtos/product-output.dto';
 import { slugify } from '../../../../../shared/util/string.utils';
-import { Not } from 'typeorm';
+import { getConnection, Not } from 'typeorm';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ImageInput } from '../dtos/image-input.dto';
+import { PropertyRepository } from '../repositories/property.repository';
+import { Property } from '../entities/property.entity';
+import { PropertyInput } from '../dtos/property-input.dto';
 
 @Injectable()
 export class ProductService {
@@ -28,6 +31,7 @@ export class ProductService {
     private readonly productRepository: ProductRepository,
     private readonly brandRepository: BrandRepository,
     private readonly productTypeRepository: ProductTypeRepository,
+    private readonly propertyRepository: PropertyRepository,
   ) {
     this.logger.setContext(ProductService.name);
   }
@@ -96,7 +100,7 @@ export class ProductService {
   ): Promise<ProductOutput> {
     this.logger.log(ctx, `${this.updateProduct.name} was called`);
 
-    const dbProduct = await this.productRepository.getById(id);
+    const dbProduct = await this.productRepository.getDetail(id);
 
     if (input.slug) {
       const checkSlug = await this.productRepository.findOne({
@@ -131,8 +135,28 @@ export class ProductService {
       }
     }
 
-    const product = this.productRepository.merge(dbProduct, input);
-    const savedProduct = await this.productRepository.save(product);
+    await getConnection().transaction(async (trans) => {
+      const tranPropertyRepo = trans.getCustomRepository(PropertyRepository);
+      const tranProductRepo = trans.getCustomRepository(ProductRepository);
+
+      if (input.properties) {
+        await tranPropertyRepo.softRemove(dbProduct.properties);
+
+        const newProperties = plainToInstance(
+          Property,
+          input.properties.map((p) => ({ ...p, productId: id })),
+        );
+        await tranPropertyRepo.save(newProperties);
+      }
+
+      const product = tranProductRepo.merge(dbProduct, input);
+      product.properties = undefined;
+
+      await tranProductRepo.save(product);
+    });
+
+    const savedProduct = await this.productRepository.getDetail(id);
+
     return plainToInstance(ProductOutput, savedProduct);
   }
 

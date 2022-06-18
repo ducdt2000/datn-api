@@ -16,14 +16,14 @@ export class PublicFile implements BaseEntity {
   @Column({
     name: 'url',
     type: 'varchar',
-    length: 200,
+    length: 300,
   })
   url: string;
 
   @Column({
     name: 'key',
     type: 'varchar',
-    length: '50',
+    length: 200,
   })
   key: string;
 

@@ -18,7 +18,7 @@ import {
   IsUrl,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 const errStarPoint = {
   context: {
@@ -62,6 +62,7 @@ export class ProductInput {
     },
   })
   @TransformTrimSpace()
+  @Expose()
   name: string;
 
   @ApiProperty()
@@ -75,6 +76,7 @@ export class ProductInput {
     },
   })
   @TransformTrimSpace()
+  @Expose()
   code: string;
 
   @ApiProperty()
@@ -88,23 +90,26 @@ export class ProductInput {
     },
   })
   @TransformTrimSpace()
+  @Expose()
   productTypeId: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber({}, errStarPoint)
-  @TransformTrimSpace()
+  @Expose()
   starPoint: number;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsString(errDescription)
+  @Expose()
   description?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @TransformTrimSpace()
   @IsString(errSlug)
+  @Expose()
   slug?: string;
 
   @ApiProperty()
@@ -118,6 +123,7 @@ export class ProductInput {
     },
   })
   @TransformTrimSpace()
+  @Expose()
   brandId: string;
 
   @ApiProperty()
@@ -130,6 +136,7 @@ export class ProductInput {
       ),
     },
   })
+  @Expose()
   price: number;
 
   @ApiProperty({
@@ -149,6 +156,7 @@ export class ProductInput {
       },
     },
   )
+  @Expose()
   @IsNotEmpty({
     context: {
       detail: new DetailErrorCode(
@@ -164,6 +172,7 @@ export class ProductInput {
     example: 'http://google.com',
   })
   @IsOptional()
+  @Expose()
   @IsUrl(
     {},
     {
@@ -183,6 +192,7 @@ export class ProductInput {
     example: 0,
   })
   @IsOptional()
+  @Expose()
   @IsInt({
     context: {
       detail: new DetailErrorCode(
@@ -202,6 +212,7 @@ export class ProductInput {
   @ValidateNested()
   @Type(() => PropertyInput)
   @IsArray()
+  @Expose()
   @IsObject({ each: true })
   properties: PropertyInput[];
 }

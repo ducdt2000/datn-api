@@ -6,8 +6,6 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -90,7 +88,8 @@ export class Product implements BaseEntity {
   @Column({
     name: 'default_image',
     type: 'varchar',
-    length: 200,
+    length: 300,
+    nullable: true,
   })
   defaultImageLink: string;
 
@@ -131,17 +130,6 @@ export class Product implements BaseEntity {
   @OneToMany(() => Comment, (c) => c.product)
   comments: Comment[];
 
-  @ManyToMany(() => Property, (p) => p.products, { cascade: true })
-  @JoinTable({
-    name: 'product_properties',
-    joinColumn: {
-      name: 'product_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'property_id',
-      referencedColumnName: 'id',
-    },
-  })
+  @OneToMany(() => Property, (p) => p.product, { cascade: true })
   properties: Property[];
 }

@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import {
   ErrCategoryCode,
   ErrMicroserviceCode,
@@ -32,11 +33,13 @@ export class PropertyInput {
   @ApiProperty()
   @IsNotEmpty(errName)
   @TransformTrimSpace()
+  @Expose()
   name: string;
 
   @ApiProperty({
     type: [],
   })
+  @Expose()
   @IsArray(errValues)
   values: any[];
 }

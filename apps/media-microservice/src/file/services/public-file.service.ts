@@ -30,7 +30,7 @@ export class PublicFileService {
     const bucket = this.configService.get<string>('AWS_PUBLIC_BUCKET_NAME');
     const uploadResult = await this.s3
       .upload({
-        Bucket: this.configService.get<string>('AWS_PUBLIC_BUCKET_NAME'),
+        Bucket: bucket,
         Body: file.buffer,
         Key: `${uuidv4()}-${file.originalname}`,
       })
@@ -50,13 +50,14 @@ export class PublicFileService {
   ): Promise<[PublicFileOutput[], number]> {
     this.logger.log(ctx, `${this.uploadBulkFile.name} was called`);
     let uploadResult: S3.ManagedUpload.SendData;
+    const bucket = this.configService.get<string>('awsS3.publicBucketName');
 
     const dbFiles: PublicFile[] = [];
 
     for (const file of files) {
       uploadResult = await this.s3
         .upload({
-          Bucket: this.configService.get<string>('AWS_PUBLIC_BUCKET_NAME'),
+          Bucket: bucket,
           Body: file.buffer,
           Key: `${uuidv4()}-${file.originalname}`,
         })

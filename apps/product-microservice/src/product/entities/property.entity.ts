@@ -4,7 +4,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,6 +15,13 @@ import { Product } from './product.entity';
 export class Property implements BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({
+    name: 'product_id',
+    type: 'char',
+    length: 36,
+  })
+  productId: string;
 
   @Column({
     name: 'name',
@@ -46,6 +54,9 @@ export class Property implements BaseEntity {
   })
   deletedAt?: Date;
 
-  @ManyToMany(() => Product, (p) => p.properties)
-  products: Product[];
+  @ManyToOne(() => Product, (p) => p.properties)
+  @JoinColumn({
+    name: 'product_id'
+  })
+  product: Product;
 }
