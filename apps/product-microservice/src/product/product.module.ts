@@ -11,6 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './../../../../shared/shared.module';
 import { Module } from '@nestjs/common';
+import { PropertyRepository } from './repositories/property.repository';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Module } from '@nestjs/common';
       ProductRepository,
       BrandRepository,
       ProductTypeRepository,
+      PropertyRepository,
     ]),
   ],
   providers: [BrandService, ProductService, ProductTypeService],

@@ -5,7 +5,17 @@ import {
 import { ErrCategoryCode } from '../../../../../shared/constants/errors';
 import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsInt, IsNumber, IsOptional, IsUrl } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
+import { PropertyInput } from './property-input.dto';
+import { Type } from 'class-transformer';
 
 export class ProductUpdateInput {
   @ApiPropertyOptional()
@@ -73,6 +83,17 @@ export class ProductUpdateInput {
     },
   )
   defaultImageLink?: string;
+
+  @ApiPropertyOptional({
+    type: [PropertyInput],
+    example: [{ name: 'color', values: ['red', 'green', 'blue'] }],
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => PropertyInput)
+  @IsArray()
+  @IsObject({ each: true })
+  properties: PropertyInput[];
 
   @ApiPropertyOptional({
     example: 0,

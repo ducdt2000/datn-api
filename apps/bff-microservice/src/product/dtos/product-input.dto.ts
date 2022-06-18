@@ -93,7 +93,6 @@ export class ProductInput {
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber({}, errStarPoint)
-  @TransformTrimSpace()
   starPoint: number;
 
   @ApiPropertyOptional()

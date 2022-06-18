@@ -1,5 +1,6 @@
 export const REQUEST_ID_TOKEN_HEADER = 'x-request-id';
 export const FORWARDED_FOR_TOKEN_HEADER = 'x-forwarded-for';
+export const CONTENT_TYPE = 'Content-Type';
 
 //enum
 export enum COMMENT_TYPE {
@@ -60,8 +61,13 @@ export enum USER_ACTIVE {
   INACTIVE = 2,
 }
 
+export enum REQUEST_CONTENT_TYPE {
+  FORM_DATA = 'multipart/form-data',
+}
+
 export const MIN_DATE = new Date(-8640000000000000);
 export const MAX_DATE = new Date(8640000000000000);
+export const MAX_FILE_UPLOAD = 20;
 export const MINUTES_IN_ONE_HOUR = 60;
 export const ONE_HOUR = 1;
 export const TWO_DIGITS = 10;

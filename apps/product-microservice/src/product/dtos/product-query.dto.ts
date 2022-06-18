@@ -10,24 +10,27 @@ import {
 import { ErrCategoryCode } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { IsOptional, Validate } from 'class-validator';
 import { TransformToDatetime } from './../../../../../shared/decorators/transform-to-date.decorator';
 import { PaginationParams } from './../../../../../shared/dtos/pagination-params.dto';
 export class ProductQuery extends PaginationParams {
   @ApiPropertyOptional()
   @IsOptional()
+  @Expose()
   search?: string;
 
   @ApiPropertyOptional({
     example: 'brand slug',
   })
+  @Expose()
   @IsOptional()
   brand?: string;
 
   @ApiPropertyOptional({
     example: 'local',
   })
+  @Expose()
   @IsOptional()
   brandType?: string;
 
@@ -35,10 +38,12 @@ export class ProductQuery extends PaginationParams {
     description: 'type code',
   })
   @IsOptional()
+  @Expose()
   type?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
+  @Expose()
   @Validate(IsDateBeforeOrEqual, ['dateTo'], {
     context: {
       detail: new DetailErrorCode(
@@ -54,15 +59,18 @@ export class ProductQuery extends PaginationParams {
 
   @ApiPropertyOptional()
   @IsOptional()
+  @Expose()
   @Type(() => Date)
   @TransformToDatetime({ endOf: 'day' })
   dateTo?: Date;
 
   @ApiPropertyOptional()
   @IsOptional()
+  @Expose()
   orderBy: PRODUCT_ORDER_BY;
 
   @ApiPropertyOptional()
   @IsOptional()
+  @Expose()
   orderType: ORDER_TYPE;
 }
