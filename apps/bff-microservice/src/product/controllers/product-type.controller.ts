@@ -1,3 +1,5 @@
+import { RoleGuard } from './../../../../../shared/guards/role.guard';
+import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
 import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ProductTypeInput } from './../dtos/product-type-input.dto';
@@ -15,10 +17,13 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductTypeOutput } from '../dtos/product-type-output.dto';
+import { Roles } from 'shared/decorators/role.decorator';
+import { ROLE } from 'shared/constants/common';
 
-@ApiTags('product-types')
+@ApiTags('products')
 @Controller('product-types')
 export class ProductTypeController {
   constructor(
@@ -29,6 +34,8 @@ export class ProductTypeController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.ADMIN, ROLE.STAFF)
   @HttpCode(HttpStatus.CREATED)
   async createProductType(
     @ReqContext() ctx: RequestContext,
@@ -38,10 +45,7 @@ export class ProductTypeController {
 
     const data = await this.productTypeService.createProductType(ctx, input);
 
-    return {
-      data,
-      meta: {},
-    };
+    return { data };
   }
 
   @Get()
@@ -59,6 +63,8 @@ export class ProductTypeController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.ADMIN, ROLE.STAFF)
   async updateProductType(
     @ReqContext() ctx: RequestContext,
     @Param('id') id: string,
@@ -71,13 +77,12 @@ export class ProductTypeController {
       input,
       id,
     );
-    return {
-      data,
-      meta: { count: 1 },
-    };
+    return { data };
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.ADMIN)
   async deleteProductType(
     @ReqContext() ctx: RequestContext,
     @Param('id') id: string,
@@ -86,6 +91,6 @@ export class ProductTypeController {
 
     const data = await this.productTypeService.deleteProductType(ctx, id);
 
-    return { data, meta: { count: 1 } };
+    return { data };
   }
 }
