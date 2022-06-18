@@ -104,7 +104,11 @@ export class BrandService {
     }
 
     const brand = this.brandRepository.merge(dbBrand, input);
-    return this.brandRepository.save(brand);
+    const savedBrand = await this.brandRepository.save(brand);
+
+    return plainToInstance(BrandOutput, savedBrand, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async deleteBrand(ctx: RequestContext, id: string): Promise<BrandOutput> {

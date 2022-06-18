@@ -6,6 +6,7 @@ import {
 import { DetailErrorCode } from '../../../../../shared/errors/detail-error-code';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class ProductTypeInput {
   @ApiProperty()
@@ -18,6 +19,7 @@ export class ProductTypeInput {
       ),
     },
   })
+  @Expose()
   name: string;
 
   @ApiProperty()
@@ -30,5 +32,6 @@ export class ProductTypeInput {
       ),
     },
   })
+  @Expose()
   code: string;
 }

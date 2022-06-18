@@ -12,6 +12,7 @@ import { RequestContext } from './../../../../../shared/request-context/request-
 import { ProductTypeRepository } from './../repositories/product-type.repository';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { ProductTypeInput } from '../dtos/product-type-input.dto';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class ProductTypeService {
@@ -60,19 +61,35 @@ export class ProductTypeService {
 
   async updateProductType(
     ctx: RequestContext,
-    input: ProductTypeInput,
+    rawInput: any,
     id: string,
   ): Promise<ProductTypeOutput> {
     this.logger.log(ctx, `${this.updateProductType.name} was called`);
 
-    await this.productTypeRepository.getById(id);
-    const type = plainToInstance(ProductType, { ...input, id });
+    const dbType = await this.productTypeRepository.getById(id);
+
+    const input = plainToInstance(ProductTypeInput, rawInput, {
+      excludeExtraneousValues: true,
+    });
+
+    const error = await validate(input, { skipUndefinedProperties: true });
+    if (error.length) {
+      throw new BadRequestException(error);
+    }
+
+    const type = this.productTypeRepository.merge(dbType, input);
+
     const savedType = await this.productTypeRepository.save(type);
 
-    return plainToInstance(ProductTypeOutput, savedType);
+    return plainToInstance(ProductTypeOutput, savedType, {
+      excludeExtraneousValues: true,
+    });
   }
 
-  async deleteProductType(ctx: RequestContext, id: string) {
+  async deleteProductType(
+    ctx: RequestContext,
+    id: string,
+  ): Promise<ProductTypeOutput> {
     this.logger.log(ctx, `${this.deleteProductType.name} was called`);
 
     const dbType = await this.productTypeRepository.getById(id);
