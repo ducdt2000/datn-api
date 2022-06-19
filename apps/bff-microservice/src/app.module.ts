@@ -5,6 +5,7 @@ import { ConfigurationModule } from './config/configuration.module';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
+import { CartModule } from './cart/cart.module';
 @Module({
   imports: [
     ConfigurationModule,
@@ -13,6 +14,7 @@ import { MediaModule } from './media/media.module';
     UserModule,
     ProductModule,
     MediaModule,
+    CartModule,
   ],
   providers: [],
   controllers: [],

@@ -19,6 +19,11 @@ export enum ErrCategoryCode {
 export enum ErrMicroserviceCode {
   PRODUCT = '01',
   USER = '02',
+  CART = '03',
+  MEDIA = '04',
+  WAREHOUSE = '05',
+  ORDER = '06',
+  BFF = '07',
   UNEXPECTED = '99',
 }
 
@@ -49,6 +54,8 @@ export enum ErrDetailCode {
   GENDER = '32',
   ROLE = '33',
   IS_ACTIVE = '34',
+  CART = '35',
+  ITEM = '36',
   FROM = '90',
   TO = '91',
 }

@@ -1,5 +1,5 @@
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
-import { HttpRequestService } from 'shared/http-request/http-request.service';
+import { HttpRequestService } from './../../../../../shared/http-request/http-request.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
