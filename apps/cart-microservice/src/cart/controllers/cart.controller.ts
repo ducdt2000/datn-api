@@ -52,7 +52,7 @@ export class CartController {
     return { data, meta: { itemCount: data.items.length } };
   }
 
-  @Post(':id/items')
+  @Post(':cartId/items')
   async createCartItem(
     @ReqContext() ctx: RequestContext,
     @Param('cartId') cartId: string,

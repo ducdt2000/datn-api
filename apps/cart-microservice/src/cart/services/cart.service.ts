@@ -11,6 +11,7 @@ import { CartInput } from '../dtos/cart-input.dto';
 import { ItemOutput } from '../dtos/item-output.dto';
 import { ItemInput } from '../dtos/item-input.dto';
 import { validate } from 'class-validator';
+import { getConnection } from 'typeorm';
 
 @Injectable()
 export class CartService {
@@ -55,7 +56,12 @@ export class CartService {
 
     const newItem = this.itemRepository.create({ ...input, cartId });
 
-    const savedItem = await this.itemRepository.save(newItem);
+    let savedItem: any;
+
+    await getConnection().transaction(async (trans) => {
+      savedItem = await trans.save(newItem);
+    });
+
     return plainToInstance(ItemOutput, savedItem, {
       excludeExtraneousValues: true,
     });
