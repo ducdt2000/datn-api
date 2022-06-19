@@ -37,6 +37,12 @@ export class ItemLog {
   })
   amount: number;
 
+  @Column({
+    name: 'result',
+    type: 'int',
+  })
+  result: number;
+
   @CreateDateColumn({
     name: 'created_at',
   })

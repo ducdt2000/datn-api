@@ -43,6 +43,12 @@ export enum USER_ORDER_BY {
   DELETED_AT = 'deletedAt',
 }
 
+export enum WAREHOUSE_ORDER_BY {
+  NAME = 'name',
+  CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
+}
+
 export enum GENDER {
   MALE = 1,
   FEMALE = 2,
@@ -63,6 +69,16 @@ export enum USER_ACTIVE {
 
 export enum REQUEST_CONTENT_TYPE {
   FORM_DATA = 'multipart/form-data',
+}
+
+export enum WAREHOUSE_STATUS {
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+
+export enum WAREHOUSE_LOG_TYPE {
+  IMPORT = 1,
+  EXPORT = 2,
 }
 
 export const MIN_DATE = new Date(-8640000000000000);

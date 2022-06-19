@@ -56,6 +56,10 @@ export enum ErrDetailCode {
   IS_ACTIVE = '34',
   CART = '35',
   ITEM = '36',
+  WAREHOUSE = '37',
+  STATUS = '38',
+  LOG = '39',
+  AMOUNT = '40',
   FROM = '90',
   TO = '91',
 }
