@@ -4,8 +4,8 @@ import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CartOutput } from '../dtos/cart-output.dto';
-import { ItemInput } from '../dtos/item-input.dto';
-import { ItemOutput } from '../dtos/item-output.dto';
+import { CartItemInput } from '../dtos/item-input.dto';
+import { CartItemOutput } from '../dtos/item-output.dto';
 
 const pathCarts = 'v1/api/carts';
 
@@ -68,14 +68,14 @@ export class CartService {
   async createCartItem(
     ctx: RequestContext,
     cartId: string,
-    input: ItemInput,
-  ): Promise<ItemOutput> {
+    input: CartItemInput,
+  ): Promise<CartItemOutput> {
     this.logger.log(ctx, `${this.createCartItem.name} was called`);
 
     const apiUrl = `${this.cartMicroserviceUrl}/${pathCarts}/${cartId}/items`;
     this.logger.log(ctx, 'calling cart-microservice createCartItem');
 
-    const response = await this.httpService.post<ItemOutput>(
+    const response = await this.httpService.post<CartItemOutput>(
       ctx,
       apiUrl,
       input,
@@ -95,13 +95,13 @@ export class CartService {
     ctx: RequestContext,
     cartId: string,
     id: string,
-  ): Promise<ItemOutput> {
+  ): Promise<CartItemOutput> {
     this.logger.log(ctx, `${this.getCartItem.name} was called`);
 
     const apiUrl = `${this.cartMicroserviceUrl}/${pathCarts}/${cartId}/items/${id}`;
     this.logger.log(ctx, 'calling cart-microservice getCartItem');
 
-    const response = await this.httpService.get<ItemOutput>(ctx, apiUrl);
+    const response = await this.httpService.get<CartItemOutput>(ctx, apiUrl);
 
     if (response.error) {
       throw new HttpException(
@@ -118,13 +118,13 @@ export class CartService {
     cartId: string,
     id: string,
     rawInput: any,
-  ): Promise<ItemOutput> {
+  ): Promise<CartItemOutput> {
     this.logger.log(ctx, `${this.updateCartItem.name} was called`);
 
     const apiUrl = `${this.cartMicroserviceUrl}/${pathCarts}/${cartId}/items/${id}`;
     this.logger.log(ctx, 'calling cart-microservice updateCartItem');
 
-    const response = await this.httpService.put<ItemOutput>(
+    const response = await this.httpService.put<CartItemOutput>(
       ctx,
       apiUrl,
       rawInput,
@@ -144,13 +144,13 @@ export class CartService {
     ctx: RequestContext,
     cartId: string,
     id: string,
-  ): Promise<ItemOutput> {
+  ): Promise<CartItemOutput> {
     this.logger.log(ctx, `${this.updateCartItem.name} was called`);
 
     const apiUrl = `${this.cartMicroserviceUrl}/${pathCarts}/${cartId}/items/${id}`;
     this.logger.log(ctx, 'calling cart-microservice deleteCartItem');
 
-    const response = await this.httpService.delete<ItemOutput>(ctx, apiUrl);
+    const response = await this.httpService.delete<CartItemOutput>(ctx, apiUrl);
 
     if (response.error) {
       throw new HttpException(

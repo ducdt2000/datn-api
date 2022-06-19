@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-export class PropertyOutput {
+export class CartPropertyOutput {
   @Expose()
   @ApiProperty()
   id: string;

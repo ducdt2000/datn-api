@@ -7,9 +7,9 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator';
-import { PropertyInput } from './property-input.dto';
+import { CartPropertyInput } from './property-input.dto';
 
-export class ItemInput {
+export class CartItemInput {
   @ApiProperty()
   @Expose()
   @IsNotEmpty()
@@ -42,9 +42,9 @@ export class ItemInput {
 
   @ApiProperty()
   @Expose()
-  @Type(() => PropertyInput)
+  @Type(() => CartPropertyInput)
   @IsArray()
   @IsObject({ each: true })
   @ValidateNested()
-  properties: PropertyInput[];
+  properties: CartPropertyInput[];
 }

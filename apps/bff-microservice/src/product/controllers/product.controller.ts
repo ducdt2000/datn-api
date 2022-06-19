@@ -25,7 +25,7 @@ import { ProductOutput } from '../dtos/product-output.dto';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ProductUpdateInput } from '../dtos/product-update-input.dto';
 import { ROLE } from './../../../../../shared/constants/common';
-import { ItemOutput } from '../../cart/dtos/item-output.dto';
+import { CartItemOutput } from '../../cart/dtos/item-output.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -106,7 +106,7 @@ export class ProductController {
   async addToCart(
     @ReqContext() ctx: RequestContext,
     @Param('productId') productId: string,
-  ): Promise<BaseApiResponse<ItemOutput>> {
+  ): Promise<BaseApiResponse<CartItemOutput>> {
     this.logger.log(ctx, `${this.addToCart.name} was called`);
 
     const data = await this.productService.addToCart(ctx, productId);

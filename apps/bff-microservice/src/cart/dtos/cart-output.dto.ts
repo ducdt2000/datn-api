@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ItemOutput } from './item-output.dto';
+import { CartItemOutput } from './item-output.dto';
 
 export class CartOutput {
   @Expose()
@@ -9,7 +9,7 @@ export class CartOutput {
 
   @Expose()
   @ApiProperty()
-  items: ItemOutput[];
+  items: CartItemOutput[];
 
   @Expose()
   @ApiProperty()

@@ -26,8 +26,8 @@ import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
 import { Roles } from './../../../../../shared/decorators/role.decorator';
 import { ROLE } from './../../../../../shared/constants/common';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
-import { ItemInput } from '../dtos/item-input.dto';
-import { ItemOutput } from '../dtos/item-output.dto';
+import { CartItemInput } from '../dtos/item-input.dto';
+import { CartItemOutput } from '../dtos/item-output.dto';
 
 @ApiTags('carts')
 @Controller('carts')
@@ -70,8 +70,8 @@ export class CartController {
   async createCartItem(
     @ReqContext() ctx: RequestContext,
     @Param('cartId') cartId: string,
-    @Body() input: ItemInput,
-  ): Promise<BaseApiResponse<ItemOutput>> {
+    @Body() input: CartItemInput,
+  ): Promise<BaseApiResponse<CartItemOutput>> {
     this.logger.log(ctx, `${this.createCartItem.name} was called`);
 
     if (ctx.user.id !== cartId) {
@@ -97,7 +97,7 @@ export class CartController {
     @ReqContext() ctx: RequestContext,
     @Param('cartId') cartId: string,
     @Param('id') id: string,
-  ): Promise<BaseApiResponse<ItemOutput>> {
+  ): Promise<BaseApiResponse<CartItemOutput>> {
     this.logger.log(ctx, `${this.getCartItem.name} was called`);
 
     if (ctx.user.role === ROLE.USER && ctx.user.id !== id) {
@@ -124,7 +124,7 @@ export class CartController {
     @Param('cartId') cartId: string,
     @Param('id') id: string,
     @Body() rawInput: any,
-  ): Promise<BaseApiResponse<ItemOutput>> {
+  ): Promise<BaseApiResponse<CartItemOutput>> {
     this.logger.log(ctx, `${this.updateCartItem.name} was called`);
 
     if (ctx.user.id !== cartId) {
@@ -155,7 +155,7 @@ export class CartController {
     @ReqContext() ctx: RequestContext,
     @Param('cartId') cartId: string,
     @Param('id') id: string,
-  ): Promise<BaseApiResponse<ItemOutput>> {
+  ): Promise<BaseApiResponse<CartItemOutput>> {
     this.logger.log(ctx, `${this.deleteCartItem.name} was called`);
 
     if (ctx.user.id !== cartId) {
