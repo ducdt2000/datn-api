@@ -1,7 +1,7 @@
 import { Roles } from './../../../../../shared/decorators/role.decorator';
 import { RoleGuard } from './../../../../../shared/guards/role.guard';
 import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
-import { BaseApiResponse } from 'shared/dtos/base-api-response.dto';
+import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ReqContext } from './../../../../../shared/request-context/req-context.decorator';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
@@ -24,7 +24,7 @@ import { ProductInput } from '../dtos/product-input.dto';
 import { ProductOutput } from '../dtos/product-output.dto';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ProductUpdateInput } from '../dtos/product-update-input.dto';
-import { ROLE } from 'shared/constants/common';
+import { ROLE } from './../../../../../shared/constants/common';
 
 @ApiTags('products')
 @Controller('products')

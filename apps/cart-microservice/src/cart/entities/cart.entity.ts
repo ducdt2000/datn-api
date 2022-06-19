@@ -1,25 +1,21 @@
 import {
-  Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Item } from './item.entity';
 
 @Entity('carts')
 export class Cart {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({
-    name: 'user_id',
+  @PrimaryColumn({
+    name: 'id',
     type: 'char',
     length: 36,
   })
-  userId: string;
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',

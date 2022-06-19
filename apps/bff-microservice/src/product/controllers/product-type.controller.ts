@@ -20,8 +20,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductTypeOutput } from '../dtos/product-type-output.dto';
-import { Roles } from 'shared/decorators/role.decorator';
-import { ROLE } from 'shared/constants/common';
+import { Roles } from './../../../../../shared/decorators/role.decorator';
+import { ROLE } from './../../../../../shared/constants/common';
 
 @ApiTags('products')
 @Controller('product-types')

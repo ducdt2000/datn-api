@@ -8,12 +8,14 @@ import { AuthService } from './auth.service';
 import { JwtAuthStrategy } from './strategies/jwt-auth.strategy';
 import { ConfigurationModule } from '../config/configuration.module';
 import { AuthController } from './controllers/auth.controller';
+import { CartModule } from '../cart/cart.module';
 
 @Module({
   imports: [
     SharedModule,
     ConfigurationModule,
     PassportModule,
+    CartModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

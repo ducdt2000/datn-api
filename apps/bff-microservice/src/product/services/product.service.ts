@@ -1,6 +1,6 @@
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ConfigService } from '@nestjs/config';
-import { HttpRequestService } from 'shared/http-request/http-request.service';
+import { HttpRequestService } from './../../../../../shared/http-request/http-request.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { ProductInput } from '../dtos/product-input.dto';
 import { ProductOutput } from '../dtos/product-output.dto';
