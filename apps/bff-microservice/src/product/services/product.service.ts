@@ -8,9 +8,9 @@ import { ProductOutput } from '../dtos/product-output.dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ProductUpdateInput } from '../dtos/product-update-input.dto';
-import { ItemOutput } from '../../cart/dtos/item-output.dto';
+import { CartItemOutput } from '../../cart/dtos/item-output.dto';
 import { CartService } from '../../cart/services/cart.service';
-import { ItemInput } from '../../cart/dtos/item-input.dto';
+import { CartItemInput } from '../../cart/dtos/item-input.dto';
 
 const pathProducts = 'v1/api/products';
 
@@ -150,13 +150,16 @@ export class ProductService {
     return response.data;
   }
 
-  async addToCart(ctx: RequestContext, productId: string): Promise<ItemOutput> {
+  async addToCart(
+    ctx: RequestContext,
+    productId: string,
+  ): Promise<CartItemOutput> {
     this.logger.log(ctx, `${this.deleteProduct.name} was called`);
 
     const product = await this.getProduct(ctx, productId);
 
     const cartItem = plainToInstance(
-      ItemInput,
+      CartItemInput,
       { ...product, productId: product.id, amount: 1 },
       { excludeExtraneousValues: true },
     );
