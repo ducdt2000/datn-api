@@ -7,8 +7,9 @@ import { ProductTypeService } from './services/product-type.service';
 import { ProductTypeController } from './controllers/product-type.controller';
 import { ProductService } from './services/product.service';
 import { ProductController } from './controllers/product.controller';
+import { CartModule } from '../cart/cart.module';
 @Module({
-  imports: [SharedModule, ConfigurationModule],
+  imports: [SharedModule, ConfigurationModule, CartModule],
   providers: [BrandService, ProductTypeService, ProductService],
   exports: [BrandService, ProductTypeService, ProductService],
   controllers: [BrandController, ProductTypeController, ProductController],

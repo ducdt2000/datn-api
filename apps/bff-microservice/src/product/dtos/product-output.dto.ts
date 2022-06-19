@@ -2,6 +2,7 @@ import { BrandOutput } from './brand-output.dto';
 import { ProductTypeOutput } from './product-type-output.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
+import { PropertyOutput } from './property-output.dto';
 
 export class ProductOutput {
   @ApiProperty()
@@ -57,4 +58,9 @@ export class ProductOutput {
   @Expose()
   @Type(() => BrandOutput)
   brand: BrandOutput;
+
+  @ApiProperty()
+  @Expose()
+  @Type(() => PropertyOutput)
+  properties: PropertyOutput[];
 }

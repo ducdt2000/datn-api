@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { PropertyOutput } from './property-output.dto';
 
 export class ItemOutput {
@@ -37,6 +37,7 @@ export class ItemOutput {
 
   @Expose()
   @ApiProperty()
+  @Type(() => PropertyOutput)
   properties: PropertyOutput[];
 
   @Expose()

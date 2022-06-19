@@ -1,3 +1,4 @@
+import { plainToInstance } from 'class-transformer';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ConfigService } from '@nestjs/config';
 import { HttpRequestService } from './../../../../../shared/http-request/http-request.service';
@@ -7,6 +8,9 @@ import { ProductOutput } from '../dtos/product-output.dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { ProductQuery } from '../dtos/product-query.dto';
 import { ProductUpdateInput } from '../dtos/product-update-input.dto';
+import { ItemOutput } from '../../cart/dtos/item-output.dto';
+import { CartService } from '../../cart/services/cart.service';
+import { ItemInput } from '../../cart/dtos/item-input.dto';
 
 const pathProducts = 'v1/api/products';
 
@@ -14,8 +18,9 @@ const pathProducts = 'v1/api/products';
 export class ProductService {
   constructor(
     private readonly logger: AppLogger,
-    private httpService: HttpRequestService,
-    private configService: ConfigService,
+    private readonly httpService: HttpRequestService,
+    private readonly configService: ConfigService,
+    private readonly cartService: CartService,
   ) {
     this.logger.setContext(ProductService.name);
   }
@@ -143,5 +148,23 @@ export class ProductService {
     }
 
     return response.data;
+  }
+
+  async addToCart(ctx: RequestContext, productId: string): Promise<ItemOutput> {
+    this.logger.log(ctx, `${this.deleteProduct.name} was called`);
+
+    const product = await this.getProduct(ctx, productId);
+
+    const cartItem = plainToInstance(
+      ItemInput,
+      { ...product, productId: product.id, amount: 1 },
+      { excludeExtraneousValues: true },
+    );
+
+    product.properties.forEach((property, index) => {
+      cartItem.properties[index].value = property.values[0];
+    });
+
+    return this.cartService.createCartItem(ctx, ctx.user.id, cartItem);
   }
 }
