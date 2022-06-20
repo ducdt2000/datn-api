@@ -13,9 +13,6 @@ import {
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ItemLogRepository } from '../repositories/item-log.repository';
-import { ItemRepository } from '../repositories/item.repository';
-import { PropertyRepository } from '../repositories/property.repository';
 import { WarehouseLogRepository } from '../repositories/warehouse-log.repository';
 import { WarehouseRepository } from '../repositories/warehouse.repository';
 import { WarehouseInput } from '../dtos/warehouse-input.dto';
@@ -30,9 +27,6 @@ import { WarehouseLogOutput } from '../dtos/warehouse-log-output.dto';
 export class WarehouseService {
   constructor(
     private readonly logger: AppLogger,
-    private readonly itemLogRepository: ItemLogRepository,
-    private readonly itemRepository: ItemRepository,
-    private readonly propertyRepository: PropertyRepository,
     private readonly warehouseLogRepository: WarehouseLogRepository,
     private readonly warehouseRepository: WarehouseRepository,
   ) {

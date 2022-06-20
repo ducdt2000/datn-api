@@ -60,6 +60,7 @@ export enum ErrDetailCode {
   STATUS = '38',
   LOG = '39',
   AMOUNT = '40',
+  WAREHOUSE_LOG = '41',
   FROM = '90',
   TO = '91',
 }

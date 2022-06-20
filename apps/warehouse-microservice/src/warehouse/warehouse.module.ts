@@ -8,6 +8,8 @@ import { PropertyRepository } from './repositories/property.repository';
 import { WarehouseLogRepository } from './repositories/warehouse-log.repository';
 import { WarehouseRepository } from './repositories/warehouse.repository';
 import { WarehouseService } from './services/warehouse.service';
+import { WarehouseLogService } from './services/warehouse-log.service';
+import { WarehouseController } from './controllers/warehouse.controller';
 
 @Module({
   imports: [
@@ -21,8 +23,8 @@ import { WarehouseService } from './services/warehouse.service';
       WarehouseRepository,
     ]),
   ],
-  providers: [WarehouseService],
-  controllers: [],
-  exports: [WarehouseService],
+  providers: [WarehouseService, WarehouseLogService],
+  controllers: [WarehouseController],
+  exports: [WarehouseService, WarehouseLogService],
 })
 export class WarehouseModule {}

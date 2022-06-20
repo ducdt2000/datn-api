@@ -49,6 +49,10 @@ export enum WAREHOUSE_ORDER_BY {
   UPDATED_AT = 'updatedAt',
 }
 
+export enum WAREHOUSE_LOG_ORDER_BY {
+  CREATED_AT = 'createdAt',
+}
+
 export enum GENDER {
   MALE = 1,
   FEMALE = 2,
