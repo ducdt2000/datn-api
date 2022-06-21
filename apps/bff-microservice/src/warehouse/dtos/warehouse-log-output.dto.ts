@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { ItemLogOutput } from './item-log-output.dto';
+import { WarehouseItemLogOutput } from './item-log-output.dto';
 
 export class WarehouseLogOutput {
   @ApiProperty()
@@ -33,6 +33,6 @@ export class WarehouseLogOutput {
 
   @ApiProperty()
   @Expose()
-  @Type(() => ItemLogOutput)
-  itemLogs: ItemLogOutput[];
+  @Type(() => WarehouseItemLogOutput)
+  itemLogs: WarehouseItemLogOutput[];
 }
