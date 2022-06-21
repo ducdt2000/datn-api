@@ -42,6 +42,7 @@ export class OrderRepository extends BaseRepository<Order> {
 
   async getByConditions(query: OrderQuery): Promise<[Order[], number]> {
     const { limit, offset } = query;
+    //01G63QBXVGKRWFNDHHBRMB8H45
 
     const qb = this.createQueryBuilder('orders');
 
