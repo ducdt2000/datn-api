@@ -31,26 +31,30 @@ export class Order implements BaseEntity {
     name: 'warehouse_id',
     type: 'char',
     length: 36,
+    nullable: true,
   })
-  warehouseId: string;
+  warehouseId?: string;
 
   @Column({
     name: 'payment_method_id',
     type: 'int',
+    nullable: true,
   })
-  paymentMethodId: number;
+  paymentMethodId?: number;
 
   @Column({
     name: 'delivery_method_id',
     type: 'int',
+    nullable: true,
   })
-  deliveryMethodId: number;
+  deliveryMethodId?: number;
 
   @Column({
     name: 'delivery_time',
     type: 'datetime',
+    nullable: true,
   })
-  deliveryTime: Date;
+  deliveryTime?: Date;
 
   @Column({
     name: 'bill',

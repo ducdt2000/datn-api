@@ -61,6 +61,7 @@ export enum ErrDetailCode {
   LOG = '39',
   AMOUNT = '40',
   WAREHOUSE_LOG = '41',
+  ORDER = '42',
   FROM = '90',
   TO = '91',
 }

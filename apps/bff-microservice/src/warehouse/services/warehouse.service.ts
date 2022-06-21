@@ -1,4 +1,3 @@
-import { WAREHOUSE_LOG_TYPE } from 'shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { HttpRequestService } from 'shared/http-request/http-request.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
