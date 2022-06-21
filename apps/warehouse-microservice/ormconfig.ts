@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 
-config({ path: `apps/order-microservice/.env` });
+config({ path: `apps/warehouse-microservice/.env` });
 
 export default [
   {

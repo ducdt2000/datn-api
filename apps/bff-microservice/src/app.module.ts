@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { CartModule } from './cart/cart.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
 @Module({
   imports: [
     ConfigurationModule,
@@ -15,6 +16,7 @@ import { CartModule } from './cart/cart.module';
     ProductModule,
     MediaModule,
     CartModule,
+    WarehouseModule,
   ],
   providers: [],
   controllers: [],

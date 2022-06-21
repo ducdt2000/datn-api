@@ -23,6 +23,13 @@ export class Warehouse {
   managerUserId: string;
 
   @Column({
+    name: 'name',
+    type: 'varchar',
+    length: 100,
+  })
+  name: string;
+
+  @Column({
     name: 'address',
     type: 'varchar',
     length: 100,
