@@ -7,6 +7,7 @@ import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { CartModule } from './cart/cart.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
+import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     ConfigurationModule,
@@ -17,6 +18,7 @@ import { WarehouseModule } from './warehouse/warehouse.module';
     MediaModule,
     CartModule,
     WarehouseModule,
+    OrderModule,
   ],
   providers: [],
   controllers: [],
