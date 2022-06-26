@@ -18,6 +18,12 @@ export enum ORDER_TYPE {
   DESCENDING = 'DESC',
 }
 
+export enum ORDER_ORDER_BY {
+  BILL = 'bill',
+  CREATED_AT = 'createdAt',
+  UPDATED_AT = 'updatedAt',
+}
+
 export enum PRODUCT_ORDER_BY {
   NAME = 'name',
   PRICE = 'price',
@@ -51,6 +57,17 @@ export enum WAREHOUSE_ORDER_BY {
 
 export enum WAREHOUSE_LOG_ORDER_BY {
   CREATED_AT = 'createdAt',
+}
+
+export enum ORDER_STATUS {
+  CREATING = 0,
+  CREATED = 1,
+  CONFIRM = 2,
+  PACKING = 3,
+  DELIVERING = 4,
+  DELIVERED = 5,
+  CANCELLED = 6,
+  DONE = 7,
 }
 
 export enum GENDER {

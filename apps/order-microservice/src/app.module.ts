@@ -9,11 +9,15 @@ import { Item } from './order/entities/item.entity';
 import { Property } from './order/entities/property.entity';
 import { PaymentMethod } from './order-method/entities/payment-method.entity';
 import { DeliveryMethod } from './order-method/entities/delivery-method.entity';
+import { OrderModule } from './order/order.module';
+import { OrderMethodModule } from './order-method/order-method.module';
 
 @Module({
   imports: [
     SharedModule,
     ConfigurationModule,
+    OrderModule,
+    OrderMethodModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

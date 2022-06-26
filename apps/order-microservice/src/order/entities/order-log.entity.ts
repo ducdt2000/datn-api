@@ -24,6 +24,13 @@ export class OrderLog implements BaseEntity {
   orderId: string;
 
   @Column({
+    name: 'user_id',
+    type: 'char',
+    length: 36,
+  })
+  userId: string;
+
+  @Column({
     name: 'address',
     type: 'varchar',
     length: 100,
