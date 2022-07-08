@@ -62,6 +62,18 @@ export class ProductTypeController {
     };
   }
 
+  @Get(':id')
+  async getProductType(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+  ): Promise<BaseApiResponse<ProductTypeOutput>> {
+    this.logger.log(ctx, `${this.getProductType.name} was called`);
+
+    const data = await this.productTypeService.getProductType(ctx, id);
+
+    return { data };
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Roles(ROLE.ADMIN, ROLE.STAFF)

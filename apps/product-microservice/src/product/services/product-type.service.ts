@@ -59,6 +59,17 @@ export class ProductTypeService {
     return [plainToInstance(ProductTypeOutput, types), count];
   }
 
+  async getProductType(
+    ctx: RequestContext,
+    id: string,
+  ): Promise<ProductTypeOutput> {
+    this.logger.log(ctx, `${this.getProductType.name} was called`);
+
+    const type = await this.productTypeRepository.getById(id);
+
+    return plainToInstance(ProductTypeOutput, type);
+  }
+
   async updateProductType(
     ctx: RequestContext,
     rawInput: any,
