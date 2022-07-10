@@ -25,7 +25,7 @@ export class ProductQuery extends PaginationParams {
   })
   @Expose()
   @IsOptional()
-  brand?: string;
+  brandId?: string;
 
   @ApiPropertyOptional({
     example: 'local',
@@ -39,7 +39,7 @@ export class ProductQuery extends PaginationParams {
   })
   @IsOptional()
   @Expose()
-  type?: string;
+  productTypeId?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
