@@ -53,6 +53,7 @@ export class ProductRepository extends BaseRepository<Product> {
       limit,
       offset,
     } = query;
+
     const orderType = query.orderType ?? ORDER_TYPE.DESCENDING;
 
     const qb = this.createQueryBuilder('product')
@@ -110,6 +111,6 @@ export class ProductRepository extends BaseRepository<Product> {
       }
     }
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

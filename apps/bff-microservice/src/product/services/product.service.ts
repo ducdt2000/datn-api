@@ -87,7 +87,7 @@ export class ProductService {
     this.logger.log(ctx, 'calling product-microservice getProduct');
 
     const response = await this.httpService.get<ProductOutput[]>(ctx, apiUrl, {
-      params: { query },
+      params: query,
     });
 
     if (response.error) {
