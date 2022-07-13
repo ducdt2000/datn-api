@@ -73,6 +73,27 @@ export class BrandService {
     return [response.data, response.meta.count];
   }
 
+  async getBrand(ctx: RequestContext, id: string): Promise<BrandOutput> {
+    this.logger.log(ctx, `${this.getBrand.name} was called`);
+
+    const productMicroserviceUrl = this.configService.get<string>(
+      'microservice.product',
+    );
+    const apiUrl = `${productMicroserviceUrl}/${pathBrands}/${id}`;
+    this.logger.log(ctx, 'calling product-microservice getBrand');
+
+    const response = await this.httpService.get<BrandOutput>(ctx, apiUrl);
+
+    if (response.error) {
+      throw new HttpException(
+        response.error.details,
+        response.error.statusCode,
+      );
+    }
+
+    return response.data;
+  }
+
   async updateBrand(
     ctx: RequestContext,
     input: any,

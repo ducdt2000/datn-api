@@ -1,10 +1,10 @@
+import { IsDateBeforeOrEqual } from './../../../../../shared/decorators/is-date-before-or-equal.decorator';
 import {
   ErrCategoryCode,
   ErrMicroserviceCode,
   ErrDetailCode,
 } from './../../../../../shared/constants/errors';
 import { DetailErrorCode } from './../../../../../shared/errors/detail-error-code';
-import { IsDateBefore } from './../../../../../shared/decorators/is-date-before.decorator';
 import {
   BRAND_ORDER_BY,
   BRAND_TYPE,
@@ -82,7 +82,7 @@ export class BrandQuery {
   @IsOptional()
   @Expose()
   @IsDate(errDateFrom)
-  @Validate(IsDateBefore, ['createdTo'], errDateFrom)
+  @Validate(IsDateBeforeOrEqual, ['createdTo'], errDateFrom)
   @TransformToDatetime({ startOf: 'day' })
   createdFrom: Date;
 
@@ -98,7 +98,7 @@ export class BrandQuery {
   @Expose()
   @IsDate(errDateFrom)
   @TransformToDatetime({ startOf: 'day' })
-  @Validate(IsDateBefore, ['updatedTo'], errDateFrom)
+  @Validate(IsDateBeforeOrEqual, ['updatedTo'], errDateFrom)
   updatedFrom: Date;
 
   @ApiPropertyOptional()

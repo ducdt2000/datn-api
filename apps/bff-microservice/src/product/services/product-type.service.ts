@@ -72,6 +72,30 @@ export class ProductTypeService {
     return [response.data, response.meta.count];
   }
 
+  async getProductType(
+    ctx: RequestContext,
+    id: string,
+  ): Promise<ProductTypeOutput> {
+    this.logger.log(ctx, `${this.getProductType.name} was called`);
+
+    const productMicroserviceUrl = this.configService.get<string>(
+      'microservice.product',
+    );
+    const apiUrl = `${productMicroserviceUrl}/${pathProductTypes}/${id}`;
+    this.logger.log(ctx, 'calling product-microservice getProductType');
+
+    const response = await this.httpService.get<ProductTypeOutput>(ctx, apiUrl);
+
+    if (response.error) {
+      throw new HttpException(
+        response.error.details,
+        response.error.statusCode,
+      );
+    }
+
+    return response.data;
+  }
+
   async updateProductType(
     ctx: RequestContext,
     input: any,

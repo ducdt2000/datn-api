@@ -66,6 +66,18 @@ export class BrandController {
     };
   }
 
+  @Get(':id')
+  async getBrand(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+  ): Promise<BaseApiResponse<BrandOutput>> {
+    this.logger.log(ctx, `${this.getBrand.name} was called`);
+
+    const data = await this.brandService.getBrand(ctx, id);
+
+    return { data };
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Roles(ROLE.STAFF, ROLE.ADMIN)

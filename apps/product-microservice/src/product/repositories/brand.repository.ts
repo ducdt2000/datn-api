@@ -24,7 +24,7 @@ export class BrandRepository extends BaseRepository<Brand> {
     const qb = this.createQueryBuilder('brand');
 
     if (search) {
-      qb.where(`brand.name LIKE :'${search}'`);
+      qb.where(`brand.name LIKE :search`, { search: `%${search}%` });
     }
 
     if (type) {

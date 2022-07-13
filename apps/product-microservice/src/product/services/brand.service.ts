@@ -61,6 +61,12 @@ export class BrandService {
     });
   }
 
+  async getBrand(ctx: RequestContext, id: string): Promise<BrandOutput> {
+    this.logger.log(ctx, `${this.getBrand.name} was called`);
+    const brand = await this.brandRepository.getById(id);
+    return plainToInstance(BrandOutput, brand);
+  }
+
   async getBrands(
     ctx: RequestContext,
     query: BrandQuery,

@@ -44,15 +44,16 @@ export class ProductRepository extends BaseRepository<Product> {
   async getByConditions(query: ProductQuery): Promise<[Product[], number]> {
     const {
       search,
-      brand,
+      brandId,
       orderBy,
-      type,
+      productTypeId,
       dateFrom,
       dateTo,
       brandType,
       limit,
       offset,
     } = query;
+
     const orderType = query.orderType ?? ORDER_TYPE.DESCENDING;
 
     const qb = this.createQueryBuilder('product')
@@ -72,11 +73,13 @@ export class ProductRepository extends BaseRepository<Product> {
     }
 
     //filter
-    if (brand) {
-      qb.andWhere('brand.slug = :brand', { brand });
+    if (brandId) {
+      qb.andWhere('product.brandId = :brandId', { brandId });
     }
-    if (type) {
-      qb.andWhere('productType.code = :type', { type });
+    if (productTypeId) {
+      qb.andWhere('product.productTypeId = :productTypeId', {
+        productTypeId: productTypeId,
+      });
     }
     if (brandType) {
       qb.andWhere('brand.type = :brandType', { brandType });
@@ -108,6 +111,6 @@ export class ProductRepository extends BaseRepository<Product> {
       }
     }
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

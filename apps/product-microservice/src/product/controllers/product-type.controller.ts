@@ -58,6 +58,18 @@ export class ProductTypeController {
     };
   }
 
+  @Get(':id')
+  async getProductType(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: string,
+  ) {
+    this.logger.log(ctx, `${this.getProductType.name} was called`);
+
+    const data = await this.productTypeService.getProductType(ctx, id);
+
+    return { data };
+  }
+
   @Put(':id')
   async updateProductType(
     @ReqContext() ctx: RequestContext,
