@@ -20,7 +20,7 @@ export function createRequestContext(request: Request): RequestContext {
   if (request['user']) {
     ctx.user = request['user'];
   } else if (headerUser) {
-    ctx.user = JSON.parse(headerUser);
+    ctx.user = JSON.parse(decodeURIComponent(headerUser));
   }
 
   return ctx;

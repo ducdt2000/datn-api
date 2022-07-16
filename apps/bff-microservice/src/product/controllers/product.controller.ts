@@ -67,6 +67,8 @@ export class ProductController {
     @ReqContext() ctx: RequestContext,
     @Query() query: ProductQuery,
   ) {
+    console.log('thisisctx', ctx);
+
     this.logger.log(ctx, `${this.getProducts.name} was called`);
 
     const [data, count] = await this.productService.getProducts(ctx, query);

@@ -83,7 +83,7 @@ export class User implements BaseEntity {
   @Column({
     name: 'avatar_link',
     type: 'varchar',
-    length: 50,
+    length: 300,
     nullable: true,
   })
   avatarLink?: string;

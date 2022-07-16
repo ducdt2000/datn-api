@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { plainToClass } from 'class-transformer';
 import { catchError, lastValueFrom, map, Observable } from 'rxjs';
-
 import { BaseApiErrorObject } from '../dtos/base-api-response.dto';
 import {
   BaseApiClientResponse,
@@ -192,9 +191,9 @@ export class HttpRequestService {
       const userInfo = {
         ...ctx.user,
       };
-      // Remove unicode possible before add user info to header
-      delete userInfo.fullname;
-      config.headers.user = JSON.stringify(userInfo);
+
+      //convert utf8 to latin1
+      config.headers.user = encodeURIComponent(JSON.stringify(userInfo));
     }
     if (!config) {
       config = { headers: {} };
