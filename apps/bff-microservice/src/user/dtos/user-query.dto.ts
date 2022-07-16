@@ -65,16 +65,7 @@ export class UserQuery extends PaginationParams {
     enum: USER_ACTIVE,
   })
   @IsOptional()
-  @IsEnum(USER_ACTIVE, {
-    context: {
-      detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
-        ErrMicroserviceCode.USER,
-        ErrDetailCode.IS_ACTIVE,
-      ),
-    },
-  })
-  status?: string;
+  status?: number;
 
   @ApiPropertyOptional()
   @IsBooleanString()

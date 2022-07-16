@@ -35,7 +35,9 @@ export class UserService {
       params: userQuery,
     });
 
-    return [users.data, users.meta.count];
+    console.log('thisisusers', users);
+
+    return [users.data, users.meta?.count];
   }
 
   async getUser(ctx: RequestContext, id: string): Promise<UserOutput> {

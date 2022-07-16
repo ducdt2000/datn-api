@@ -1,8 +1,4 @@
-import {
-  CONTENT_TYPE,
-  MAX_FILE_UPLOAD,
-} from './../../../../../shared/constants/common';
-import { JwtAuthGuard } from './../../../../../shared/guards/jwt-auth.guard';
+import { MAX_FILE_UPLOAD } from './../../../../../shared/constants/common';
 import { BaseApiResponse } from './../../../../../shared/dtos/base-api-response.dto';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ReqContext } from './../../../../../shared/request-context/req-context.decorator';
@@ -14,7 +10,6 @@ import {
   Post,
   UploadedFile,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
