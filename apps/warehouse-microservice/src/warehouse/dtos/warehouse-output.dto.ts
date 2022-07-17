@@ -30,6 +30,10 @@ export class WarehouseOutput {
 
   @ApiProperty()
   @Expose()
+  status: number;
+
+  @ApiProperty()
+  @Expose()
   createdAt: Date;
 
   @ApiProperty()

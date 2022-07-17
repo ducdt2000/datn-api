@@ -90,6 +90,6 @@ export class UserRepository extends BaseRepository<User> {
       qb.withDeleted();
     }
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

@@ -28,44 +28,17 @@ export class WarehouseQuery extends PaginationParams {
   @ApiPropertyOptional({
     enum: WAREHOUSE_STATUS,
   })
-  @IsEnum(WAREHOUSE_STATUS, {
-    context: {
-      detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
-        ErrMicroserviceCode.WAREHOUSE,
-        ErrDetailCode.STATUS,
-      ),
-    },
-  })
   status?: number;
 
   @Expose()
   @ApiPropertyOptional({
     enum: WAREHOUSE_ORDER_BY,
   })
-  @IsEnum(WAREHOUSE_ORDER_BY, {
-    context: {
-      detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
-        ErrMicroserviceCode.WAREHOUSE,
-        ErrDetailCode.ORDER_BY,
-      ),
-    },
-  })
   orderBy?: string;
 
   @Expose()
   @ApiPropertyOptional({
     enum: ORDER_TYPE,
-  })
-  @IsEnum(ORDER_TYPE, {
-    context: {
-      detail: new DetailErrorCode(
-        ErrCategoryCode.INVALID_PARAM,
-        ErrMicroserviceCode.WAREHOUSE,
-        ErrDetailCode.ORDER_TYPE,
-      ),
-    },
   })
   orderType?: ORDER_TYPE;
 }

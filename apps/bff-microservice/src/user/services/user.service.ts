@@ -1,3 +1,4 @@
+import { ROLE } from './../../../../../shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ConfigService } from '@nestjs/config';
 import { HttpRequestService } from './../../../../../shared/http-request/http-request.service';
@@ -35,9 +36,49 @@ export class UserService {
       params: userQuery,
     });
 
-    console.log('thisisusers', users);
-
     return [users.data, users.meta?.count];
+  }
+
+  async getManagers(
+    ctx: RequestContext,
+    userId?: string,
+    userIds?: string[],
+    query?: UserQuery,
+  ) {
+    const managers: UserOutput[] = [];
+
+    if (userId) {
+      const user = await this.getUser(ctx, userId);
+      managers.push(user);
+      return managers;
+    } else {
+      const [staffs, admins] = await Promise.all([
+        this.getUsers(ctx, {
+          ...query,
+          role: ROLE.STAFF,
+          limit: 10000,
+          offset: 0,
+          orderBy: null,
+          orderType: null,
+        }),
+        this.getUsers(ctx, {
+          ...query,
+          role: ROLE.ADMIN,
+          limit: 10000,
+          offset: 0,
+          orderBy: null,
+          orderType: null,
+        }),
+      ]);
+
+      managers.push(...staffs[0], ...admins[0]);
+
+      if (userIds) {
+        return managers.filter((m) => userIds.includes(m.id));
+      } else {
+        return managers;
+      }
+    }
   }
 
   async getUser(ctx: RequestContext, id: string): Promise<UserOutput> {

@@ -117,6 +117,6 @@ export class OrderRepository extends BaseRepository<Order> {
     //order
     qb.orderBy(`order.${orderBy}`, orderType);
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

@@ -51,6 +51,24 @@ export class UserController {
     return { data };
   }
 
+  @Get('managers')
+  @Roles(ROLE.ADMIN, ROLE.STAFF)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  async getManagerUsers(
+    @ReqContext() ctx: RequestContext,
+    @Query() query: UserQuery,
+  ): Promise<BaseApiResponse<UserOutput[]>> {
+    this.logger.log(ctx, `${this.getUsers.name} was called`);
+
+    const data = await this.userService.getManagers(
+      ctx,
+      undefined,
+      undefined,
+      query,
+    );
+    return { data, meta: { count: data.length } };
+  }
+
   @Get(':id')
   @Roles(ROLE.ADMIN, ROLE.STAFF)
   @UseGuards(JwtAuthGuard, RoleGuard)

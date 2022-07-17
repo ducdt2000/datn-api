@@ -23,7 +23,8 @@ export class WarehouseRepository extends BaseRepository<Warehouse> {
       .leftJoinAndSelect('warehouse.items', 'items')
       .leftJoinAndSelect('items.properties', 'properties')
       .leftJoinAndSelect('warehouse.warehouseLogs', 'warehouseLogs')
-      .leftJoinAndSelect('warehouseLogs.itemLogs', 'itemLogs');
+      .leftJoinAndSelect('warehouseLogs.itemLogs', 'itemLogs')
+      .leftJoinAndSelect('itemLogs.item', 'itemLogsItem');
 
     qb.where('warehouse.id = :id', { id });
 
@@ -77,6 +78,6 @@ export class WarehouseRepository extends BaseRepository<Warehouse> {
     //order
     qb.orderBy(`warehouses.${orderBy}`, orderType);
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

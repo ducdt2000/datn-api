@@ -22,6 +22,9 @@ import { validate } from 'class-validator';
 import { ChangeStatusInput } from '../dtos/change-status-input.dto';
 import { WarehouseLogInput } from '../dtos/warehouse-log-input.dto';
 import { WarehouseLogOutput } from '../dtos/warehouse-log-output.dto';
+import { ItemInput } from '../dtos/item-input.dto';
+import { ItemOutput } from '../dtos/item-output.dto';
+import { ItemRepository } from '../repositories/item.repository';
 
 @Injectable()
 export class WarehouseService {
@@ -29,6 +32,7 @@ export class WarehouseService {
     private readonly logger: AppLogger,
     private readonly warehouseLogRepository: WarehouseLogRepository,
     private readonly warehouseRepository: WarehouseRepository,
+    private readonly itemRepository: ItemRepository,
   ) {
     this.logger.setContext(WarehouseService.name);
   }
@@ -174,6 +178,22 @@ export class WarehouseService {
     const savedLogInput = await this.warehouseLogRepository.getDetail(logId);
 
     return plainToInstance(WarehouseLogOutput, savedLogInput, {
+      excludeExtraneousValues: true,
+    });
+  }
+
+  async createWarehouseItem(
+    ctx: RequestContext,
+    warehouseId: string,
+    input: ItemInput,
+  ): Promise<ItemOutput> {
+    this.logger.log(ctx, `${this.createWarehouseItem.name} was called`);
+
+    const newItem = this.itemRepository.create({ ...input, warehouseId });
+
+    const savedItem = await this.itemRepository.save(newItem);
+
+    return plainToInstance(ItemOutput, savedItem, {
       excludeExtraneousValues: true,
     });
   }
