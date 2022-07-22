@@ -39,6 +39,10 @@ export class ProductOutput {
 
   @ApiProperty()
   @Expose()
+  price: number;
+
+  @ApiProperty()
+  @Expose()
   createdAt: Date;
 
   @ApiProperty()

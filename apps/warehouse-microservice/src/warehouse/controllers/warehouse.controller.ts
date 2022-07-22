@@ -172,6 +172,8 @@ export class WarehouseController {
   ): Promise<BaseApiResponse<ItemOutput>> {
     this.logger.log(ctx, `${this.createItem.name} was called`);
 
+    console.log('thisisinput', input);
+
     const data = await this.warehouseService.createWarehouseItem(
       ctx,
       warehouseId,
