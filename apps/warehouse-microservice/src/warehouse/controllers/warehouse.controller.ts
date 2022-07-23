@@ -14,6 +14,8 @@ import { ChangeStatusInput } from '../dtos/change-status-input.dto';
 import { WarehouseLogOutput } from '../dtos/warehouse-log-output.dto';
 import { WAREHOUSE_LOG_TYPE } from 'shared/constants/common';
 import { WarehouseLogInput } from '../dtos/warehouse-log-input.dto';
+import { ItemInput } from '../dtos/item-input.dto';
+import { ItemOutput } from '../dtos/item-output.dto';
 
 @Controller('warehouses')
 @ApiTags('warehouses')
@@ -160,5 +162,24 @@ export class WarehouseController {
     );
 
     return { data, meta: { count } };
+  }
+
+  @Post(':warehouseId/items')
+  async createItem(
+    @ReqContext() ctx: RequestContext,
+    @Param('warehouseId') warehouseId: string,
+    @Body() input: ItemInput,
+  ): Promise<BaseApiResponse<ItemOutput>> {
+    this.logger.log(ctx, `${this.createItem.name} was called`);
+
+    console.log('thisisinput', input);
+
+    const data = await this.warehouseService.createWarehouseItem(
+      ctx,
+      warehouseId,
+      input,
+    );
+
+    return { data };
   }
 }

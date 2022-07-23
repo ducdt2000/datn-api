@@ -73,10 +73,13 @@ export class OrderService {
 
     const apiUrl = `${this.orderMicroserviceUrl}/${pathOrders}`;
 
-    const response = await this.httpService.post<OrderOutput>(ctx, apiUrl, {
-      ...input,
-      userId: ctx.user.id,
-    });
+    const postInput = { ...input, userId: ctx.user.id };
+
+    const response = await this.httpService.post<OrderOutput>(
+      ctx,
+      apiUrl,
+      postInput,
+    );
 
     if (response.error) {
       throw new HttpException(

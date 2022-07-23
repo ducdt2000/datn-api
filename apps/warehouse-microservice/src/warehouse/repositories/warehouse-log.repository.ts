@@ -73,6 +73,6 @@ export class WarehouseLogRepository extends BaseRepository<WarehouseLog> {
     //order
     qb.orderBy(`warehouseLogs.${orderBy}`, orderType);
 
-    return qb.limit(limit).offset(offset).getManyAndCount();
+    return qb.take(limit).skip(offset).getManyAndCount();
   }
 }

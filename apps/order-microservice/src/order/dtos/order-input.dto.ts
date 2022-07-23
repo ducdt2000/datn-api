@@ -10,6 +10,11 @@ import {
 import { ItemInput } from './item-input.dto';
 
 export class OrderInput {
+  @IsNotEmpty()
+  @ApiProperty()
+  @Expose()
+  userId: string;
+
   @IsOptional()
   @ApiPropertyOptional()
   @Expose()

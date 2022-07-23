@@ -86,7 +86,7 @@ export class OrderController {
     @ReqContext() ctx: RequestContext,
     @Body() input: OrderInput,
   ): Promise<BaseApiResponse<OrderOutput>> {
-    this.logger.log(ctx, `${this.createOrder} was called`);
+    this.logger.log(ctx, `${this.createOrder.name} was called`);
 
     const data = await this.orderService.createOrder(ctx, input);
     return { data };

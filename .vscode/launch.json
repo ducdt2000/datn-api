@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug order",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "port": 9204,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "protocol": "inspector",
+      "sourceMaps": true,
+    }, 
+    {
       "name": "Debug cart",
       "type": "node",
       "request": "attach",

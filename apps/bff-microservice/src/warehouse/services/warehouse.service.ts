@@ -1,3 +1,4 @@
+import { ROLE } from './../../../../../shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { HttpRequestService } from 'shared/http-request/http-request.service';
 import { AppLogger } from './../../../../../shared/logger/logger.service';
@@ -10,6 +11,10 @@ import { ChangeStatusInput } from '../dtos/change-status-input.dto';
 import { WarehouseLogInput } from '../dtos/warehouse-log-input.dto';
 import { WarehouseLogOutput } from '../dtos/warehouse-log-output.dto';
 import { WarehouseLogQuery } from '../dtos/warehouse-log-query.dto';
+import { UserService } from '../../user/services/user.service';
+import { UserOutput } from '../../user/dtos/user-output.dto';
+import { WarehouseItemInput } from '../dtos/item-input.dto';
+import { WarehouseItemOutput } from '../dtos/item-output.dto';
 
 const pathWarehouses = 'v1/api/warehouses';
 
@@ -20,6 +25,7 @@ export class WarehouseService {
   constructor(
     private readonly logger: AppLogger,
     private readonly httpService: HttpRequestService,
+    private readonly userService: UserService,
     private readonly configService: ConfigService,
   ) {
     this.logger.setContext(WarehouseService.name);
@@ -72,6 +78,13 @@ export class WarehouseService {
       );
     }
 
+    const managers = await this.userService.getManagers(
+      ctx,
+      response.data.managerUserId,
+    );
+
+    response.data.manager = managers[0];
+
     return response.data;
   }
 
@@ -96,6 +109,21 @@ export class WarehouseService {
         response.error.statusCode,
       );
     }
+
+    const managers = await this.userService.getManagers(
+      ctx,
+      undefined,
+      response?.data?.map((res) => res.managerUserId),
+    );
+
+    const mapManager = new Map<string, UserOutput>();
+    managers?.forEach((m) => {
+      mapManager.set(m.id, m);
+    });
+
+    response?.data?.forEach((res) => {
+      res.manager = mapManager.get(res.managerUserId);
+    });
 
     return [response.data, response.meta.count];
   }
@@ -195,6 +223,32 @@ export class WarehouseService {
       ctx,
       apiUrl,
       logInput,
+    );
+
+    if (response.error) {
+      throw new HttpException(
+        response.error.details,
+        response.error.statusCode,
+      );
+    }
+
+    return response.data;
+  }
+
+  async createWarehouseItem(
+    ctx: RequestContext,
+    warehouseId: string,
+    input: WarehouseItemInput,
+  ): Promise<WarehouseItemOutput> {
+    this.logger.log(ctx, `${this.createWarehouseItem.name} was called`);
+
+    const apiUrl = `${this.warehouseMicroserviceUrl}/${pathWarehouses}/${warehouseId}/items`;
+    this.logger.log(ctx, 'calling warehouse-microservice createItems');
+
+    const response = await this.httpService.post<WarehouseItemOutput>(
+      ctx,
+      apiUrl,
+      input,
     );
 
     if (response.error) {

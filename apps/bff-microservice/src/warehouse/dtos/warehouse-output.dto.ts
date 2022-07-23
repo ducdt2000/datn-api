@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
+import { UserOutput } from '../../user/dtos/user-output.dto';
 import { WarehouseItemOutput } from './item-output.dto';
 import { WarehouseLogOutput } from './warehouse-log-output.dto';
 
@@ -30,6 +31,10 @@ export class WarehouseOutput {
 
   @ApiProperty()
   @Expose()
+  status: number;
+
+  @ApiProperty()
+  @Expose()
   createdAt: Date;
 
   @ApiProperty()
@@ -49,4 +54,9 @@ export class WarehouseOutput {
   @Expose()
   @Type(() => WarehouseLogOutput)
   warehouseLogs: WarehouseLogOutput[];
+
+  @ApiProperty()
+  @Expose()
+  @Type(() => UserOutput)
+  manager: UserOutput;
 }

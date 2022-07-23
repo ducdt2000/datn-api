@@ -17,6 +17,8 @@ import { DeliveryMethodRepository } from '../../order-method/repositories/delive
 import { UpdateOrderStatus } from '../dtos/update-order-status.dto';
 import { OrderLogRepository } from '../repositories/order-log.repository';
 import { OrderLogOutput } from '../dtos/order-log-output.dto';
+import { ItemRepository } from '../repositories/item.repository';
+import { PropertyRepository } from '../repositories/property.repository';
 
 @Injectable()
 export class OrderService {
@@ -26,6 +28,8 @@ export class OrderService {
     private readonly paymentMethodRepository: PaymentMethodRepository,
     private readonly deliveryMethodRepository: DeliveryMethodRepository,
     private readonly orderLogRepository: OrderLogRepository,
+    private readonly orderItemRepository: ItemRepository,
+    private readonly propertyRepository: PropertyRepository,
   ) {
     this.logger.setContext(OrderService.name);
   }
@@ -68,8 +72,16 @@ export class OrderService {
     const order = this.orderRepository.create(input);
 
     const savedOrder = await this.orderRepository.save(order);
+    const items = this.orderItemRepository.create(input.items);
+    items.forEach((i) => {
+      i.orderId = savedOrder.id;
+    });
 
-    return plainToInstance(OrderOutput, savedOrder, {
+    await this.orderItemRepository.save(items);
+
+    const response = await this.orderRepository.getDetail(savedOrder.id);
+
+    return plainToInstance(OrderOutput, response, {
       excludeExtraneousValues: true,
     });
   }

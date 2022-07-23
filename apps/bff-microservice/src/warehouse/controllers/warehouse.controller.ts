@@ -25,6 +25,8 @@ import { WarehouseLogOutput } from '../dtos/warehouse-log-output.dto';
 import { WarehouseLogQuery } from '../dtos/warehouse-log-query.dto';
 import { Roles } from 'shared/decorators/role.decorator';
 import { ROLE } from 'shared/constants/common';
+import { WarehouseItemInput } from '../dtos/item-input.dto';
+import { WarehouseItemOutput } from '../dtos/item-output.dto';
 
 @Controller('warehouses')
 @ApiTags('warehouses')
@@ -178,5 +180,24 @@ export class WarehouseController {
     );
 
     return { data, meta: { count } };
+  }
+
+  @Post(':warehouseId/items')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles(ROLE.ADMIN, ROLE.STAFF)
+  async createItem(
+    @ReqContext() ctx: RequestContext,
+    @Param('warehouseId') warehouseId: string,
+    @Body() input: WarehouseItemInput,
+  ): Promise<BaseApiResponse<WarehouseItemOutput>> {
+    this.logger.log(ctx, `${this.createItem.name} was called`);
+
+    const data = await this.warehouseService.createWarehouseItem(
+      ctx,
+      warehouseId,
+      input,
+    );
+
+    return { data };
   }
 }
