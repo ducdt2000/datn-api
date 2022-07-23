@@ -10,11 +10,6 @@ import {
 import { OrderItemInput } from './item-input.dto';
 
 export class OrderInput {
-  @ApiProperty()
-  @IsNotEmpty()
-  @Expose()
-  userId: string;
-
   @IsOptional()
   @ApiPropertyOptional()
   @Expose()
@@ -72,9 +67,7 @@ export class OrderInput {
 
   @ApiProperty()
   @Expose()
-  @Type(() => OrderItemInput)
-  @ValidateNested()
   @IsArray()
   @IsObject({ each: true })
-  items: OrderItemInput[];
+  items: any[];
 }
