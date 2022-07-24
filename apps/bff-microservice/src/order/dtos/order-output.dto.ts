@@ -28,7 +28,11 @@ export class OrderOutput {
 
   @ApiProperty()
   @Expose()
-  deliveryTime: Date;
+  deliveryTime: string;
+
+  @ApiProperty()
+  @Expose()
+  trackingNumber: number;
 
   @ApiProperty()
   @Expose()

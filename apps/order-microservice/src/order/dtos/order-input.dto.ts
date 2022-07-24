@@ -18,6 +18,11 @@ export class OrderInput {
   @IsOptional()
   @ApiPropertyOptional()
   @Expose()
+  userName?: string;
+
+  @IsOptional()
+  @ApiPropertyOptional()
+  @Expose()
   warehouseId?: string;
 
   @IsNotEmpty()
@@ -33,7 +38,7 @@ export class OrderInput {
   @ApiPropertyOptional()
   @Expose()
   @IsOptional()
-  deliveryTime?: Date;
+  deliveryTime?: string;
 
   @ApiProperty()
   @IsNotEmpty()

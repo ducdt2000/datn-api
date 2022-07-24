@@ -43,7 +43,7 @@ export class OrderController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Roles(ROLE.ADMIN, ROLE.STAFF)
+  @Roles(ROLE.ADMIN, ROLE.STAFF, ROLE.USER)
   async getOrders(
     @ReqContext() ctx: RequestContext,
     @Query() query: OrderQuery,

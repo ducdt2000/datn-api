@@ -57,12 +57,12 @@ export class OrderQuery extends PaginationParams {
   to?: Date;
 
   @ApiPropertyOptional()
-  @IsEnum(ORDER_ORDER_BY)
+  // @IsEnum(ORDER_ORDER_BY)
   @Expose()
   orderBy?: ORDER_ORDER_BY;
 
   @ApiPropertyOptional()
-  @IsEnum(ORDER_TYPE)
+  // @IsEnum(ORDER_TYPE)
   @Expose()
   orderType?: ORDER_TYPE;
 }

@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from './../../../../../shared/constants/common';
 import {
   ErrCategoryCode,
   ErrMicroserviceCode,
@@ -78,6 +79,14 @@ export class OrderService {
     });
 
     await this.orderItemRepository.save(items);
+    const createOrderLog = this.orderLogRepository.create({
+      userId: input.userId,
+      userName: input.userName,
+      orderId: savedOrder.id,
+      status: ORDER_STATUS.CREATED,
+    });
+
+    await this.orderLogRepository.save(createOrderLog);
 
     const response = await this.orderRepository.getDetail(savedOrder.id);
 

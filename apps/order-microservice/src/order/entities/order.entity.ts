@@ -51,10 +51,11 @@ export class Order implements BaseEntity {
 
   @Column({
     name: 'delivery_time',
-    type: 'datetime',
+    type: 'nvarchar',
+    length: 200,
     nullable: true,
   })
-  deliveryTime?: Date;
+  deliveryTime?: string;
 
   @Column({
     name: 'bill',

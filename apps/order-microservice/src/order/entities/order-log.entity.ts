@@ -31,13 +31,22 @@ export class OrderLog implements BaseEntity {
   userId: string;
 
   @Column({
+    name: 'user_name',
+    type: 'char',
+    length: 200,
+    nullable: true,
+  })
+  userName?: string;
+
+  @Column({
     name: 'address',
     type: 'varchar',
     length: 100,
     charset: 'utf8',
     collation: 'utf8_general_ci',
+    nullable: true,
   })
-  address: string;
+  address?: string;
 
   @Column({
     name: 'city',
@@ -45,8 +54,9 @@ export class OrderLog implements BaseEntity {
     length: 20,
     charset: 'utf8',
     collation: 'utf8_general_ci',
+    nullable: true,
   })
-  city: string;
+  city?: string;
 
   @Column({
     name: 'district',
@@ -54,8 +64,9 @@ export class OrderLog implements BaseEntity {
     length: 20,
     charset: 'utf8',
     collation: 'utf8_general_ci',
+    nullable: true,
   })
-  district: string;
+  district?: string;
 
   @Column({
     name: 'status',

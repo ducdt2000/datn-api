@@ -47,7 +47,7 @@ export class OrderRepository extends BaseRepository<Order> {
       offset,
       search,
       status,
-      userId,
+      userId: userId,
       warehouseId,
       paymentMethodId,
       deliveryMethodId,
@@ -58,7 +58,7 @@ export class OrderRepository extends BaseRepository<Order> {
     let orderType = query.orderType ?? ORDER_TYPE.DESCENDING;
     let orderBy = query.orderBy ?? ORDER_ORDER_BY.CREATED_AT;
 
-    const qb = this.createQueryBuilder('orders');
+    const qb = this.createQueryBuilder('order');
     qb.leftJoinAndSelect('order.items', 'items')
       .leftJoinAndSelect('order.orderLogs', 'orderLogs')
       .leftJoinAndSelect('items.properties', 'properties')

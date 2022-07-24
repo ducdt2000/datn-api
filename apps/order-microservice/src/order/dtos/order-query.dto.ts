@@ -12,29 +12,35 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { IsTimeBefore } from 'shared/decorators/is-time-before.decorator';
 import { PaginationParams } from './../../../../../shared/dtos/pagination-params.dto';
-import { IsEnum, Validate } from 'class-validator';
+import { IsEnum, IsOptional, Validate } from 'class-validator';
 export class OrderQuery extends PaginationParams {
   @ApiPropertyOptional()
   @Expose()
+  @IsOptional()
   search?: string;
 
   @ApiPropertyOptional()
   @Expose()
+  @IsOptional()
   userId?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   warehouseId?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   paymentMethodId?: number;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   deliveryMethodId?: number;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   status?: number;
 
@@ -49,20 +55,24 @@ export class OrderQuery extends PaginationParams {
   })
   @ApiPropertyOptional()
   @Expose()
+  @IsOptional()
   @Type(() => Date)
   from?: Date;
 
   @ApiPropertyOptional()
   @Expose()
+  @IsOptional()
   to?: Date;
 
   @ApiPropertyOptional()
-  @IsEnum(ORDER_ORDER_BY)
+  // @IsEnum(ORDER_ORDER_BY)
   @Expose()
+  @IsOptional()
   orderBy?: ORDER_ORDER_BY;
 
   @ApiPropertyOptional()
-  @IsEnum(ORDER_TYPE)
+  // @IsEnum(ORDER_TYPE)
   @Expose()
+  @IsOptional()
   orderType?: ORDER_TYPE;
 }

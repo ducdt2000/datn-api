@@ -28,7 +28,7 @@ export class OrderOutput {
 
   @ApiProperty()
   @Expose()
-  deliveryTime: Date;
+  deliveryTime: string;
 
   @ApiProperty()
   @Expose()
@@ -49,6 +49,10 @@ export class OrderOutput {
   @ApiProperty()
   @Expose()
   city: string;
+
+  @ApiProperty()
+  @Expose()
+  trackingNumber: number;
 
   @ApiPropertyOptional()
   @Expose()

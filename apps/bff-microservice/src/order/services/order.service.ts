@@ -1,3 +1,4 @@
+import { ROLE } from 'shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ConfigService } from '@nestjs/config';
 import { HttpRequestService } from 'shared/http-request/http-request.service';
@@ -8,6 +9,7 @@ import { OrderOutput } from '../dtos/order-output.dto';
 import { OrderInput } from '../dtos/order-input.dto';
 import { UpdateOrderStatus } from '../dtos/update-order-status.dto';
 import { OrderLogOutput } from '../dtos/order-log-output.dto';
+import { UserService } from '../../user/services/user.service';
 
 const pathOrders = 'v1/api/orders';
 
@@ -19,6 +21,7 @@ export class OrderService {
     private readonly logger: AppLogger,
     private readonly httpService: HttpRequestService,
     private readonly configService: ConfigService,
+    private readonly userService: UserService,
   ) {
     this.logger.setContext(OrderService.name);
 
@@ -35,7 +38,10 @@ export class OrderService {
     const apiUrl = `${this.orderMicroserviceUrl}/${pathOrders}`;
 
     const response = await this.httpService.get<OrderOutput[]>(ctx, apiUrl, {
-      params: query,
+      params: {
+        ...query,
+        userId: ctx.user.role === ROLE.USER ? ctx.user.id : undefined,
+      },
     });
 
     if (response.error) {
@@ -73,7 +79,11 @@ export class OrderService {
 
     const apiUrl = `${this.orderMicroserviceUrl}/${pathOrders}`;
 
-    const postInput = { ...input, userId: ctx.user.id };
+    const postInput = {
+      ...input,
+      userId: ctx.user.id,
+      userName: ctx.user.fullname,
+    };
 
     const response = await this.httpService.post<OrderOutput>(
       ctx,

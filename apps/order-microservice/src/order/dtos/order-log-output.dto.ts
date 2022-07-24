@@ -8,6 +8,14 @@ export class OrderLogOutput {
 
   @ApiProperty()
   @Expose()
+  userId: string;
+
+  @ApiProperty()
+  @Expose()
+  userName: string;
+
+  @ApiProperty()
+  @Expose()
   orderId: string;
 
   @ApiProperty()
