@@ -102,6 +102,10 @@ export class OrderService {
   ): Promise<OrderOutput> {
     this.logger.log(ctx, `${this.updateStatus.name} was called`);
 
+    const order = await this.orderRepository.getDetail(orderId);
+    order.status = input.status;
+    await this.orderRepository.save(order);
+
     const orderLog = this.orderLogRepository.create(input);
     orderLog.orderId = orderId;
 

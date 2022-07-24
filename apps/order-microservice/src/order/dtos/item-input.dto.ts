@@ -36,6 +36,11 @@ export class ItemInput {
   @IsOptional()
   description?: string;
 
+  @ApiPropertyOptional()
+  @Expose()
+  @IsOptional()
+  defaultImageLink: string;
+
   @ApiProperty()
   @Expose()
   @IsNotEmpty()

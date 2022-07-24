@@ -1,23 +1,30 @@
-import { ORDER_STATUS } from './../../../../../shared/constants/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsEnum } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UpdateOrderStatus {
   @ApiProperty()
   @Expose()
-  address: string;
+  @IsOptional()
+  warehouseId?: string;
 
   @ApiProperty()
   @Expose()
-  city: string;
+  @IsOptional()
+  address?: string;
 
   @ApiProperty()
   @Expose()
-  district: string;
+  @IsOptional()
+  city?: string;
 
   @ApiProperty()
   @Expose()
-  @IsEnum(ORDER_STATUS)
+  @IsOptional()
+  district?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsNotEmpty()
   status: number;
 }

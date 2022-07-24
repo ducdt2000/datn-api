@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from './../../../../../shared/constants/common';
 import { ROLE } from 'shared/constants/common';
 import { RequestContext } from './../../../../../shared/request-context/request-context.dto';
 import { ConfigService } from '@nestjs/config';
@@ -10,6 +11,7 @@ import { OrderInput } from '../dtos/order-input.dto';
 import { UpdateOrderStatus } from '../dtos/update-order-status.dto';
 import { OrderLogOutput } from '../dtos/order-log-output.dto';
 import { UserService } from '../../user/services/user.service';
+import { WarehouseService } from '../../warehouse/services/warehouse.service';
 
 const pathOrders = 'v1/api/orders';
 
@@ -22,6 +24,7 @@ export class OrderService {
     private readonly httpService: HttpRequestService,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
+    private readonly warehouseService: WarehouseService,
   ) {
     this.logger.setContext(OrderService.name);
 
@@ -110,9 +113,22 @@ export class OrderService {
 
     const apiUrl = `${this.orderMicroserviceUrl}/${pathOrders}/${orderId}`;
 
+    if (input.warehouseId) {
+      const warehouse = await this.warehouseService.getWarehouse(
+        ctx,
+        input.warehouseId,
+      );
+
+      input.city = warehouse.city;
+      input.district = warehouse.district;
+      input.address = warehouse.address;
+      input.status = 2;
+    }
+
     const response = await this.httpService.put<OrderOutput>(ctx, apiUrl, {
       ...input,
       userId: ctx.user.id,
+      userName: ctx.user.fullname,
     });
 
     if (response.error) {

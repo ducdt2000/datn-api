@@ -33,6 +33,13 @@ export class Item implements BaseEntity {
   productId: string;
 
   @Column({
+    name: 'default_image_link',
+    type: 'varchar',
+    length: 1000,
+  })
+  defaultImageLink?: string;
+
+  @Column({
     name: 'name',
     type: 'varchar',
     length: 50,

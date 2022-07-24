@@ -33,6 +33,10 @@ export class ItemOutput {
 
   @Expose()
   @ApiProperty()
+  defaultImageLink?: string;
+
+  @Expose()
+  @ApiProperty()
   amount: string;
 
   @Expose()
