@@ -10,6 +10,10 @@ import { ProductModule } from './product/product.module';
 import { Comment } from './comment/entities/comment.entity';
 import { Brand } from './product/entities/brand.entity';
 import { Property } from './product/entities/property.entity';
+import { CustomProductTemplate } from './product/entities/custom-product-template.entity';
+import { CustomProductValue } from './product/entities/custom-product-value.entity';
+import { CustomProduct } from './product/entities/custom-product.entity';
+import { CustomProperty } from './product/entities/custom-property.entity';
 
 @Module({
   imports: [
@@ -38,6 +42,11 @@ import { Property } from './product/entities/property.entity';
           ProductType,
           Product,
           Property,
+          //custom product
+          CustomProductTemplate,
+          CustomProductValue,
+          CustomProduct,
+          CustomProperty,
         ],
         timezone: 'Z',
         synchronize: false,

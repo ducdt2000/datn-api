@@ -12,6 +12,12 @@ import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './../../../../shared/shared.module';
 import { Module } from '@nestjs/common';
 import { PropertyRepository } from './repositories/property.repository';
+import { CustomProductTemplateRepository } from './repositories/custom-product-template.repository';
+import { CustomProductValueRepository } from './repositories/custom-product-value.repository';
+import { CustomProductRepository } from './repositories/custom-product.repository';
+import { CustomPropertyRepository } from './repositories/custom-property.repository';
+import { CustomProductService } from './services/custom-product.service';
+import { CustomProductController } from './controllers/custom-product.controller';
 
 @Module({
   imports: [
@@ -22,10 +28,30 @@ import { PropertyRepository } from './repositories/property.repository';
       BrandRepository,
       ProductTypeRepository,
       PropertyRepository,
+
+      CustomProductTemplateRepository,
+      CustomProductValueRepository,
+      CustomProductRepository,
+      CustomPropertyRepository,
     ]),
   ],
-  providers: [BrandService, ProductService, ProductTypeService],
-  controllers: [BrandController, ProductController, ProductTypeController],
-  exports: [BrandService, ProductService, ProductTypeService],
+  providers: [
+    BrandService,
+    ProductService,
+    ProductTypeService,
+    CustomProductService,
+  ],
+  controllers: [
+    BrandController,
+    ProductController,
+    ProductTypeController,
+    CustomProductController,
+  ],
+  exports: [
+    BrandService,
+    ProductService,
+    ProductTypeService,
+    CustomProductService,
+  ],
 })
 export class ProductModule {}
